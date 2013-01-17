@@ -1,0 +1,3 @@
+Content\avatar.xnb
+Content\mainfont.xnb
+Content\tiles\tileset test.xnb

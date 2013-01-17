@@ -1,0 +1,9 @@
+C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\MrGuy.exe
+C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\MrGuy.pdb
+C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\FarseerPhysicsXNA.dll
+C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\FarseerPhysicsXNA.pdb
+C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\FarseerPhysicsXNA.xml
+C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\obj\x86\Debug\MrGuy.exe
+C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\obj\x86\Debug\MrGuy.pdb

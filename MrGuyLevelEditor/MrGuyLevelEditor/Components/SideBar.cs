@@ -41,9 +41,9 @@ namespace MrGuyLevelEditor.Components
 			// Tiles page
 			pages[1] = new Page();
 			Rectangle[] tileData = new Rectangle[] { new Rectangle(0, 0, 64, 64), new Rectangle(64, 0, 64, 32) };
-			Tileset tiles = new Tileset(Global.TestTexture, tileData.ToList<Rectangle>());
-			pages[1].Add(new Button(tiles.GetTileAsTexture(0), 32, 48, 72, 72));
-			pages[1].Add(new Button(tiles.GetTileAsTexture(1), 32, 138, 72, 72));
+			Tileset tiles = new Tileset(Global.TilesetTexture, tileData.ToList<Rectangle>());
+			pages[1].Add(new Button(tiles.Tiles[0], 32, 48, 72, 72));
+			pages[1].Add(new Button(tiles.Tiles[1], 32, 138, 72, 72));
 
 			// Objects page
 			pages[2] = new Page();

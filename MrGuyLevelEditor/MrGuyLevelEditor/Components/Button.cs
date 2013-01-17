@@ -19,7 +19,9 @@ namespace MrGuyLevelEditor.Components
 		// Visual info
 		private Texture2D foreTexture, backTexture;
 		public string message { get; set; }
+		private Rectangle tileInfo;
 		public Texture2D ForeTexture { get { return foreTexture; } }
+		public Rectangle TileInfo { get { return tileInfo; } }
 
 		// Button state
 		public enum BState
@@ -68,7 +70,7 @@ namespace MrGuyLevelEditor.Components
 		}
 
 		public Button(Texture2D texture, int x, int y)
-			: this(texture, x, y, texture.Width, texture.Height)
+			: this(texture, x, y, texture.Width + 8, texture.Height + 8)
 		{
 		}
 		public Button(Texture2D texture, int x, int y, int width, int height)
@@ -91,6 +93,17 @@ namespace MrGuyLevelEditor.Components
 			this.hitBox = new Rectangle(x, y, width, height);
 			initialX = X;
 			initialY = Y;
+		}
+
+		public Button(Rectangle srcRect, int x, int y)
+			: this(srcRect, x, y, srcRect.Width + 8, srcRect.Height + 8)
+		{
+		}
+		public Button(Rectangle srcRect, int x, int y, int width, int height)
+			: this()
+		{
+			this.tileInfo = srcRect;
+			this.hitBox = new Rectangle(x, y, width, height);
 		}
 
 		// Draw method
@@ -125,6 +138,11 @@ namespace MrGuyLevelEditor.Components
 			{
 				Vector2 drawPos = new Vector2(X + (Width - (int)Global.Font.MeasureString(message).X) / 2, Y + (Height - (int)Global.Font.MeasureString(message).Y) / 2);
 				sb.DrawString(Global.Font, message, drawPos, (State != BState.Idle) ? Color.Black : Color.White);
+			}
+			else if (tileInfo != null)
+			{
+				Rectangle drawBox = new Rectangle(X + (Width - tileInfo.Width) / 2, Y + (Height - tileInfo.Height) / 2, tileInfo.Width, tileInfo.Height);
+				sb.Draw(Global.TilesetTexture, drawBox, tileInfo, Color.White);
 			}
 		}
 	}

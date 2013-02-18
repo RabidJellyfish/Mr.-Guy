@@ -11,10 +11,10 @@ namespace MrGuyLevelEditor
 {
 	class Global
 	{
-		public static Texture2D BlankTexture;
-		public static Texture2D TilesetTexture;
-		public static int DScroll;
-		public static GraphicsDeviceManager Graphics;
-		public static SpriteFont Font;
+		public static Texture2D BlankTexture; // White texture
+		public static Texture2D TilesetTexture; // Current tileset
+		public static int DScroll; // Amount mouse has been scrolled
+		public static GraphicsDeviceManager Graphics; // Stuff
+		public static SpriteFont Font; // Font for everything
 	}
 }

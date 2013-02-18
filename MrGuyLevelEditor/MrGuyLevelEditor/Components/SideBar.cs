@@ -40,10 +40,12 @@ namespace MrGuyLevelEditor.Components
 
 			// Tiles page
 			pages[1] = new Page();
-			Rectangle[] tileData = new Rectangle[] { new Rectangle(0, 0, 64, 64), new Rectangle(64, 0, 64, 32) };
+			Rectangle[] tileData = new Rectangle[] { new Rectangle(0, 0, 64, 64), new Rectangle(64, 0, 64, 32), new Rectangle(64, 32, 64, 32),
+													 new Rectangle(0, 64, 32, 32), new Rectangle(32, 64, 32, 32), new Rectangle(0, 96, 32, 32), 
+													 new Rectangle(32, 96, 32, 32) };
 			Tileset tiles = new Tileset(Global.TilesetTexture, tileData.ToList<Rectangle>());
-			pages[1].Add(new Button(tiles.Tiles[0], 32, 48, 72, 72));
-			pages[1].Add(new Button(tiles.Tiles[1], 32, 138, 72, 72));
+			for (int i = 0; i < tileData.Length; i++)
+				pages[1].Add(new Button(tiles.Tiles[i], 32, 48 + 90 * i, 72, 72));
 
 			// Objects page
 			pages[2] = new Page();
@@ -53,6 +55,8 @@ namespace MrGuyLevelEditor.Components
 		{
 			MouseState mstate = Mouse.GetState();
 			Point coordinates = new Point(mstate.X, mstate.Y);
+
+			// Change state of sidebar
 			if (sideButton.HitBox.Contains(coordinates))
 			{
 				if (mstate.LeftButton == ButtonState.Pressed)
@@ -77,6 +81,7 @@ namespace MrGuyLevelEditor.Components
 				sideButton.message = "<<";
 			}
 
+			// Change sidebar page
 			if (Keyboard.GetState().IsKeyDown(Keys.Tab))
 			{
 				if (!tabPressed)

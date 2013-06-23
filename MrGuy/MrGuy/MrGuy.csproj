@@ -112,7 +112,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="MainGame.cs" />
     <Compile Include="Sprites\AnimatedTexture.cs" />
-    <Compile Include="Sprites\Tileset.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

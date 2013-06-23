@@ -10,7 +10,7 @@ namespace MrGuyLevelEditor
         /// </summary>
         static void Main(string[] args)
         {
-            using (EditorGUI game = new EditorGUI())
+            using (Editor game = new Editor())
             {
                 game.Run();
             }

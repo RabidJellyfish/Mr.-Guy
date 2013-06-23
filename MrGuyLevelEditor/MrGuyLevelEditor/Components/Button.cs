@@ -19,9 +19,7 @@ namespace MrGuyLevelEditor.Components
 		// Visual info
 		private Texture2D foreTexture, backTexture;
 		public string message { get; set; }
-		private Rectangle tileInfo;
 		public Texture2D ForeTexture { get { return foreTexture; } }
-		public Rectangle TileInfo { get { return tileInfo; } }
 
 		// Button state
 		public enum BState
@@ -66,7 +64,7 @@ namespace MrGuyLevelEditor.Components
 		public Button()
 		{
 			State = BState.Idle;
-			backTexture = Global.BlankTexture;
+			backTexture = Editor.BlankTexture;
 		}
 
 		public Button(Texture2D texture, int x, int y)
@@ -83,7 +81,7 @@ namespace MrGuyLevelEditor.Components
 		}
 
 		public Button(string message, int x, int y)
-			: this(message, x, y, (int)Global.Font.MeasureString(message).X + 8, (int)Global.Font.MeasureString(message).Y)
+			: this(message, x, y, (int)Editor.Font.MeasureString(message).X + 8, (int)Editor.Font.MeasureString(message).Y)
 		{
 		}
 		public Button(string message, int x, int y, int width, int height)
@@ -93,17 +91,6 @@ namespace MrGuyLevelEditor.Components
 			this.hitBox = new Rectangle(x, y, width, height);
 			initialX = X;
 			initialY = Y;
-		}
-
-		public Button(Rectangle srcRect, int x, int y)
-			: this(srcRect, x, y, srcRect.Width + 8, srcRect.Height + 8)
-		{
-		}
-		public Button(Rectangle srcRect, int x, int y, int width, int height)
-			: this()
-		{
-			this.tileInfo = srcRect;
-			this.hitBox = new Rectangle(x, y, width, height);
 		}
 
 		// Draw method
@@ -136,13 +123,8 @@ namespace MrGuyLevelEditor.Components
 			}
 			else if (message != null)
 			{
-				Vector2 drawPos = new Vector2(X + (Width - (int)Global.Font.MeasureString(message).X) / 2, Y + (Height - (int)Global.Font.MeasureString(message).Y) / 2);
-				sb.DrawString(Global.Font, message, drawPos, (State != BState.Idle) ? Color.Black : Color.White);
-			}
-			else if (tileInfo != null)
-			{
-				Rectangle drawBox = new Rectangle(X + (Width - tileInfo.Width) / 2, Y + (Height - tileInfo.Height) / 2, tileInfo.Width, tileInfo.Height);
-				sb.Draw(Global.TilesetTexture, drawBox, tileInfo, Color.White);
+				Vector2 drawPos = new Vector2(X + (Width - (int)Editor.Font.MeasureString(message).X) / 2, Y + (Height - (int)Editor.Font.MeasureString(message).Y) / 2);
+				sb.DrawString(Editor.Font, message, drawPos, (State != BState.Idle) ? Color.Black : Color.White);
 			}
 		}
 	}

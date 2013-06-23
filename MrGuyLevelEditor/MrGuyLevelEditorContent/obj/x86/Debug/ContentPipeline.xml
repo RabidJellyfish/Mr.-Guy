@@ -2,15 +2,6 @@
 <XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
   <Asset Type="Pipeline:BuildItemCollection">
     <Item>
-      <Source>avatar.JPG</Source>
-      <Name>avatar</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEditor\MrGuyLevelEditor\bin\x86\Debug\Content\avatar.xnb</Output>
-      <Time>2013-01-16T20:51:51.0753283-05:00</Time>
-    </Item>
-    <Item>
       <Source>mainfont.spritefont</Source>
       <Name>mainfont</Name>
       <Importer>FontDescriptionImporter</Importer>
@@ -20,13 +11,67 @@
       <Time>2013-01-16T21:04:16.6389721-05:00</Time>
     </Item>
     <Item>
-      <Source>tiles\tileset test.png</Source>
-      <Name>tiles\tileset test</Name>
+      <Source>tiles\dirt.png</Source>
+      <Name>tiles\dirt</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEditor\MrGuyLevelEditor\bin\x86\Debug\Content\tiles\tileset test.xnb</Output>
-      <Time>2013-01-17T22:08:18.2591565-05:00</Time>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEditor\MrGuyLevelEditor\bin\x86\Debug\Content\tiles\dirt.xnb</Output>
+      <Time>2013-01-17T00:08:44.7860339-05:00</Time>
+    </Item>
+    <Item>
+      <Source>tiles\flower1.png</Source>
+      <Name>tiles\flower1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEditor\MrGuyLevelEditor\bin\x86\Debug\Content\tiles\flower1.xnb</Output>
+      <Time>2013-01-17T21:35:48.6726465-05:00</Time>
+    </Item>
+    <Item>
+      <Source>tiles\flower2.png</Source>
+      <Name>tiles\flower2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEditor\MrGuyLevelEditor\bin\x86\Debug\Content\tiles\flower2.xnb</Output>
+      <Time>2013-01-17T21:38:03.8893805-05:00</Time>
+    </Item>
+    <Item>
+      <Source>tiles\flower3.png</Source>
+      <Name>tiles\flower3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEditor\MrGuyLevelEditor\bin\x86\Debug\Content\tiles\flower3.xnb</Output>
+      <Time>2013-01-17T21:39:10.8272091-05:00</Time>
+    </Item>
+    <Item>
+      <Source>tiles\grass.png</Source>
+      <Name>tiles\grass</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEditor\MrGuyLevelEditor\bin\x86\Debug\Content\tiles\grass.xnb</Output>
+      <Time>2013-01-17T21:28:01.8119436-05:00</Time>
+    </Item>
+    <Item>
+      <Source>tiles\leaves.png</Source>
+      <Name>tiles\leaves</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEditor\MrGuyLevelEditor\bin\x86\Debug\Content\tiles\leaves.xnb</Output>
+      <Time>2013-01-17T21:41:56.0746607-05:00</Time>
+    </Item>
+    <Item>
+      <Source>tiles\tree trunk.png</Source>
+      <Name>tiles\tree trunk</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEditor\MrGuyLevelEditor\bin\x86\Debug\Content\tiles\tree trunk.xnb</Output>
+      <Time>2013-01-17T21:25:09.047062-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

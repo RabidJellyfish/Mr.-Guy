@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -27,10 +28,10 @@ namespace MrGuyLevelEditor.Components
 		private Page[] pages;
 		private bool tabPressed;
 
-		public SideBar()
+		public SideBar(Game game)
 		{
-			sideButton = new Button(">>", 0, 0, 32, Global.Graphics.PreferredBackBufferHeight);
-			hitBox = new Rectangle(0, 0, WIDTH, Global.Graphics.PreferredBackBufferHeight);
+			sideButton = new Button(">>", 0, 0, 32, Editor.Graphics.PreferredBackBufferHeight);
+			hitBox = new Rectangle(0, 0, WIDTH, Editor.Graphics.PreferredBackBufferHeight);
 			PageIndex = 0;
 
 			pages = new Page[3];
@@ -40,12 +41,16 @@ namespace MrGuyLevelEditor.Components
 
 			// Tiles page
 			pages[1] = new Page();
-			Rectangle[] tileData = new Rectangle[] { new Rectangle(0, 0, 64, 64), new Rectangle(64, 0, 64, 32), new Rectangle(64, 32, 64, 32),
-													 new Rectangle(0, 64, 32, 32), new Rectangle(32, 64, 32, 32), new Rectangle(0, 96, 32, 32), 
-													 new Rectangle(32, 96, 32, 32) };
-			Tileset tiles = new Tileset(Global.TilesetTexture, tileData.ToList<Rectangle>());
-			for (int i = 0; i < tileData.Length; i++)
-				pages[1].Add(new Button(tiles.Tiles[i], 32, 48 + 90 * i, 72, 72));
+
+			string[] files = Directory.GetFiles("Content\\tiles");
+			foreach (string f in files)
+				Console.WriteLine(f);
+			List<string> tiles = new List<string>();
+			for (int i = 0; i < files.Length; i++)
+				tiles.Add(files[i].Replace(".xnb", "").Split('\\')[files[i].Split('\\').Length - 1]);
+			
+			for (int i = 0; i < tiles.Count; i++)
+				pages[1].Add(new Button(game.Content.Load<Texture2D>("tiles\\" + tiles[i]), 32, 48 + 90 * i, 72, 72));
 
 			// Objects page
 			pages[2] = new Page();
@@ -100,16 +105,16 @@ namespace MrGuyLevelEditor.Components
 
 		public void Draw(SpriteBatch sb)
 		{
-			sb.Draw(Global.BlankTexture, hitBox, Color.DarkGray);
+			sb.Draw(Editor.BlankTexture, hitBox, Color.DarkGray);
 			sideButton.Draw(sb);
 			if (!Hidden)
 			{
-				sb.DrawString(Global.Font, "File", new Vector2(4, 0), PageIndex == 0 ? Color.White : Color.Black);
-				sb.DrawString(Global.Font, "Tiles", new Vector2(70, 0), PageIndex == 1 ? Color.White : Color.Black);
-				sb.DrawString(Global.Font, "Objs", new Vector2(148, 0), PageIndex == 2 ? Color.White : Color.Black);
-				EditorGUI.DrawLine(sb, new Vector2(0, 32), new Vector2(WIDTH - sideButton.Width, 32), Color.Black);
-				EditorGUI.DrawLine(sb, new Vector2(60, 0), new Vector2(60, 32), Color.Black);
-				EditorGUI.DrawLine(sb, new Vector2(138, 0), new Vector2(138, 32), Color.Black);
+				sb.DrawString(Editor.Font, "File", new Vector2(4, 0), PageIndex == 0 ? Color.White : Color.Black);
+				sb.DrawString(Editor.Font, "Tiles", new Vector2(70, 0), PageIndex == 1 ? Color.White : Color.Black);
+				sb.DrawString(Editor.Font, "Objs", new Vector2(148, 0), PageIndex == 2 ? Color.White : Color.Black);
+				Editor.DrawLine(sb, new Vector2(0, 32), new Vector2(WIDTH - sideButton.Width, 32), Color.Black);
+				Editor.DrawLine(sb, new Vector2(60, 0), new Vector2(60, 32), Color.Black);
+				Editor.DrawLine(sb, new Vector2(138, 0), new Vector2(138, 32), Color.Black);
 				pages[PageIndex].Draw(sb);
 			}
 		}
@@ -181,15 +186,18 @@ namespace MrGuyLevelEditor.Components
 					}
 				}
 
-				if (totalButtonHeight > Global.Graphics.PreferredBackBufferHeight)
+				if (totalButtonHeight > Editor.Graphics.PreferredBackBufferHeight)
 				{
-					scrollValue -= Global.DScroll;
-					if (scrollValue < 0)
-						scrollValue = 0;
-					else if (scrollValue + Global.Graphics.PreferredBackBufferHeight > totalButtonHeight + 16)
-						scrollValue = totalButtonHeight - Global.Graphics.PreferredBackBufferHeight + 16;
-					foreach (Button b in buttons)
-						b.Y = b.InitialY - scrollValue;
+					if (Keyboard.GetState().IsKeyUp(Keys.LeftControl))
+					{
+						scrollValue -= Editor.DScroll;
+						if (scrollValue < 0)
+							scrollValue = 0;
+						else if (scrollValue + Editor.Graphics.PreferredBackBufferHeight > totalButtonHeight + 16)
+							scrollValue = totalButtonHeight - Editor.Graphics.PreferredBackBufferHeight + 16;
+						foreach (Button b in buttons)
+							b.Y = b.InitialY - scrollValue;
+					}
 				}
 			}
 

@@ -1,0 +1,29 @@
+TODO:
+1. Rewrite level editor until it's at the current state of the old one 
+	- Make sure you keep old version until this step is finished
+	- Better structure and stuff
+	- Make everything the same type of object (tiles and objects are same type, will make things more organized probably)
+	- Tiles will use separate textures instead of rectangles from a single spritesheet
+	- Maybe change sidebar so that it only has 2 tabs
+
+2. Add right click to remove in editor
+
+3. Add static polygon drawing
+	- Figure out how to remove these?
+
+4. Write in save/load stuff
+
+5. Move/rewrite "Farseer Test" code into the MrGuy game project
+	- Character control code
+	- Static objects
+	- Basic physics objects for testing
+	- Keep xml loading code
+
+6. Add tiles to MrGuy game project
+
+7. See if you can load a level made in the level editor into the game with some static shapes and one of each tile
+	- Hardcode in the creation of the character for now
+
+-------------------------------------------
+
+8. Design stuff!

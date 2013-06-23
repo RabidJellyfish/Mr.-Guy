@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farseer Physics XNA", "..\F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrGuyLevelEditor", "MrGuyLevelEditor\MrGuyLevelEditor\MrGuyLevelEditor.csproj", "{BEBB8EF8-1B61-476F-98A0-37F0B37EE24A}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "MrGuyLevelEditorContent", "MrGuyLevelEditor\MrGuyLevelEditorContent\MrGuyLevelEditorContent.contentproj", "{497A1ACB-CD4A-48F6-80C5-619AB43DB15E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrGuyLevelEditorContent", "MrGuyLevelEditor\MrGuyLevelEditorContent\MrGuyLevelEditorContent.contentproj", "{497A1ACB-CD4A-48F6-80C5-619AB43DB15E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton", "..\..\..\..\..\Downloads\Krypton v2.0\Krypton v2.0\Krypton\Krypton.csproj", "{B1BFCB2A-C001-4DAC-BA7D-B68BF28757F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{BEBB8EF8-1B61-476F-98A0-37F0B37EE24A}.Release|x86.Build.0 = Release|x86
 		{497A1ACB-CD4A-48F6-80C5-619AB43DB15E}.Debug|x86.ActiveCfg = Debug|x86
 		{497A1ACB-CD4A-48F6-80C5-619AB43DB15E}.Release|x86.ActiveCfg = Release|x86
+		{B1BFCB2A-C001-4DAC-BA7D-B68BF28757F3}.Debug|x86.ActiveCfg = Debug|x86
+		{B1BFCB2A-C001-4DAC-BA7D-B68BF28757F3}.Debug|x86.Build.0 = Debug|x86
+		{B1BFCB2A-C001-4DAC-BA7D-B68BF28757F3}.Release|x86.ActiveCfg = Release|x86
+		{B1BFCB2A-C001-4DAC-BA7D-B68BF28757F3}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -93,6 +93,11 @@ namespace MrGuyLevelEditor.Components
 			initialY = Y;
 		}
 
+		public void Deselect()
+		{
+			this.State = BState.Idle;
+		}
+
 		// Draw method
 		public void Draw(SpriteBatch sb)
 		{			

@@ -39,6 +39,10 @@ namespace MrGuyLevelEditor.Components
 			// File page
 			pages[0] = new Page();
 
+			pages[0].Add(new Button("New", 21, 64));
+			pages[0].Add(new Button("Save", 71, 64));
+			pages[0].Add(new Button("Load", 132, 64));
+
 			// Tiles page
 			pages[1] = new Page();
 
@@ -50,7 +54,7 @@ namespace MrGuyLevelEditor.Components
 				tiles.Add(files[i].Replace(".xnb", "").Split('\\')[files[i].Split('\\').Length - 1]);
 			
 			for (int i = 0; i < tiles.Count; i++)
-				pages[1].Add(new Button(game.Content.Load<Texture2D>("tiles\\" + tiles[i]), 32, 48 + 90 * i, 72, 72));
+				pages[1].Add(new Button(game.Content.Load<Texture2D>("tiles\\" + tiles[i]), 24 + (i % 2) * 86, 48 + 90 * (int)(i / 2), 72, 72));
 
 			// Objects page
 			pages[2] = new Page();
@@ -103,17 +107,22 @@ namespace MrGuyLevelEditor.Components
 			pages[PageIndex].Update();
 		}
 
+		public void DeselectButton()
+		{
+			pages[PageIndex].DeselectButton();
+		}
+
 		public void Draw(SpriteBatch sb)
 		{
 			sb.Draw(Editor.BlankTexture, hitBox, Color.DarkGray);
 			sideButton.Draw(sb);
 			if (!Hidden)
 			{
-				sb.DrawString(Editor.Font, "File", new Vector2(4, 0), PageIndex == 0 ? Color.White : Color.Black);
-				sb.DrawString(Editor.Font, "Tiles", new Vector2(70, 0), PageIndex == 1 ? Color.White : Color.Black);
+				sb.DrawString(Editor.Font, "Stuff", new Vector2(4, 0), PageIndex == 0 ? Color.White : Color.Black);
+				sb.DrawString(Editor.Font, "Tiles", new Vector2(75, 0), PageIndex == 1 ? Color.White : Color.Black);
 				sb.DrawString(Editor.Font, "Objs", new Vector2(148, 0), PageIndex == 2 ? Color.White : Color.Black);
 				Editor.DrawLine(sb, new Vector2(0, 32), new Vector2(WIDTH - sideButton.Width, 32), Color.Black);
-				Editor.DrawLine(sb, new Vector2(60, 0), new Vector2(60, 32), Color.Black);
+				Editor.DrawLine(sb, new Vector2(67, 0), new Vector2(67, 32), Color.Black);
 				Editor.DrawLine(sb, new Vector2(138, 0), new Vector2(138, 32), Color.Black);
 				pages[PageIndex].Draw(sb);
 			}
@@ -143,6 +152,12 @@ namespace MrGuyLevelEditor.Components
 					if (b.Y + b.Height + 2> totalButtonHeight)
 						totalButtonHeight = b.Y + b.Height + 2;
 				}
+			}
+
+			public void DeselectButton()
+			{
+				selectedButton.Deselect();
+				selectedButton = null;
 			}
 
 			public void Update()

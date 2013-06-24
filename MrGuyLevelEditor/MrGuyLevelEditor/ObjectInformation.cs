@@ -10,11 +10,12 @@ namespace MrGuyLevelEditor
 {
 	public class ObjectInformation : IComparable<ObjectInformation>
 	{
+		public string Type { get; set; }
 		public Texture2D texture;
 		public int X { get; set; }
 		public int Y { get; set; }
 		public float Rotation { get; set; }
-		public float Scale { get; set; }
+		public Vector2 Scale { get; set; }
 		public float Layer { get; set; }
 		public SpriteEffects Effect { get; set; }
 
@@ -23,7 +24,7 @@ namespace MrGuyLevelEditor
 			return this.Layer.CompareTo(other.Layer);
 		}
 
-		public static void AddObject(List<ObjectInformation> list, string type, Texture2D tex, Vector2 pos, float scale, float rotation, float layer, SpriteEffects effect)
+		public static void AddObject(List<ObjectInformation> list, Texture2D tex, Vector2 pos, Vector2 scale, float rotation, float layer, SpriteEffects effect)
 		{
 			ObjectInformation i = new ObjectInformation();
 			i.texture = tex;

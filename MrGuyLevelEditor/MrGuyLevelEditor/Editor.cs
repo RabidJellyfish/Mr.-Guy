@@ -10,11 +10,14 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
 using MrGuyLevelEditor.Components;
+using MrGuy;
 
 // left click - place things
 // shift+left click - change level size
 // a/d - rotate
-// ctrl+a/d - snap rotate
+// shift+a/d - snap rotate
+// ctrl+a/s/d/w - stretch
+// ctrl+shift - reset scale
 // w/s - scale
 // x - flip horizontally
 // ctrl + scroll - zoom
@@ -37,7 +40,8 @@ namespace MrGuyLevelEditor
 		SideBar sideBar;
 
 		private Texture2D selectedTexture;
-		private float selTexRotation, selTexScale;
+		private float selTexRotation;
+		private Vector2 selTexScale;
 		private SpriteEffects selTexEffect;
 		private float layer;
 
@@ -47,7 +51,7 @@ namespace MrGuyLevelEditor
 		private int prevScrollTotal;
 		private int prevMX, prevMY;
 
-		public List<ObjectInformation> objectInfo; // Maybe put in ObjectInformation class
+		public List<ObjectInformation> objectInfo;
 
 		public Editor()
 		{
@@ -63,9 +67,9 @@ namespace MrGuyLevelEditor
 			prevMY = 0;
 			prevScrollTotal = 0;
 			selTexRotation = 0.0f;
-			selTexScale = 1.0f;
+			selTexScale = Vector2.One;
 			selTexEffect = SpriteEffects.None;
-			layer = 0.5f;
+			layer = 0.55555555555555556f;
 			xPressed = false;
 			mleftPressed = false;
 			rotOnceLeft = false;
@@ -97,35 +101,62 @@ namespace MrGuyLevelEditor
 			// Set up side bar
 			if (sideBar.PageIndex == 0)
 			{
-				// General functions
+				if (sideBar.SelectedButton != null)
+				{
+					if (sideBar.SelectedButton.message == "New")
+					{
+						objectInfo.Clear();
+						sideBar.DeselectButton();
+					}
+					else if (sideBar.SelectedButton.message == "Save")
+					{
+						sideBar.DeselectButton();
+					}
+					else if (sideBar.SelectedButton.message == "Load")
+					{
+						sideBar.DeselectButton();
+					}
+				}
 			}
 			else if (sideBar.PageIndex == 1)
 			{
 				// Select tiles
 				if (sideBar.SelectedButton != null)
 					selectedTexture = sideBar.SelectedButton.ForeTexture;
+				UpdateMouseStuff();
 			}
 			else if (sideBar.PageIndex == 2)
 			{
 				// Select physics objects and stuff
+				UpdateMouseStuff();
 			}
 
+			sideBar.Update();
+
+			base.Update(gameTime);
+		}
+
+		private void UpdateMouseStuff()
+		{
 			if (Mouse.GetState().LeftButton == ButtonState.Pressed)
 			{
 				if (!mleftPressed && Mouse.GetState().X > (sideBar.Hidden ? 32 : SideBar.WIDTH)) // If the mouse isn't over the panel
 				{
 					if (Keyboard.GetState().IsKeyUp(Keys.LeftShift)) // Make sure not changing bounds
 					{
-						if (sideBar.PageIndex == 1)
+						if (sideBar.PageIndex == 0)
 						{
-							ObjectInformation.AddObject(objectInfo, "tile",
-														selectedTexture,
-														camera.CameraToGlobalPos(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)),
-														selTexScale / camera.TotalScale,
-														selTexRotation,
-														layer,
-														selTexEffect);
- 
+							// draw static polygons
+						}
+						else if (sideBar.PageIndex == 1)
+						{
+							ObjectInformation.AddObject(objectInfo,
+													  selectedTexture,
+													  camera.CameraToGlobalPos(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)),
+													  selTexScale / camera.TotalScale,
+													  selTexRotation,
+													  layer,
+													  selTexEffect);
 						}
 						else if (sideBar.PageIndex == 2)
 						{
@@ -156,55 +187,80 @@ namespace MrGuyLevelEditor
 			else
 				mleftPressed = false;
 
-			sideBar.Update();
+			if (Mouse.GetState().RightButton == ButtonState.Pressed)
+			{
+				if (!Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+					RemoveThings();
+				else
+				{
+					// Drop down menus later
+				}
+			}
 
 			// Rotate selection counterclockwise
-			if (Keyboard.GetState().IsKeyDown(Keys.A))
+			if (Keyboard.GetState().IsKeyUp(Keys.LeftControl))
 			{
-				if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+				if (Keyboard.GetState().IsKeyDown(Keys.A))
 				{
-					if (!rotOnceLeft)
+					if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
 					{
-						selTexRotation = SnapAngle(true);
-						rotOnceLeft = true;
+						if (!rotOnceLeft)
+						{
+							selTexRotation = SnapAngle(true);
+							rotOnceLeft = true;
+						}
 					}
+					else
+						selTexRotation -= 0.05f;
 				}
-				else 
-					selTexRotation -= 0.05f;
-			}
-			// Rotate selection clockwise
-			else if (Keyboard.GetState().IsKeyDown(Keys.D))
-			{
-				rotOnceLeft = false;
-				if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+				// Rotate selection clockwise
+				else if (Keyboard.GetState().IsKeyDown(Keys.D))
 				{
-					if (!rotOnceRight)
+					rotOnceLeft = false;
+					if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
 					{
-						selTexRotation = SnapAngle(false);
-						rotOnceRight = true;
+						if (!rotOnceRight)
+						{
+							selTexRotation = SnapAngle(false);
+							rotOnceRight = true;
+						}
 					}
+					else
+						selTexRotation += 0.05f;
 				}
 				else
-					selTexRotation += 0.05f;
+				{
+					rotOnceLeft = false;
+					rotOnceRight = false;
+				}
+				while (selTexRotation < 0)
+					selTexRotation += MathHelper.TwoPi;
+				while (selTexRotation >= MathHelper.TwoPi)
+					selTexRotation -= MathHelper.TwoPi;
+			}
+
+			// Scale selection
+			if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+			{
+				if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
+					selTexScale.X = selTexScale.Y = 1f;
+
+				if (Keyboard.GetState().IsKeyDown(Keys.D))
+					selTexScale.X += 0.1f;
+				else if (Keyboard.GetState().IsKeyDown(Keys.A) && selTexScale.Length() > 0.05f)
+					selTexScale.X -= 0.1f;
+				if (Keyboard.GetState().IsKeyDown(Keys.W))
+					selTexScale.Y += 0.1f;
+				else if (Keyboard.GetState().IsKeyDown(Keys.S) && selTexScale.Length() > 0.05f)
+					selTexScale.Y -= 0.1f;
 			}
 			else
 			{
-				rotOnceLeft = false;
-				rotOnceRight = false;
+				if (Keyboard.GetState().IsKeyDown(Keys.W))
+					selTexScale *= 1.03f;
+				else if (Keyboard.GetState().IsKeyDown(Keys.S) && selTexScale.Length() > 0.05f)
+					selTexScale /= 1.03f;
 			}
-			while (selTexRotation < 0)
-				selTexRotation += MathHelper.TwoPi;
-			while (selTexRotation >= MathHelper.TwoPi)
-				selTexRotation -= MathHelper.TwoPi;
-			
-			// Scale selection
-			if (Keyboard.GetState().IsKeyDown(Keys.W))
-				selTexScale += 0.05f;
-			else if (Keyboard.GetState().IsKeyDown(Keys.S) && selTexScale > 0.05f)
-				selTexScale -= 0.05f;
-
-			if (selTexScale < 0.05f)
-				selTexScale = 0.05f;
 
 			// Flip selection
 			if (Keyboard.GetState().IsKeyDown(Keys.X))
@@ -235,8 +291,42 @@ namespace MrGuyLevelEditor
 				camera.Pan(Mouse.GetState().X - prevMX, Mouse.GetState().Y - prevMY);
 			prevMX = Mouse.GetState().X;
 			prevMY = Mouse.GetState().Y;
+		}
+		
+		private void RemoveThings()
+		{
+			Vector2 mouseCoords = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+			if (sideBar.PageIndex == 0)
+			{
+				// Remove static polys
+			}
+			else if (sideBar.PageIndex == 1)
+			{
+				List<ObjectInformation> toRemove = new List<ObjectInformation>();
+				foreach (ObjectInformation obj in objectInfo)
+				{
+					if (Math.Abs(obj.X - mouseCoords.X) > 100 || Math.Abs(obj.Y - mouseCoords.Y) > 100 || layer != obj.Layer)
+						continue;
 
-			base.Update(gameTime);
+					Vector2 translated = mouseCoords - camera.GlobalToCameraPos(obj.X, obj.Y);
+					float newAngle = (float)Math.Atan2(translated.Y, translated.X) - obj.Rotation;
+					float m = translated.Length();
+					translated.X = m * (float)Math.Cos(newAngle) + camera.GlobalToCameraPos(obj.X, obj.Y).X;
+					translated.Y = m * (float)Math.Sin(newAngle) + camera.GlobalToCameraPos(obj.X, obj.Y).Y;
+					Rectangle boundingBox = new Rectangle((int)camera.GlobalToCameraPos((int)(obj.X - obj.texture.Width / 2 * selTexScale.X), (int)(obj.Y - obj.texture.Height / 2 * selTexScale.Y)).X,
+														  (int)camera.GlobalToCameraPos((int)(obj.X - obj.texture.Width / 2 * selTexScale.X), (int)(obj.Y - obj.texture.Height / 2 * selTexScale.Y)).Y,
+														  (int)(obj.texture.Width * selTexScale.X * camera.TotalScale),
+														  (int)(obj.texture.Width * selTexScale.Y * camera.TotalScale));
+					if (boundingBox.Contains((int)translated.X, (int)translated.Y))
+						toRemove.Add(obj);
+				}
+				foreach (ObjectInformation obj in toRemove)
+					objectInfo.Remove(obj);
+			}
+			else if (sideBar.PageIndex == 2)
+			{
+				// Remove objects
+			}
 		}
 
 		/// <summary>

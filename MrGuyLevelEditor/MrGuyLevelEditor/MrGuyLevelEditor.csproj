@@ -120,17 +120,13 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MrGuy\MrGuyContent\MrGuyContent.contentproj">
-      <Project>{13DA5BF1-E9BE-406A-8973-93E716927ECB}</Project>
-      <Name>MrGuyContent %28Content%29</Name>
-      <XnaReferenceType>Content</XnaReferenceType>
-    </ProjectReference>
     <ProjectReference Include="..\..\MrGuy\MrGuy\MrGuy.csproj">
       <Project>{606F1E95-BA28-4E0C-B1FB-398637CD80E8}</Project>
       <Name>MrGuy</Name>
     </ProjectReference>
     <ProjectReference Include="..\MrGuyLevelEditorContent\MrGuyLevelEditorContent.contentproj">
-      <Name>MrGuyLevelEditorContent</Name>
+      <Project>{497A1ACB-CD4A-48F6-80C5-619AB43DB15E}</Project>
+      <Name>MrGuyLevelEditorContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
   </ItemGroup>

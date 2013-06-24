@@ -25,6 +25,8 @@ namespace MrGuy
 		Vector2 size;
 
 		List<Tile> tiles;
+		List<StaticBody> collisionMap;
+		List<PhysicsObject> objects;
 
 		Dictionary<string, Texture2D> textures;
 
@@ -35,6 +37,8 @@ namespace MrGuy
 			lighting.Initialize();
 
 			tiles = new List<Tile>();
+			collisionMap = new List<StaticBody>();
+			objects = new List<PhysicsObject>();
 
 			Load(game, name, type);
 			camera = new Camera(Vector2.Zero, size);
@@ -59,6 +63,12 @@ namespace MrGuy
 			this.size = new Vector2(2560, 720);
 			tiles.Add(new Tile("dirt", Vector2.One * 120, Vector2.One, 0f, 0.5f, SpriteEffects.None));
 			tiles.Add(new Tile("flower1", Vector2.UnitX * 2500 + Vector2.UnitY * 120, Vector2.One * 2, MathHelper.PiOver4, 0.4f, SpriteEffects.None));
+
+			List<Vector2> polyList = new List<Vector2>();
+			polyList.Add(new Vector2(360, 380));
+			polyList.Add(new Vector2(500, 380));
+			polyList.Add(new Vector2(500, 100));
+			collisionMap.Add(new StaticBody(world, polyList));
 		}
 
 		public GameScreen Update(GameTime gameTime)
@@ -81,6 +91,8 @@ namespace MrGuy
 		{
 			foreach (Tile t in tiles)
 				t.Draw(sb, textures, camera);
+			foreach (StaticBody b in collisionMap)
+				b.DebugDraw(sb, camera);
 		}
 	}
 }

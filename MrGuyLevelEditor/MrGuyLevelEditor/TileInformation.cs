@@ -12,7 +12,6 @@ namespace MrGuyLevelEditor
 {
 	public class TileInformation : IComparable<TileInformation>
 	{
-		public string Type { get; set; }
 		public string texture;
 		public int X { get; set; }
 		public int Y { get; set; }
@@ -61,6 +60,12 @@ namespace MrGuyLevelEditor
 			foreach (TileInformation info in list)
 				tiles.Add(new Tile(info.texture, new Vector2(info.X, info.Y), info.Scale, info.Rotation, info.Layer, info.Effect));
 			return tiles;
+		}
+
+		public void Draw(SpriteBatch sb, Camera camera)
+		{
+			sb.Draw(Editor.Textures[this.texture], camera.GlobalToCameraPos(this.X, this.Y),
+				 null, Color.White, this.Rotation, new Vector2(Editor.Textures[this.texture].Width / 2, Editor.Textures[this.texture].Height / 2), this.Scale * camera.TotalScale, this.Effect, this.Layer);
 		}
 	}
 }

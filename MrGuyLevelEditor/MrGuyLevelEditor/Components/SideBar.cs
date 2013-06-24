@@ -42,6 +42,8 @@ namespace MrGuyLevelEditor.Components
 			pages[0].Add(new Button(true, "New", 21, 64));
 			pages[0].Add(new Button(true, "Save", 71, 64));
 			pages[0].Add(new Button(true, "Load", 132, 64));
+			pages[0].Add(new Button(true, "Draw static\n  polygon", 37, 128));
+			pages[0].Add(new Button(true, "Done", 74, 185));
 
 			// Tiles page
 			pages[1] = new Page();
@@ -112,6 +114,11 @@ namespace MrGuyLevelEditor.Components
 			pages[PageIndex].DeselectButton();
 		}
 
+		public void SelectPolygonButton()
+		{
+			pages[PageIndex].SelectPolygonButton();
+		}
+
 		public void Draw(SpriteBatch sb)
 		{
 			sb.Draw(Editor.BlankTexture, hitBox, Color.DarkGray);
@@ -151,6 +158,16 @@ namespace MrGuyLevelEditor.Components
 				{
 					if (b.Y + b.Height + 2> totalButtonHeight)
 						totalButtonHeight = b.Y + b.Height + 2;
+				}
+			}
+
+			public void SelectPolygonButton()
+			{
+				// This is a terrible way of doing this and I should be ashamed of myself
+				if (buttons.Count >= 4)
+				{
+					selectedButton = buttons[3];
+					buttons[3].State = Button.BState.Selected;
 				}
 			}
 

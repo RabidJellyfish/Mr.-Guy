@@ -7,8 +7,9 @@ x Rewrite level editor until it's at the current state of the old one
 
 x Add right click to remove in editor
 
-3. Add static polygon drawing
-	- Figure out how to remove these too
+x Add static polygon drawing
+	x Plotting/Drawing/finish plotting
+	x Figure out how to remove these too
 
 4. Move/rewrite "Farseer Test" code into the MrGuy game project
 	- rewrite character control code

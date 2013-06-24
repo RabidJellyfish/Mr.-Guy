@@ -13,6 +13,8 @@ using MrGuyLevelEditor.Components;
 using MrGuy;
 
 // left click - place things
+// right click - (page 1) remove point from polygon  (page 2/3) remove things
+// shift+right click - (page 1) remove entire polygon rather than single point
 // shift+left click - change level size
 // a/d - rotate
 // shift+a/d - snap rotate
@@ -53,6 +55,8 @@ namespace MrGuyLevelEditor
 		private int prevMX, prevMY;
 
 		public List<TileInformation> tileInfo;
+		public List<StaticBodyInformation> sbInfo;
+		StaticBodyInformation currentBody;
 
 		public Editor()
 		{
@@ -76,6 +80,7 @@ namespace MrGuyLevelEditor
 			rotOnceLeft = false;
 			rotOnceRight = false;
 			tileInfo = new List<TileInformation>();
+			sbInfo = new List<StaticBodyInformation>();
 			Content.RootDirectory = "Content";
 		}
 
@@ -132,6 +137,15 @@ namespace MrGuyLevelEditor
 					{
 						sideBar.DeselectButton();
 					}
+					else if (sideBar.SelectedButton.message == "Done")
+					{
+						if (currentBody != null && currentBody.Count() > 2)
+						{
+							sbInfo.Add(currentBody);
+							currentBody = null;
+						}
+						sideBar.DeselectButton();
+					}
 				}
 			}
 			else if (sideBar.PageIndex == 1)
@@ -159,24 +173,49 @@ namespace MrGuyLevelEditor
 				{
 					if (Keyboard.GetState().IsKeyUp(Keys.LeftShift)) // Make sure not changing bounds
 					{
-						if (sideBar.PageIndex == 0)
+						if (!changingBounds)
 						{
-							// draw static polygons
+							// Draw collision polygons
+							if (sideBar.PageIndex == 0 && sideBar.SelectedButton != null && sideBar.SelectedButton.message == "Draw static\n  polygon")
+							{
+								if (currentBody == null)
+									currentBody = new StaticBodyInformation(camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y));
+								else
+								{
+									bool done = currentBody.AddPoint(camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y));
+									if (done)
+									{
+										sbInfo.Add(currentBody);
+										currentBody = null;
+										sideBar.DeselectButton();
+									}		
+								}
+							}
+							// Add tiles
+							else if (sideBar.PageIndex == 1)
+							{
+								TileInformation.AddTile(tileInfo,
+														  sideBar.SelectedButton.TextureKey,
+														  camera.CameraToGlobalPos(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)),
+														  selTexScale / camera.TotalScale,
+														  selTexRotation,
+														  layer,
+														  selTexEffect);
+							}
+							// Add objects
+							else if (sideBar.PageIndex == 2)
+							{
+								// add objects that do stuff instead of just sitting there like tiles
+							}
 						}
-						else if (sideBar.PageIndex == 1)
+						else
 						{
-							TileInformation.AddTile(tileInfo,
-													  sideBar.SelectedButton.TextureKey,
-													  camera.CameraToGlobalPos(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)),
-													  selTexScale / camera.TotalScale,
-													  selTexRotation,
-													  layer,
-													  selTexEffect);
+							changingBounds = false;
+							Vector2 size = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
+							levelSize.Width = (int)size.X - levelSize.X;
+							levelSize.Height = (int)size.Y - levelSize.Y;
 						}
-						else if (sideBar.PageIndex == 2)
-						{
-							// add objects that do stuff instead of just sitting there like tiles
-						}
+
 					}
 					else
 					{
@@ -187,13 +226,6 @@ namespace MrGuyLevelEditor
 							Vector2 size = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
 							levelSize.X = (int)size.X;
 							levelSize.Y = (int)size.Y;
-						}
-						else
-						{
-							changingBounds = false;
-							Vector2 size = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
-							levelSize.Width = (int)size.X - levelSize.X;
-							levelSize.Height = (int)size.Y - levelSize.Y;
 						}
 					}
 				}
@@ -313,7 +345,54 @@ namespace MrGuyLevelEditor
 			Vector2 mouseCoords = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
 			if (sideBar.PageIndex == 0)
 			{
-				// Remove static polys
+				Vector2 camToGlob = camera.CameraToGlobalPos(mouseCoords);
+				// Remove entire polygon
+				if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
+				{
+					StaticBodyInformation toRemove = null;
+					foreach (StaticBodyInformation sb in sbInfo)
+					{
+						bool brk = false;
+
+						for (int i = 0; i < sb.Points.Count; i++)
+							if ((camToGlob - sb.Points[i]).Length() <= 5)
+							{
+								toRemove = sb;
+								brk = true;
+								break;
+							}
+
+						if (brk)
+							break;
+					}
+					if (toRemove != null)
+						sbInfo.Remove(toRemove);
+				}
+				// Remove a point from the polyon and continue drawing
+				else
+				{
+					StaticBodyInformation toRemove = null;
+					foreach (StaticBodyInformation sb in sbInfo)
+					{
+						bool brk = false;
+
+						for (int i = 0; i < sb.Points.Count; i++)
+							if ((camToGlob - sb.Points[i]).Length() <= 5)
+							{
+								sb.RemovePoint(sb.Points[i]);
+								toRemove = sb;
+								currentBody = sb;
+								sideBar.SelectPolygonButton();
+								brk = true;
+								break;
+							}
+
+						if (brk)
+							break;
+					}
+					if (toRemove != null)
+						sbInfo.Remove(toRemove);
+				}
 			}
 			else if (sideBar.PageIndex == 1)
 			{
@@ -383,27 +462,47 @@ namespace MrGuyLevelEditor
 			GraphicsDevice.Clear(Color.CornflowerBlue);
 
 			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+			MouseState state = Mouse.GetState();
 
 			// Draw objects
 			foreach (TileInformation tile in tileInfo)
-				spriteBatch.Draw(Textures[tile.texture], camera.GlobalToCameraPos(tile.X, tile.Y),
-								 null, Color.White, tile.Rotation, new Vector2(Textures[tile.texture].Width / 2, Textures[tile.texture].Height / 2), tile.Scale * camera.TotalScale, tile.Effect, tile.Layer);
+				tile.Draw(spriteBatch, camera);
 
 			// Draw collision map
+			foreach (StaticBodyInformation sb in sbInfo)
+				sb.Draw(spriteBatch, camera);
+			if (currentBody != null)
+			{
+				currentBody.Draw(spriteBatch, camera);
+				DrawLine(spriteBatch, camera.GlobalToCameraPos(currentBody.LastPoint()), new Vector2(state.X, state.Y), Color.Lime);
+			}
 
-			// Draw components
+			// Draw level bounds
 			Vector2 levelTopLeft = camera.GlobalToCameraPos(levelSize.X, levelSize.Y);
 			Rectangle levelSizeSkewed = new Rectangle((int)levelTopLeft.X, (int)levelTopLeft.Y,
-													  changingBounds ? Mouse.GetState().X - (int)levelTopLeft.X : (int)(levelSize.Width * camera.TotalScale),
-													  changingBounds ? Mouse.GetState().Y - (int)levelTopLeft.Y : (int)(levelSize.Height * camera.TotalScale));
+													  changingBounds ? state.X - (int)levelTopLeft.X : (int)(levelSize.Width * camera.TotalScale),
+													  changingBounds ? state.Y - (int)levelTopLeft.Y : (int)(levelSize.Height * camera.TotalScale));
 			DrawRectangleOutline(spriteBatch, levelSizeSkewed, Color.Black);
+			if (changingBounds)
+				spriteBatch.DrawString(Font, 
+										"<" + ((state.X - (int)levelTopLeft.X) / camera.TotalScale).ToString() + 
+										", " + ((state.Y - (int)levelTopLeft.Y) / camera.TotalScale).ToString() + ">",
+										Vector2.UnitX * state.X + Vector2.UnitY * state.Y, Color.Black);
+
 			sideBar.Draw(spriteBatch);
-			spriteBatch.DrawString(Font, "Layer: " + layer.ToString("0.00"), new Vector2(Graphics.PreferredBackBufferWidth - 128, Graphics.PreferredBackBufferHeight - 32), Color.Black);
+			
+			// Draw camera info
+			spriteBatch.DrawString(Font, "Mouse: <" + ((state.X - (int)levelTopLeft.X) / camera.TotalScale).ToString("0") + 
+								   ", " + ((state.Y - (int)levelTopLeft.Y) / camera.TotalScale).ToString("0") + ">",
+								   new Vector2(Graphics.PreferredBackBufferWidth - 546, Graphics.PreferredBackBufferHeight - 32), Color.Black);
+			spriteBatch.DrawString(Font, "Zoom: x" + camera.TotalScale.ToString("0.00"), new Vector2(Graphics.PreferredBackBufferWidth - 300, Graphics.PreferredBackBufferHeight - 32), Color.Black);
+			spriteBatch.DrawString(Font, "Layer: " + layer.ToString("0.00"), new Vector2(Graphics.PreferredBackBufferWidth - 134, Graphics.PreferredBackBufferHeight - 32), Color.Black);
+
+			// Draw creation selection at mouse
 			if (sideBar.PageIndex == 1)
 			{
 				if (selectedTexture != null)
 				{
-					MouseState state = Mouse.GetState();
 					if (state.X > (sideBar.Hidden ? 32 : SideBar.WIDTH))
 						spriteBatch.Draw(selectedTexture, new Vector2(state.X, state.Y), null, new Color(255, 255, 255, 125), selTexRotation,
 										 new Vector2(selectedTexture.Width / 2, selectedTexture.Height / 2), selTexScale, selTexEffect, layer);

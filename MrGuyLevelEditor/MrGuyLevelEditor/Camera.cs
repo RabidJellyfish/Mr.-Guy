@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MrGuyLevelEditor
 {
-	class Camera
+	public class Camera
 	{
 		private Vector2 center;
 

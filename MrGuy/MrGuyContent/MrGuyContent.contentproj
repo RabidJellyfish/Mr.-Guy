@@ -42,38 +42,57 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="tiles\dirt.png">
+    <Compile Include="tiles\forest\dirt.png">
       <Name>dirt</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\flower1.png">
+    <Compile Include="tiles\forest\flower1.png">
       <Name>flower1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\flower2.png">
+    <Compile Include="tiles\forest\flower2.png">
       <Name>flower2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\flower3.png">
+    <Compile Include="tiles\forest\flower3.png">
       <Name>flower3</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\grass.png">
+    <Compile Include="tiles\forest\grass.png">
       <Name>grass</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\leaves.png">
+    <Compile Include="tiles\forest\leaves.png">
       <Name>leaves</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\tree trunk.png">
+    <Compile Include="tiles\forest\tree trunk.png">
       <Name>tree trunk</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="KryptonEffect.fx">
+      <Name>KryptonEffect</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="box.png">
+      <Name>box</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="simple stick.PNG">
+      <Name>simple stick</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

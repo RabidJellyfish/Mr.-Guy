@@ -107,17 +107,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Conversions.cs" />
+    <Compile Include="AnimatedTexture.cs" />
+    <Compile Include="Camera.cs" />
+    <Compile Include="GameScreen.cs" />
+    <Compile Include="GameWorld.cs" />
+    <Compile Include="PhysicsObject.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="MainGame.cs" />
-    <Compile Include="Sprites\AnimatedTexture.cs" />
+    <Compile Include="StaticBody.cs" />
+    <Compile Include="Tile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\Downloads\Krypton v2.0\Krypton v2.0\Krypton\Krypton.csproj">
+      <Project>{B1BFCB2A-C001-4DAC-BA7D-B68BF28757F3}</Project>
+      <Name>Krypton</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Farseer Physics Engine 3.3.1 Samples XNA\Farseer Physics Engine 3.3 XNA\Farseer Physics XNA.csproj">
       <Project>{0A850700-1ABB-4288-A391-6726B90EBEB9}</Project>
       <Name>Farseer Physics XNA</Name>

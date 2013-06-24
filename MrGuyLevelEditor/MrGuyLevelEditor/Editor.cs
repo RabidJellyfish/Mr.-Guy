@@ -31,7 +31,8 @@ namespace MrGuyLevelEditor
 		public static int DScroll; // Amount mouse has been scrolled
 		public static GraphicsDeviceManager Graphics; // Stuff
 		public static SpriteFont Font; // Font for everything
-		
+		public static Dictionary<string, Texture2D> Textures;
+
 		SpriteBatch spriteBatch;
 		private Rectangle levelSize; // When writing to XML file, subtract levelSize.X and levelSize.Y from all of the positions
 		private bool changingBounds;
@@ -51,7 +52,7 @@ namespace MrGuyLevelEditor
 		private int prevScrollTotal;
 		private int prevMX, prevMY;
 
-		public List<ObjectInformation> objectInfo;
+		public List<TileInformation> tileInfo;
 
 		public Editor()
 		{
@@ -59,7 +60,7 @@ namespace MrGuyLevelEditor
 			Graphics.PreferredBackBufferWidth = 1280;
 			Graphics.PreferredBackBufferHeight = 720;
 
-			levelSize = new Rectangle(0, 0, 1280, 720);
+			levelSize = new Rectangle(0, 0, 1920, 1080);
 			camera = new Camera();
 
 			IsMouseVisible = true;
@@ -74,7 +75,7 @@ namespace MrGuyLevelEditor
 			mleftPressed = false;
 			rotOnceLeft = false;
 			rotOnceRight = false;
-			objectInfo = new List<ObjectInformation>();
+			tileInfo = new List<TileInformation>();
 			Content.RootDirectory = "Content";
 		}
 
@@ -89,8 +90,23 @@ namespace MrGuyLevelEditor
 			Font = Content.Load<SpriteFont>("mainfont");
 			BlankTexture = new Texture2D(Graphics.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
 			BlankTexture.SetData(new[] { Color.White });
-
+			BuildTextureDictionary();
 			sideBar = new SideBar(this);
+			camera.Zoom(-0.5f);
+			camera.Pan(-30, -100);
+		}
+
+		// Add to this every time you add a new texture
+		private void BuildTextureDictionary()
+		{
+			Textures = new Dictionary<string, Texture2D>();
+			Textures.Add("dirt", Content.Load<Texture2D>("tiles/dirt"));
+			Textures.Add("flower1", Content.Load<Texture2D>("tiles/flower1"));
+			Textures.Add("flower2", Content.Load<Texture2D>("tiles/flower2"));
+			Textures.Add("flower3", Content.Load<Texture2D>("tiles/flower3"));
+			Textures.Add("grass", Content.Load<Texture2D>("tiles/grass"));
+			Textures.Add("leaves", Content.Load<Texture2D>("tiles/leaves"));
+			Textures.Add("tree trunk", Content.Load<Texture2D>("tiles/tree trunk"));
 		}
 
 		protected override void Update(GameTime gameTime)
@@ -105,7 +121,7 @@ namespace MrGuyLevelEditor
 				{
 					if (sideBar.SelectedButton.message == "New")
 					{
-						objectInfo.Clear();
+						tileInfo.Clear();
 						sideBar.DeselectButton();
 					}
 					else if (sideBar.SelectedButton.message == "Save")
@@ -123,14 +139,13 @@ namespace MrGuyLevelEditor
 				// Select tiles
 				if (sideBar.SelectedButton != null)
 					selectedTexture = sideBar.SelectedButton.ForeTexture;
-				UpdateMouseStuff();
 			}
 			else if (sideBar.PageIndex == 2)
 			{
 				// Select physics objects and stuff
-				UpdateMouseStuff();
 			}
 
+			UpdateMouseStuff();
 			sideBar.Update();
 
 			base.Update(gameTime);
@@ -150,8 +165,8 @@ namespace MrGuyLevelEditor
 						}
 						else if (sideBar.PageIndex == 1)
 						{
-							ObjectInformation.AddObject(objectInfo,
-													  selectedTexture,
+							TileInformation.AddTile(tileInfo,
+													  sideBar.SelectedButton.TextureKey,
 													  camera.CameraToGlobalPos(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)),
 													  selTexScale / camera.TotalScale,
 													  selTexRotation,
@@ -302,26 +317,23 @@ namespace MrGuyLevelEditor
 			}
 			else if (sideBar.PageIndex == 1)
 			{
-				List<ObjectInformation> toRemove = new List<ObjectInformation>();
-				foreach (ObjectInformation obj in objectInfo)
+				List<TileInformation> toRemove = new List<TileInformation>();
+				foreach (TileInformation obj in tileInfo)
 				{
-					if (Math.Abs(obj.X - mouseCoords.X) > 100 || Math.Abs(obj.Y - mouseCoords.Y) > 100 || layer != obj.Layer)
-						continue;
-
 					Vector2 translated = mouseCoords - camera.GlobalToCameraPos(obj.X, obj.Y);
 					float newAngle = (float)Math.Atan2(translated.Y, translated.X) - obj.Rotation;
 					float m = translated.Length();
 					translated.X = m * (float)Math.Cos(newAngle) + camera.GlobalToCameraPos(obj.X, obj.Y).X;
 					translated.Y = m * (float)Math.Sin(newAngle) + camera.GlobalToCameraPos(obj.X, obj.Y).Y;
-					Rectangle boundingBox = new Rectangle((int)camera.GlobalToCameraPos((int)(obj.X - obj.texture.Width / 2 * selTexScale.X), (int)(obj.Y - obj.texture.Height / 2 * selTexScale.Y)).X,
-														  (int)camera.GlobalToCameraPos((int)(obj.X - obj.texture.Width / 2 * selTexScale.X), (int)(obj.Y - obj.texture.Height / 2 * selTexScale.Y)).Y,
-														  (int)(obj.texture.Width * selTexScale.X * camera.TotalScale),
-														  (int)(obj.texture.Width * selTexScale.Y * camera.TotalScale));
+					Rectangle boundingBox = new Rectangle((int)camera.GlobalToCameraPos((int)(obj.X - Textures[obj.texture].Width / 2 * selTexScale.X), (int)(obj.Y - Textures[obj.texture].Height / 2 * selTexScale.Y)).X,
+														  (int)camera.GlobalToCameraPos((int)(obj.X - Textures[obj.texture].Width / 2 * selTexScale.X), (int)(obj.Y - Textures[obj.texture].Height / 2 * selTexScale.Y)).Y,
+														  (int)(Textures[obj.texture].Width * selTexScale.X * camera.TotalScale),
+														  (int)(Textures[obj.texture].Width * selTexScale.Y * camera.TotalScale));
 					if (boundingBox.Contains((int)translated.X, (int)translated.Y))
 						toRemove.Add(obj);
 				}
-				foreach (ObjectInformation obj in toRemove)
-					objectInfo.Remove(obj);
+				foreach (TileInformation obj in toRemove)
+					tileInfo.Remove(obj);
 			}
 			else if (sideBar.PageIndex == 2)
 			{
@@ -373,9 +385,9 @@ namespace MrGuyLevelEditor
 			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
 			// Draw objects
-			foreach (ObjectInformation tile in objectInfo)
-				spriteBatch.Draw(tile.texture, camera.GlobalToCameraPos(tile.X, tile.Y),
-								 null, Color.White, tile.Rotation, new Vector2(tile.texture.Width / 2, tile.texture.Height / 2), tile.Scale * camera.TotalScale, tile.Effect, tile.Layer);
+			foreach (TileInformation tile in tileInfo)
+				spriteBatch.Draw(Textures[tile.texture], camera.GlobalToCameraPos(tile.X, tile.Y),
+								 null, Color.White, tile.Rotation, new Vector2(Textures[tile.texture].Width / 2, Textures[tile.texture].Height / 2), tile.Scale * camera.TotalScale, tile.Effect, tile.Layer);
 
 			// Draw collision map
 

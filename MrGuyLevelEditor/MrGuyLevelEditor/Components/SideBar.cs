@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using MrGuy.Sprites;
+using MrGuy;
 
 namespace MrGuyLevelEditor.Components
 {
@@ -30,7 +30,7 @@ namespace MrGuyLevelEditor.Components
 
 		public SideBar(Game game)
 		{
-			sideButton = new Button(">>", 0, 0, 32, Editor.Graphics.PreferredBackBufferHeight);
+			sideButton = new Button(true, ">>", 0, 0, 32, Editor.Graphics.PreferredBackBufferHeight);
 			hitBox = new Rectangle(0, 0, WIDTH, Editor.Graphics.PreferredBackBufferHeight);
 			PageIndex = 0;
 
@@ -39,9 +39,9 @@ namespace MrGuyLevelEditor.Components
 			// File page
 			pages[0] = new Page();
 
-			pages[0].Add(new Button("New", 21, 64));
-			pages[0].Add(new Button("Save", 71, 64));
-			pages[0].Add(new Button("Load", 132, 64));
+			pages[0].Add(new Button(true, "New", 21, 64));
+			pages[0].Add(new Button(true, "Save", 71, 64));
+			pages[0].Add(new Button(true, "Load", 132, 64));
 
 			// Tiles page
 			pages[1] = new Page();
@@ -54,7 +54,7 @@ namespace MrGuyLevelEditor.Components
 				tiles.Add(files[i].Replace(".xnb", "").Split('\\')[files[i].Split('\\').Length - 1]);
 			
 			for (int i = 0; i < tiles.Count; i++)
-				pages[1].Add(new Button(game.Content.Load<Texture2D>("tiles\\" + tiles[i]), 24 + (i % 2) * 86, 48 + 90 * (int)(i / 2), 72, 72));
+				pages[1].Add(new Button(tiles[i], 24 + (i % 2) * 86, 48 + 90 * (int)(i / 2), 72, 72));
 
 			// Objects page
 			pages[2] = new Page();

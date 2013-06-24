@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using MrGuy.Sprites;
+using MrGuy;
 
 namespace MrGuyLevelEditor.Components
 {
@@ -18,8 +18,10 @@ namespace MrGuyLevelEditor.Components
 
 		// Visual info
 		private Texture2D foreTexture, backTexture;
+		private string textureKey;
 		public string message { get; set; }
 		public Texture2D ForeTexture { get { return foreTexture; } }
+		public string TextureKey { get { return textureKey; } }
 
 		// Button state
 		public enum BState
@@ -67,24 +69,25 @@ namespace MrGuyLevelEditor.Components
 			backTexture = Editor.BlankTexture;
 		}
 
-		public Button(Texture2D texture, int x, int y)
-			: this(texture, x, y, texture.Width + 8, texture.Height + 8)
+		public Button(string texture, int x, int y)
+			: this(texture, x, y, Editor.Textures[texture].Width + 8, Editor.Textures[texture].Height + 8)
 		{
 		}
-		public Button(Texture2D texture, int x, int y, int width, int height)
+		public Button(string texture, int x, int y, int width, int height)
 			: this()
 		{
 			this.hitBox = new Rectangle(x, y, width, height);
 			initialX = X;
 			initialY = Y;
-			this.foreTexture = texture;
+			this.textureKey = texture;
+			this.foreTexture = Editor.Textures[texture];
 		}
 
-		public Button(string message, int x, int y)
-			: this(message, x, y, (int)Editor.Font.MeasureString(message).X + 8, (int)Editor.Font.MeasureString(message).Y)
+		public Button(bool text, string message, int x, int y)
+			: this(false, message, x, y, (int)Editor.Font.MeasureString(message).X + 8, (int)Editor.Font.MeasureString(message).Y)
 		{
 		}
-		public Button(string message, int x, int y, int width, int height)
+		public Button(bool text, string message, int x, int y, int width, int height)
 			: this()
 		{
 			this.message = message;

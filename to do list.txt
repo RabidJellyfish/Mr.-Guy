@@ -5,26 +5,23 @@ x Rewrite level editor until it's at the current state of the old one
 	x Make everything the same type of object (tiles and objects are same type, will make things more organized probably)
 	x Tiles will use separate textures instead of rectangles from a single spritesheet
 
-2. Add right click to remove in editor
+x Add right click to remove in editor
 
 3. Add static polygon drawing
-	- Figure out how to remove these?
+	- Figure out how to remove these too
 
-4. Write in save/load stuff
-	- Use custom serializer (see http://www.codeproject.com/Articles/8644/XmlSerializer-and-not-expected-Inherited-			Types?msg=2391456#xx2391456xx)
-	- Directly write MrGuy objects to xml rather than just data so that you can read them in easily
-
-5. Move/rewrite "Farseer Test" code into the MrGuy game project
-	- Character control code
+4. Move/rewrite "Farseer Test" code into the MrGuy game project
+	- rewrite character control code
 	- Static objects
 	- Basic physics objects for testing
 	- Keep xml loading code
 
-6. Add tiles to MrGuy game project
+x Add tiles to MrGuy game project
+
+6. Write in save/load stuff
+	- Use custom serializer (see http://www.codeproject.com/Articles/8644/XmlSerializer-and-not-expected-Inherited-			Types?msg=2391456#xx2391456xx)
+	- Directly write MrGuy objects to xml rather than just data so that you can read them in easily?
 
 7. See if you can load a level made in the level editor into the game with some static shapes and one of each tile
 	- Hardcode in the creation of the character for now
 
--------------------------------------------
-
-8. Design stuff!

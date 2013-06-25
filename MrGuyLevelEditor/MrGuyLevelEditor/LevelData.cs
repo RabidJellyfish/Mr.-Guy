@@ -6,16 +6,14 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using MrGuy;
-
 namespace MrGuyLevelEditor
 {
-	class LevelData
+	public class LevelData
 	{
 		public Vector2 size;
-		public List<Tile> tiles;
-		public List<StaticBody> staticBodies;
-		public List<PhysicsObject> physicsObjects;
+		public List<TileInformation> tiles;
+		public List<StaticBodyInformation> staticBodies;
+//		public List<PhysicsObjectInformation> physicsObjects;
 		// There'll probably be more, like background and stuff
 	}
 }

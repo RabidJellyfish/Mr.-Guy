@@ -39,6 +39,8 @@
 			this.lstTiles = new System.Windows.Forms.ListBox();
 			this.pageObjects = new System.Windows.Forms.TabPage();
 			this.lstObjects = new System.Windows.Forms.ListBox();
+			this.openFD = new System.Windows.Forms.OpenFileDialog();
+			this.saveFD = new System.Windows.Forms.SaveFileDialog();
 			this.tabControl.SuspendLayout();
 			this.pageStuff.SuspendLayout();
 			this.pageTiles.SuspendLayout();
@@ -166,6 +168,10 @@
 			this.lstObjects.Size = new System.Drawing.Size(167, 342);
 			this.lstObjects.TabIndex = 1;
 			// 
+			// openFD
+			// 
+			this.openFD.FileName = "openFileDialog1";
+			// 
 			// Controls
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -199,5 +205,7 @@
 		private System.Windows.Forms.Button btnDone;
 		private System.Windows.Forms.ListBox lstTiles;
 		private System.Windows.Forms.ListBox lstObjects;
+		private System.Windows.Forms.OpenFileDialog openFD;
+		private System.Windows.Forms.SaveFileDialog saveFD;
 	}
 }

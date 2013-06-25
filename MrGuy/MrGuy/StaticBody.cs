@@ -17,12 +17,22 @@ namespace MrGuy
 {
 	public class StaticBody
 	{
-		List<Vector2> vertices;
+		public List<Vector2> vertices;
 		Body poly;
 
-		public StaticBody(World w, List<Vector2> v)
+		public StaticBody()
+		{
+			this.vertices = new List<Vector2>();
+		}
+
+		public StaticBody(List<Vector2> v)
 		{
 			this.vertices = v;
+		}
+
+		// Make sure this is called for each StaticBody after loading level data
+		public void CreateBody(World w)
+		{
 			Vertices vs = new Vertices();
 			foreach (Vector2 vec in vertices)
 				vs.Add(vec * MainGame.PIXEL_TO_METER);

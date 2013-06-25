@@ -6,6 +6,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Serialization;
+
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
 
 namespace MrGuyLevelEditor
 {
@@ -52,9 +57,49 @@ namespace MrGuyLevelEditor
 			this.SavePressed = true;
 		}
 
+		public void Save(LevelData level)
+		{
+			saveFD.FileName = "";
+			saveFD.Title = "Save level";
+			saveFD.InitialDirectory = Application.StartupPath;
+			saveFD.Filter = "XML Files (*.xml)|*.xml";
+			DialogResult result = saveFD.ShowDialog();
+			if (result == DialogResult.OK)
+			{
+				XmlWriterSettings settings = new XmlWriterSettings();
+				settings.Indent = true;
+				XmlSerializer ser = new XmlSerializer(typeof(LevelData));
+
+				using (XmlWriter writer = XmlWriter.Create(saveFD.FileName, settings))
+				{
+					ser.Serialize(writer, level, null);
+				}
+			}
+		}
+
 		private void btnLoad_Click(object sender, EventArgs e)
 		{
 			this.LoadPressed = true;
+		}
+
+		public LevelData LoadLevel()
+		{
+			openFD.FileName = "";
+			openFD.Title = "Open level";
+			openFD.InitialDirectory = Application.StartupPath;
+			openFD.Filter = "XML Files (*.xml)|*.xml";
+			DialogResult result = openFD.ShowDialog();
+			if (result == DialogResult.OK)
+			{
+				XmlSerializer ser = new XmlSerializer(typeof(LevelData));
+				LevelData data;
+				using (XmlReader reader = XmlReader.Create(openFD.FileName))
+				{
+					data = (LevelData)ser.Deserialize(reader);
+				}
+				return data;
+			}
+			return null;
 		}
 
 		private void btnDrawPoly_Click(object sender, EventArgs e)

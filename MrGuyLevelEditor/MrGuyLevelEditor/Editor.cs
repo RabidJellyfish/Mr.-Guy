@@ -4,13 +4,11 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Content.Pipeline.Serialization;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
-using MrGuyLevelEditor.Components;
-using MrGuy;
 
 // left click - place things
 // right click - (page 1) remove point from polygon  (page 2/3) remove things
@@ -154,11 +152,28 @@ namespace MrGuyLevelEditor
 				}
 				else if (controls.SavePressed)
 				{
+					LevelData level = new LevelData();
+					level.size = new Vector2(levelSize.Width, levelSize.Height);
+					level.tiles = new List<TileInformation>();
+					foreach (TileInformation t in tileInfo)
+						TileInformation.AddTile(level.tiles, t.texture, new Vector2(t.X - levelSize.X, t.Y - levelSize.Y), t.Scale, t.Rotation, t.Layer, t.Effect);
+					level.staticBodies = sbInfo;
+					// TODO: Add physics objects
+
+					controls.Save(level);
 
 					controls.SavePressed = false;
 				}
 				else if (controls.LoadPressed)
 				{
+					LevelData level = controls.LoadLevel();
+					if (level == null)
+						return;
+
+					levelSize = new Rectangle(0, 0, (int)level.size.X, (int)level.size.Y);
+					tileInfo = level.tiles;
+					sbInfo = level.staticBodies;
+					// TODO: Add physics objects
 
 					controls.LoadPressed = false;
 				}

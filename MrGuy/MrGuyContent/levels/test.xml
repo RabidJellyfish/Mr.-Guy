@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LevelData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <size>
+    <X>1920</X>
+    <Y>1080</Y>
+  </size>
+  <tiles>
+    <TileInformation>
+      <texture>grass</texture>
+      <X>932</X>
+      <Y>527</Y>
+      <Rotation>0</Rotation>
+      <Scale>
+        <X>4.553171</X>
+        <Y>4.553171</Y>
+      </Scale>
+      <Layer>0.5555556</Layer>
+      <Effect>None</Effect>
+    </TileInformation>
+  </tiles>
+  <staticBodies>
+    <StaticBodyInformation>
+      <Points>
+        <Vector2>
+          <X>691</X>
+          <Y>449</Y>
+        </Vector2>
+        <Vector2>
+          <X>1062</X>
+          <Y>289</Y>
+        </Vector2>
+        <Vector2>
+          <X>1300</X>
+          <Y>575</Y>
+        </Vector2>
+        <Vector2>
+          <X>884</X>
+          <Y>885</Y>
+        </Vector2>
+      </Points>
+    </StaticBodyInformation>
+  </staticBodies>
+</LevelData>

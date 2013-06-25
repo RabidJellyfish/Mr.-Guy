@@ -13,6 +13,11 @@ namespace MrGuyLevelEditor
 		List<Vector2> points;
 		public List<Vector2> Points { get { return points; } }
 
+		public StaticBodyInformation()
+		{
+			points = new List<Vector2>();
+		}
+
 		public StaticBodyInformation(Vector2 firstPoint)
 		{
 			points = new List<Vector2>();

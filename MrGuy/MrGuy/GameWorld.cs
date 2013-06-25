@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -14,6 +18,8 @@ using FarseerPhysics.Dynamics;
 
 using Krypton;
 using Krypton.Lights;
+
+using MrGuyLevelEditor;
 
 namespace MrGuy
 {
@@ -55,20 +61,23 @@ namespace MrGuy
 				textures.Add(s, game.Content.Load<Texture2D>("tiles\\" + type + "\\" + s));
 			}
 
-			//
-			// Normally you'd use 'name' to load an xml file here for object placement and stuff
-			// but I'm not there yet
-			// Make a Level object instead of a list of stuff. Why didn't you think of that sooner?
-			//
-			this.size = new Vector2(2560, 720);
-			tiles.Add(new Tile("dirt", Vector2.One * 120, Vector2.One, 0f, 0.5f, SpriteEffects.None));
-			tiles.Add(new Tile("flower1", Vector2.UnitX * 2500 + Vector2.UnitY * 120, Vector2.One * 2, MathHelper.PiOver4, 0.4f, SpriteEffects.None));
+			XmlSerializer ser = new XmlSerializer(typeof(LevelData));
+			LevelData level;
+			using (XmlReader reader = XmlReader.Create("Content\\levels\\" + name + ".xml"))
+			{
+				level = (LevelData)ser.Deserialize(reader);
+			}
 
-			List<Vector2> polyList = new List<Vector2>();
-			polyList.Add(new Vector2(360, 380));
-			polyList.Add(new Vector2(500, 380));
-			polyList.Add(new Vector2(500, 100));
-			collisionMap.Add(new StaticBody(world, polyList));
+			foreach (TileInformation t in level.tiles)
+				this.tiles.Add(new Tile(t.texture, new Vector2(t.X, t.Y), t.Scale, t.Rotation, t.Layer, t.Effect));
+			foreach (StaticBodyInformation sb in level.staticBodies)
+			{
+				StaticBody body = new StaticBody(sb.Points);
+				body.CreateBody(world);
+				this.collisionMap.Add(body);
+			}
+//			foreach (PhysicsObject obj in level.physicsObjects)
+//				this.objects.Add(obj);
 		}
 
 		public Camera GetCamera()

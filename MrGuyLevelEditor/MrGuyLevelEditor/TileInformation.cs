@@ -6,8 +6,6 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using MrGuy;
-
 namespace MrGuyLevelEditor
 {
 	public class TileInformation : IComparable<TileInformation>
@@ -52,14 +50,6 @@ namespace MrGuyLevelEditor
 			}
 			else
 				list.Add(i);
-		}
-
-		public static List<Tile> ConvertToTiles(List<TileInformation> list)
-		{
-			List<Tile> tiles = new List<Tile>();
-			foreach (TileInformation info in list)
-				tiles.Add(new Tile(info.texture, new Vector2(info.X, info.Y), info.Scale, info.Rotation, info.Layer, info.Effect));
-			return tiles;
 		}
 
 		public void Draw(SpriteBatch sb, Camera camera)

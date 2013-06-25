@@ -40,7 +40,9 @@ namespace MrGuyLevelEditor
 		private bool changingBounds;
 		Camera camera;
 
-		SideBar sideBar;
+		Controls controls;
+		System.Windows.Forms.Form thisForm;
+		bool unfocused;
 
 		private Texture2D selectedTexture;
 		private float selTexRotation;
@@ -79,6 +81,7 @@ namespace MrGuyLevelEditor
 			mleftPressed = false;
 			rotOnceLeft = false;
 			rotOnceRight = false;
+			unfocused = false;
 			tileInfo = new List<TileInformation>();
 			sbInfo = new List<StaticBodyInformation>();
 			Content.RootDirectory = "Content";
@@ -86,7 +89,10 @@ namespace MrGuyLevelEditor
 
 		protected override void Initialize()
 		{
+			controls = new Controls();
+			controls.Visible = true;
 			base.Initialize();
+			thisForm = (System.Windows.Forms.Form)System.Windows.Forms.Form.FromHandle(this.Window.Handle);
 		}
 
 		protected override void LoadContent()
@@ -96,12 +102,12 @@ namespace MrGuyLevelEditor
 			BlankTexture = new Texture2D(Graphics.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
 			BlankTexture.SetData(new[] { Color.White });
 			BuildTextureDictionary();
-			sideBar = new SideBar(this);
-			camera.Zoom(-0.5f);
-			camera.Pan(-30, -100);
+			camera.Zoom(-0.4f);
+			camera.Pan(-190, -112);
 		}
 
 		// Add to this every time you add a new texture
+		// Change so that it adds from list
 		private void BuildTextureDictionary()
 		{
 			Textures = new Dictionary<string, Texture2D>();
@@ -116,67 +122,85 @@ namespace MrGuyLevelEditor
 
 		protected override void Update(GameTime gameTime)
 		{
+			controls.Location = new System.Drawing.Point(thisForm.Location.X - 207, thisForm.Location.Y);
+			if (this.IsActive)
+			{
+				if (unfocused)
+				{
+					unfocused = false;
+					controls.Focus();
+					thisForm.Focus();
+				}
+			}
+			else
+				unfocused = true;
+
+			if (controls.HasFocus && MouseInBounds())
+			{
+				thisForm.Focus();
+			}
+
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
 				this.Exit();
 
 			// Set up side bar
-			if (sideBar.PageIndex == 0)
+			if (controls.Tab == 0)
 			{
-				if (sideBar.SelectedButton != null)
+				if (controls.NewPressed)
 				{
-					if (sideBar.SelectedButton.message == "New")
+					tileInfo.Clear();
+					sbInfo.Clear();
+					controls.NewPressed = false;
+				}
+				else if (controls.SavePressed)
+				{
+
+					controls.SavePressed = false;
+				}
+				else if (controls.LoadPressed)
+				{
+
+					controls.LoadPressed = false;
+				}
+				else if (controls.DonePressed)
+				{
+					if (currentBody != null && currentBody.Count() > 2)
 					{
-						tileInfo.Clear();
-						sideBar.DeselectButton();
+						sbInfo.Add(currentBody);
+						currentBody = null;
 					}
-					else if (sideBar.SelectedButton.message == "Save")
-					{
-						sideBar.DeselectButton();
-					}
-					else if (sideBar.SelectedButton.message == "Load")
-					{
-						sideBar.DeselectButton();
-					}
-					else if (sideBar.SelectedButton.message == "Done")
-					{
-						if (currentBody != null && currentBody.Count() > 2)
-						{
-							sbInfo.Add(currentBody);
-							currentBody = null;
-						}
-						sideBar.DeselectButton();
-					}
+					controls.DonePressed = false;
+					controls.CreatingMap = false;
 				}
 			}
-			else if (sideBar.PageIndex == 1)
+			else if (controls.Tab == 1)
 			{
 				// Select tiles
-				if (sideBar.SelectedButton != null)
-					selectedTexture = sideBar.SelectedButton.ForeTexture;
+				if (controls.SelectedTile != null)
+					selectedTexture = Textures[controls.SelectedTile];
 			}
-			else if (sideBar.PageIndex == 2)
+			else if (controls.Tab == 2)
 			{
 				// Select physics objects and stuff
 			}
 
 			UpdateMouseStuff();
-			sideBar.Update();
 
 			base.Update(gameTime);
 		}
 
 		private void UpdateMouseStuff()
 		{
-			if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+			if (Mouse.GetState().LeftButton == ButtonState.Pressed && MouseInBounds())
 			{
-				if (!mleftPressed && Mouse.GetState().X > (sideBar.Hidden ? 32 : SideBar.WIDTH)) // If the mouse isn't over the panel
+				if (!mleftPressed)
 				{
 					if (Keyboard.GetState().IsKeyUp(Keys.LeftShift)) // Make sure not changing bounds
 					{
 						if (!changingBounds)
 						{
 							// Draw collision polygons
-							if (sideBar.PageIndex == 0 && sideBar.SelectedButton != null && sideBar.SelectedButton.message == "Draw static\n  polygon")
+							if (controls.Tab == 0 && controls.CreatingMap)
 							{
 								if (currentBody == null)
 									currentBody = new StaticBodyInformation(camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y));
@@ -187,15 +211,15 @@ namespace MrGuyLevelEditor
 									{
 										sbInfo.Add(currentBody);
 										currentBody = null;
-										sideBar.DeselectButton();
+										controls.CreatingMap = false;
 									}		
 								}
 							}
 							// Add tiles
-							else if (sideBar.PageIndex == 1)
+							else if (controls.Tab == 1 && selectedTexture != null)
 							{
 								TileInformation.AddTile(tileInfo,
-														  sideBar.SelectedButton.TextureKey,
+														  controls.SelectedTile,
 														  camera.CameraToGlobalPos(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)),
 														  selTexScale / camera.TotalScale,
 														  selTexRotation,
@@ -203,7 +227,7 @@ namespace MrGuyLevelEditor
 														  selTexEffect);
 							}
 							// Add objects
-							else if (sideBar.PageIndex == 2)
+							else if (controls.Tab == 2)
 							{
 								// add objects that do stuff instead of just sitting there like tiles
 							}
@@ -343,7 +367,7 @@ namespace MrGuyLevelEditor
 		private void RemoveThings()
 		{
 			Vector2 mouseCoords = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-			if (sideBar.PageIndex == 0)
+			if (controls.Tab == 0)
 			{
 				Vector2 camToGlob = camera.CameraToGlobalPos(mouseCoords);
 				// Remove entire polygon
@@ -382,7 +406,7 @@ namespace MrGuyLevelEditor
 								sb.RemovePoint(sb.Points[i]);
 								toRemove = sb;
 								currentBody = sb;
-								sideBar.SelectPolygonButton();
+								controls.CreatingMap = true;
 								brk = true;
 								break;
 							}
@@ -394,7 +418,7 @@ namespace MrGuyLevelEditor
 						sbInfo.Remove(toRemove);
 				}
 			}
-			else if (sideBar.PageIndex == 1)
+			else if (controls.Tab == 1)
 			{
 				List<TileInformation> toRemove = new List<TileInformation>();
 				foreach (TileInformation obj in tileInfo)
@@ -414,10 +438,16 @@ namespace MrGuyLevelEditor
 				foreach (TileInformation obj in toRemove)
 					tileInfo.Remove(obj);
 			}
-			else if (sideBar.PageIndex == 2)
+			else if (controls.Tab == 2)
 			{
 				// Remove objects
 			}
+		}
+
+		private bool MouseInBounds()
+		{
+			return Mouse.GetState().X >= 0 && Mouse.GetState().X <= Graphics.PreferredBackBufferWidth &&
+				   Mouse.GetState().Y >= 0 && Mouse.GetState().Y <= Graphics.PreferredBackBufferHeight;
 		}
 
 		/// <summary>
@@ -488,8 +518,6 @@ namespace MrGuyLevelEditor
 										"<" + ((state.X - (int)levelTopLeft.X) / camera.TotalScale).ToString() + 
 										", " + ((state.Y - (int)levelTopLeft.Y) / camera.TotalScale).ToString() + ">",
 										Vector2.UnitX * state.X + Vector2.UnitY * state.Y, Color.Black);
-
-			sideBar.Draw(spriteBatch);
 			
 			// Draw camera info
 			spriteBatch.DrawString(Font, "Mouse: <" + ((state.X - (int)levelTopLeft.X) / camera.TotalScale).ToString("0") + 
@@ -499,13 +527,12 @@ namespace MrGuyLevelEditor
 			spriteBatch.DrawString(Font, "Layer: " + layer.ToString("0.00"), new Vector2(Graphics.PreferredBackBufferWidth - 134, Graphics.PreferredBackBufferHeight - 32), Color.Black);
 
 			// Draw creation selection at mouse
-			if (sideBar.PageIndex == 1)
+			if (controls.Tab == 1)
 			{
 				if (selectedTexture != null)
 				{
-					if (state.X > (sideBar.Hidden ? 32 : SideBar.WIDTH))
-						spriteBatch.Draw(selectedTexture, new Vector2(state.X, state.Y), null, new Color(255, 255, 255, 125), selTexRotation,
-										 new Vector2(selectedTexture.Width / 2, selectedTexture.Height / 2), selTexScale, selTexEffect, layer);
+					spriteBatch.Draw(selectedTexture, new Vector2(state.X, state.Y), null, new Color(255, 255, 255, 125), selTexRotation,
+										new Vector2(selectedTexture.Width / 2, selectedTexture.Height / 2), selTexScale, selTexEffect, layer);
 				}
 			}
 

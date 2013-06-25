@@ -23,8 +23,8 @@ namespace MrGuy
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 
-		public const float METER_TO_PIXEL = 100f;
-		public const float PIXEL_TO_METER = 1 / 100f;
+		public const float METER_TO_PIXEL = 80f;
+		public const float PIXEL_TO_METER = 1 / 80f;
 		public static float RESOLUTION_SCALE = 1f;
 		public const float MAX_RES_X = 1920;
 		public const float MAX_RES_Y = 1080;
@@ -89,7 +89,16 @@ namespace MrGuy
 		{
 			GraphicsDevice.Clear(Color.CornflowerBlue);
 
-			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+			// Transform based on camera and resolution
+			Camera cam = currentScreen.GetCamera();
+			Matrix transformMatrix;
+			if (cam != null)
+				transformMatrix = Matrix.CreateTranslation(new Vector3(-cam.Position, 0));
+			else
+				transformMatrix = Matrix.Identity;
+			transformMatrix *= Matrix.CreateScale(RESOLUTION_SCALE);
+
+			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, transformMatrix);
 			currentScreen.Draw(spriteBatch);
 			spriteBatch.End();
 

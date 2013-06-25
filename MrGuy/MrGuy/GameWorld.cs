@@ -71,6 +71,11 @@ namespace MrGuy
 			collisionMap.Add(new StaticBody(world, polyList));
 		}
 
+		public Camera GetCamera()
+		{
+			return this.camera;
+		}
+
 		public GameScreen Update(GameTime gameTime)
 		{
 			if (Keyboard.GetState().IsKeyDown(Keys.Left))

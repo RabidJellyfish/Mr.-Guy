@@ -29,3 +29,5 @@ C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEdito
 C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEditor\MrGuyLevelEditor\bin\x86\Debug\Content\tiles\forest\grass.xnb
 C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEditor\MrGuyLevelEditor\bin\x86\Debug\Content\tiles\forest\leaves.xnb
 C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEditor\MrGuyLevelEditor\bin\x86\Debug\Content\tiles\forest\tree trunk.xnb
+C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEditor\MrGuyLevelEditor\obj\x86\Debug\MrGuyLevelEditor.Controls.resources
+C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEditor\MrGuyLevelEditor\obj\x86\Debug\MrGuyLevelEditor.csproj.GenerateResource.Cache

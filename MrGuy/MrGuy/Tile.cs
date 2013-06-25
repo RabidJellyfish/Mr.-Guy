@@ -36,9 +36,7 @@ namespace MrGuy
 
 		public void Draw(SpriteBatch sb, Dictionary<string, Texture2D> textures, Camera cam)
 		{
-			sb.Draw(textures[texture], (new Vector2(X, Y) - cam.Position) * MainGame.RESOLUTION_SCALE,
-					null, Color.White, this.Rotation, new Vector2(textures[texture].Width / 2, textures[texture].Height / 2), 
-					this.Scale * MainGame.RESOLUTION_SCALE, this.Effect, this.Layer);
+			sb.Draw(textures[texture], new Vector2(X, Y), null, Color.White, this.Rotation, new Vector2(textures[texture].Width / 2, textures[texture].Height / 2), this.Scale, this.Effect, this.Layer);
 		}
 	}
 }

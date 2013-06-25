@@ -11,6 +11,12 @@ namespace MrGuy
 	interface GameScreen
 	{
 		/// <summary>
+		/// Returns the camera used by the game screen
+		/// </summary>
+		/// <returns>The camera used by the game screen</returns>
+		Camera GetCamera();
+
+		/// <summary>
 		/// Runs once every frame, updates the game screen
 		/// </summary>
 		/// <returns>If the current gamescreen should ever change, this method will return that gamescreen. Otherwise it returns itself</returns>

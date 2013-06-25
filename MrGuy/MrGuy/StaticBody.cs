@@ -34,12 +34,8 @@ namespace MrGuy
 		public void DebugDraw(SpriteBatch sb, Camera cam)
 		{
 			for (int i = 0; i < vertices.Count - 1; i++)
-				MainGame.DrawLine(sb, MainGame.blank, 1, Color.Red,
-								  (vertices[i] - cam.Position) * MainGame.RESOLUTION_SCALE,
-								  (vertices[i + 1] - cam.Position) * MainGame.RESOLUTION_SCALE);
-			MainGame.DrawLine(sb, MainGame.blank, 1, Color.Red,
-							  (vertices[vertices.Count - 1] - cam.Position) * MainGame.RESOLUTION_SCALE,
-							  (vertices[0] - cam.Position) * MainGame.RESOLUTION_SCALE);
+				MainGame.DrawLine(sb, MainGame.blank, 1, Color.Red, vertices[i], vertices[i + 1]);
+			MainGame.DrawLine(sb, MainGame.blank, 1, Color.Red, vertices[vertices.Count - 1], vertices[0]);
 		}
 	}
 }

@@ -170,6 +170,7 @@ namespace MrGuyLevelEditor
 				{
 					tileInfo.Clear();
 					sbInfo.Clear();
+					objInfo.Clear();
 					controls.NewPressed = false;
 				}
 				else if (controls.SavePressed)
@@ -187,7 +188,16 @@ namespace MrGuyLevelEditor
 							body.AddPoint(new Vector2(p.X - levelSize.X, p.Y - levelSize.Y));
 						level.staticBodies.Add(body);
 					}
-					// TODO: Add physics objects
+					level.objects = new List<ObjectInformation>();
+					foreach (ObjectInformation obj in objInfo)
+					{
+						ObjectInformation moved = new ObjectInformation();
+						moved.Paramaters = obj.Paramaters;
+						moved.Position = obj.Position - new Vector2(levelSize.X, levelSize.Y);
+						moved.Texture = obj.Texture;
+						moved.Type = obj.Type;
+						level.objects.Add(moved);
+					}
 
 					controls.Save(level);
 
@@ -202,7 +212,7 @@ namespace MrGuyLevelEditor
 					levelSize = new Rectangle(0, 0, (int)level.size.X, (int)level.size.Y);
 					tileInfo = level.tiles;
 					sbInfo = level.staticBodies;
-					// TODO: Add physics objects
+					objInfo = level.objects;
 
 					controls.LoadPressed = false;
 				}
@@ -336,10 +346,10 @@ namespace MrGuyLevelEditor
 				{
 					foreach (ObjectInformation obj in objInfo)
 					{
-						Rectangle boundingBox = new Rectangle((int)camera.GlobalToCameraPos((int)(obj.Position.X - ObjectTextures[obj.Texture].Width / 2 * selTexScale.X), (int)(obj.Position.Y - ObjectTextures[obj.Texture].Height / 2 * selTexScale.Y)).X,
-															  (int)camera.GlobalToCameraPos((int)(obj.Position.X - ObjectTextures[obj.Texture].Width / 2 * selTexScale.X), (int)(obj.Position.Y - ObjectTextures[obj.Texture].Height / 2 * selTexScale.Y)).Y,
-															  (int)(ObjectTextures[obj.Texture].Width * selTexScale.X * camera.TotalScale),
-															  (int)(ObjectTextures[obj.Texture].Width * selTexScale.Y * camera.TotalScale));
+						Rectangle boundingBox = new Rectangle((int)camera.GlobalToCameraPos((int)(obj.Position.X - ObjectTextures[obj.Texture].Width * camera.TotalScale / 2), (int)(obj.Position.Y - ObjectTextures[obj.Texture].Height * camera.TotalScale / 2)).X,
+															  (int)camera.GlobalToCameraPos((int)(obj.Position.X - ObjectTextures[obj.Texture].Width * camera.TotalScale / 2), (int)(obj.Position.Y - ObjectTextures[obj.Texture].Height * camera.TotalScale / 2)).Y,
+															  (int)(ObjectTextures[obj.Texture].Width * camera.TotalScale),
+															  (int)(ObjectTextures[obj.Texture].Width * camera.TotalScale));
 						if (boundingBox.Contains(Mouse.GetState().X, Mouse.GetState().Y))
 						{
 							creatingObject = true;

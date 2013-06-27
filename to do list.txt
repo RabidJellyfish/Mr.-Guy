@@ -6,32 +6,11 @@ To add new object
 TODO:
 
 - Add physics objects to editor/game
-	x ObjectInformation class in Level Editor project, with string Type, string 				Texture, Vector2 position, and object[] parameters, used for
-		creating/drawing in level editor
-	x Make Dictionary of ObjectTextures, rename Textures to TileTexture
-	x Make text file with list of PhysicsObjects types and list of parameters
-		x Separate by line and # or something, for example:
-			AssemblyName#Velocity#Angle etc.
-	x Make ObjectListItem, which will be parsed from text file and added to
-		Dictionary (index by type) when level editor starts up
-
-	x Create blank form with button for object parameters
-	x When left click with object selected
-		x If parameters > 0 make new parameter form
-		x Foreach parameter in selected ObjectListItem, add new label and
-			textbox
-		x When okay is clicked, return object[]
-		x store object[] in new ObjectInformation, add to list
-	- When Ctrl+right click
-		- If parameters > 0, make new form
-		- Get parameters from ObjectListItem dictionary
-		- When okay is clicked, return object[] and store in clicked OI
-
 	- Loading/Saving
-		- When saving, just serialize each ObjectInformation
+		x When saving, just serialize each ObjectInformation
 		- When loading in game, use Activator.CreateInstance with Type and 					object[] and add object to list (get type from string), make
 			sure every object has constructor that's all strings
-		- When loading in level editor, just deserialize
+		x When loading in level editor, just deserialize
 
 
 - Rewrite player code

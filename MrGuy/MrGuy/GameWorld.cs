@@ -81,11 +81,17 @@ namespace MrGuy
 				body.CreateBody(world);
 				this.collisionMap.Add(body);
 			}
-//			foreach (PhysicsObject obj in level.physicsObjects)
-//				this.objects.Add(obj);
-			Box b = new Box(new Vector2(300, 100), "100", "100");
-			b.Initialize(world);
-			objects.Add(b);
+			foreach (ObjectInformation obj in level.objects)
+			{
+//				Console.WriteLine(typeof(Box).AssemblyQualifiedName.ToArray());
+				object[] parameters = new object[obj.Paramaters.Length + 1];
+				parameters[0] = obj.Position;
+				for (int i = 1; i < parameters.Length; i++)
+					parameters[i] = obj.Paramaters[i - 1];
+				PhysicsObject converted = Activator.CreateInstance(Type.GetType(obj.Type), parameters) as PhysicsObject;
+				converted.Initialize(world);
+				this.objects.Add(converted);
+			}
 		}
 
 		public Camera GetCamera()

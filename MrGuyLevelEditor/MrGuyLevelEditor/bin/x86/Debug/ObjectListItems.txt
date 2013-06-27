@@ -1,1 +1,1 @@
-MrGuy.Objects.Box, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089#Width#Height
+MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null#Width#Height

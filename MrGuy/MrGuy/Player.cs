@@ -33,7 +33,7 @@ namespace MrGuy
 			torso.Position = new Vector2(x * MainGame.PIXEL_TO_METER, y * MainGame.PIXEL_TO_METER);
 			torso.BodyType = BodyType.Dynamic;
 			torso.UserData = this;
-			legs = BodyFactory.CreateCircle(world, 30 * MainGame.PIXEL_TO_METER, 1);
+			legs = BodyFactory.CreateCircle(world, 31 * MainGame.PIXEL_TO_METER, 1);
 			legs.Position = torso.Position + new Vector2(0, 40 * MainGame.PIXEL_TO_METER);
 			legs.BodyType = BodyType.Dynamic;
 			legs.Friction = 5.0f;
@@ -106,7 +106,9 @@ namespace MrGuy
 			}
 
 			if (!onGround)
-				axis.MotorSpeed = 0;
+				axis.MotorEnabled = false;
+			else
+				axis.MotorEnabled = true;
 
 			// Check if you're standing on something
 			onGround = false;

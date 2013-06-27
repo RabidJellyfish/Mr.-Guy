@@ -192,7 +192,8 @@ namespace MrGuyLevelEditor
 					foreach (ObjectInformation obj in objInfo)
 					{
 						ObjectInformation moved = new ObjectInformation();
-						moved.Paramaters = obj.Paramaters;
+						moved.ParameterNames = obj.ParameterNames;
+						moved.ParameterValues = obj.ParameterValues;
 						moved.Position = obj.Position - new Vector2(levelSize.X, levelSize.Y);
 						moved.Texture = obj.Texture;
 						moved.Type = obj.Type;
@@ -295,10 +296,12 @@ namespace MrGuyLevelEditor
 										System.Windows.Forms.Label l = new System.Windows.Forms.Label();
 										l.Text = controls.SelectedObject.Parameters[i];
 										l.Location = new System.Drawing.Point(10, 10 + i * 30);
+										l.Tag = i;
+										editor.Controls.Add(l);
 										System.Windows.Forms.TextBox t = new System.Windows.Forms.TextBox();
 										t.Location = new System.Drawing.Point(130, 10 + i * 30);
 										t.Size = new System.Drawing.Size(275, t.Height);
-										editor.Controls.Add(l);
+										t.Tag = i;
 										editor.Controls.Add(t);
 									}
 									System.Windows.Forms.DialogResult result = editor.ShowDialog();
@@ -306,7 +309,8 @@ namespace MrGuyLevelEditor
 									info.Type = controls.SelectedObject.Type;
 									info.Position = camera.CameraToGlobalPos(new Vector2(state.X, state.Y));
 									info.Texture = controls.SelectedObject.ToString();
-									info.Paramaters = editor.parameters;
+									info.ParameterNames = editor.ParameterNames;
+									info.ParameterValues = editor.ParameterValues;
 									objInfo.Add(info);
 									creatingObject = false;
 								}
@@ -356,20 +360,23 @@ namespace MrGuyLevelEditor
 							MouseState state = Mouse.GetState();
 							ParameterEditor editor = new ParameterEditor();
 							editor.Location = controls.Location;
-							for (int i = 0; i < controls.SelectedObject.Parameters.Length; i++)
+							for (int i = 0; i < obj.ParameterNames.Length; i++)
 							{
 								System.Windows.Forms.Label l = new System.Windows.Forms.Label();
-								l.Text = controls.SelectedObject.Parameters[i];
+								l.Text = obj.ParameterNames[i];
 								l.Location = new System.Drawing.Point(10, 10 + i * 30);
+								l.Tag = i;
+								editor.Controls.Add(l);
 								System.Windows.Forms.TextBox t = new System.Windows.Forms.TextBox();
 								t.Location = new System.Drawing.Point(130, 10 + i * 30);
 								t.Size = new System.Drawing.Size(275, t.Height);
-								t.Text = obj.Paramaters[i];
-								editor.Controls.Add(l);
+								t.Text = obj.ParameterValues[i];
+								t.Tag = i;
 								editor.Controls.Add(t);
 							}
 							System.Windows.Forms.DialogResult result = editor.ShowDialog();
-							obj.Paramaters = editor.parameters;
+							obj.ParameterNames = editor.ParameterNames;
+							obj.ParameterValues = editor.ParameterValues;
 							creatingObject = false;
 
 							break;

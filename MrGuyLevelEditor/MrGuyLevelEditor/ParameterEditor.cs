@@ -11,7 +11,8 @@ namespace MrGuyLevelEditor
 {
 	public partial class ParameterEditor : Form
 	{
-		public string[] parameters;
+		public string[] ParameterNames;
+		public string[] ParameterValues;
 
 		public ParameterEditor()
 		{
@@ -23,12 +24,15 @@ namespace MrGuyLevelEditor
 			var textBoxes = from Control c in Controls
 							where c is TextBox
 							select c as TextBox;
-			parameters = new string[textBoxes.Count()];
-			int i = 0;
+			ParameterNames = new string[textBoxes.Count()];
+			ParameterValues = new string[textBoxes.Count()];
 			foreach (TextBox t in textBoxes)
 			{
-				parameters[i] = t.Text;
-				i++;
+				var l = (from Control c in Controls
+						   where c is Label && c.Tag.ToString() == t.Tag.ToString()
+						   select c as Label).ToArray()[0];
+				ParameterNames[(int)l.Tag] = l.Text;
+				ParameterValues[(int)t.Tag] = t.Text;
 			}
 
 			this.DialogResult = System.Windows.Forms.DialogResult.OK;

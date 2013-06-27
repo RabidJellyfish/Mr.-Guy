@@ -84,10 +84,10 @@ namespace MrGuy
 			foreach (ObjectInformation obj in level.objects)
 			{
 //				Console.WriteLine(typeof(Box).AssemblyQualifiedName.ToArray());
-				object[] parameters = new object[obj.Paramaters.Length + 1];
+				object[] parameters = new object[obj.ParameterValues.Count() + 1];
 				parameters[0] = obj.Position;
 				for (int i = 1; i < parameters.Length; i++)
-					parameters[i] = obj.Paramaters[i - 1];
+					parameters[i] = obj.ParameterValues[i - 1];
 				PhysicsObject converted = Activator.CreateInstance(Type.GetType(obj.Type), parameters) as PhysicsObject;
 				converted.Initialize(world);
 				this.objects.Add(converted);

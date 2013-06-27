@@ -5,14 +5,6 @@ To add new object
 
 TODO:
 
-- Add physics objects to editor/game
-	- Loading/Saving
-		x When saving, just serialize each ObjectInformation
-		- When loading in game, use Activator.CreateInstance with Type and 					object[] and add object to list (get type from string), make
-			sure every object has constructor that's all strings
-		x When loading in level editor, just deserialize
-
-
 - Rewrite player code
 	- Crouching
 	- Rolling

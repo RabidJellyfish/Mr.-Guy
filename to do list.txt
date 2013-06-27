@@ -1,28 +1,47 @@
+To add new object
+1. Make new override for PhysicsObject in game
+2. Add line to ObjectListItems.txt
+3. Add line for texture dictionary
+
 TODO:
-x Rewrite level editor until it's at the current state of the old one 
-	x Make sure you keep old version until this step is finished
-	x Better structure and stuff
-	x Make everything the same type of object (tiles and objects are same type, will make things more organized probably)
-	x Tiles will use separate textures instead of rectangles from a single spritesheet
 
-x Add right click to remove in editor
+- Add physics objects to editor/game
+	x ObjectInformation class in Level Editor project, with string Type, string 				Texture, Vector2 position, and object[] parameters, used for
+		creating/drawing in level editor
+	x Make Dictionary of ObjectTextures, rename Textures to TileTexture
+	x Make text file with list of PhysicsObjects types and list of parameters
+		x Separate by line and # or something, for example:
+			AssemblyName#Velocity#Angle etc.
+	x Make ObjectListItem, which will be parsed from text file and added to
+		Dictionary (index by type) when level editor starts up
 
-x Add static polygon drawing
-	x Plotting/Drawing/finish plotting
-	x Figure out how to remove these too
+	x Create blank form with button for object parameters
+	x When left click with object selected
+		x If parameters > 0 make new parameter form
+		x Foreach parameter in selected ObjectListItem, add new label and
+			textbox
+		x When okay is clicked, return object[]
+		x store object[] in new ObjectInformation, add to list
+	- When Ctrl+right click
+		- If parameters > 0, make new form
+		- Get parameters from ObjectListItem dictionary
+		- When okay is clicked, return object[] and store in clicked OI
 
-4. Move/rewrite "Farseer Test" code into the MrGuy game project
-	- rewrite character control code
-	- Static objects
-	- Basic physics objects for testing
-	- Keep xml loading code
+	- Loading/Saving
+		- When saving, just serialize each ObjectInformation
+		- When loading in game, use Activator.CreateInstance with Type and 					object[] and add object to list (get type from string), make
+			sure every object has constructor that's all strings
+		- When loading in level editor, just deserialize
 
-x Add tiles to MrGuy game project
 
-6. Write in save/load stuff
-	- Use custom serializer (see http://www.codeproject.com/Articles/8644/XmlSerializer-and-not-expected-Inherited-			Types?msg=2391456#xx2391456xx)
-	- Directly write MrGuy objects to xml rather than just data so that you can read them in easily?
+- Rewrite player code
+	- Crouching
+	- Rolling
+	- Climbing ledges?
 
-7. See if you can load a level made in the level editor into the game with some static shapes and one of each tile
-	- Hardcode in the creation of the character for now
+- Custom cameras
+	- Add to level editor
+	- Improve game cameras
+
+- Level linking
 

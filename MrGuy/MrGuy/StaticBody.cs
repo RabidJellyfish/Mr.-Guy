@@ -41,7 +41,7 @@ namespace MrGuy
 			poly.BodyType = BodyType.Static;
 		}
 
-		public void DebugDraw(SpriteBatch sb, Camera cam)
+		public void DebugDraw(SpriteBatch sb)
 		{
 			for (int i = 0; i < vertices.Count - 1; i++)
 				MainGame.DrawLine(sb, MainGame.blank, 1, Color.Red, vertices[i], vertices[i + 1]);

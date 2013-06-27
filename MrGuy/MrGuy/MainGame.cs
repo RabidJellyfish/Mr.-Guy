@@ -23,9 +23,9 @@ namespace MrGuy
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 
-		public const float METER_TO_PIXEL = 80f;
-		public const float PIXEL_TO_METER = 1 / 80f;
-		public static float RESOLUTION_SCALE = 1f;
+		public const float METER_TO_PIXEL = 140f;
+		public const float PIXEL_TO_METER = 1 / 140f;
+		public static float RESOLUTION_SCALE = 0.5f;
 		public const float MAX_RES_X = 1920;
 		public const float MAX_RES_Y = 1080;
 
@@ -55,10 +55,10 @@ namespace MrGuy
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 			blank = new Texture2D(GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
 			blank.SetData(new[] { Color.White });
-			texPlayer = Content.Load<Texture2D>("simple stick");
-			texBox = Content.Load<Texture2D>("box");
+			texBox = Content.Load<Texture2D>("objects/box");
+			texPlayer = Content.Load<Texture2D>("mrguy");
 
-			currentScreen = new GameWorld(this, "test", "forest");
+			currentScreen = new GameWorld(this, "test");
 		}
 
 		protected override void UnloadContent()

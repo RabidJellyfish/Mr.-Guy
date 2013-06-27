@@ -54,8 +54,8 @@ namespace MrGuyLevelEditor
 
 		public void Draw(SpriteBatch sb, Camera camera)
 		{
-			sb.Draw(Editor.Textures[this.texture], camera.GlobalToCameraPos(this.X, this.Y),
-				 null, Color.White, this.Rotation, new Vector2(Editor.Textures[this.texture].Width / 2, Editor.Textures[this.texture].Height / 2), this.Scale * camera.TotalScale, this.Effect, this.Layer);
+			sb.Draw(Editor.TileTextures[this.texture], camera.GlobalToCameraPos(this.X, this.Y),
+				 null, Color.White, this.Rotation, new Vector2(Editor.TileTextures[this.texture].Width / 2, Editor.TileTextures[this.texture].Height / 2), this.Scale * camera.TotalScale, this.Effect, this.Layer);
 		}
 	}
 }

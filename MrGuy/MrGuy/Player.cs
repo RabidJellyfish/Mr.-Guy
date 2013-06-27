@@ -20,19 +20,21 @@ namespace MrGuy
 	{
 		private Body torso, legs;
 		private FarseerPhysics.Dynamics.Joints.RevoluteJoint axis;
-		private bool onGround, pressW, holdW;
-		private Vector2 jumpForce, rightAirSpeed, leftAirSpeed, prevVelocity, start, end, normal, p;
+		private bool onGround, facingLeft, pressW, holdW;
+		private Vector2 jumpForce, rightAirForce, leftAirForce, prevVelocity, start, end, normal, p;
 		private AnimatedTexture texIdle, texRun, texJump;
 		private AnimatedTexture currentTexture;
 
+		public Vector2 Position { get { return torso.Position; } }
+
 		public Player(World world, float x, float y, Texture2D texture)
 		{
-			torso = BodyFactory.CreateRectangle(world, 32 * MainGame.PIXEL_TO_METER, 32 * MainGame.PIXEL_TO_METER, 1);
+			torso = BodyFactory.CreateRectangle(world, 60 * MainGame.PIXEL_TO_METER, 80 * MainGame.PIXEL_TO_METER, 1);
 			torso.Position = new Vector2(x * MainGame.PIXEL_TO_METER, y * MainGame.PIXEL_TO_METER);
 			torso.BodyType = BodyType.Dynamic;
 			torso.UserData = this;
-			legs = BodyFactory.CreateCircle(world, 16 * MainGame.PIXEL_TO_METER, 1);
-			legs.Position = torso.Position + new Vector2(0, 16 * MainGame.PIXEL_TO_METER);
+			legs = BodyFactory.CreateCircle(world, 30 * MainGame.PIXEL_TO_METER, 1);
+			legs.Position = torso.Position + new Vector2(0, 40 * MainGame.PIXEL_TO_METER);
 			legs.BodyType = BodyType.Dynamic;
 			legs.Friction = 5.0f;
 			legs.UserData = this;
@@ -44,17 +46,18 @@ namespace MrGuy
 			axis.MotorTorque = 3.0f;
 			axis.MaxMotorTorque = 10.0f;
 			onGround = false;
+			facingLeft = false;
 			jumpForce = new Vector2(0, -1f);
-			rightAirSpeed = new Vector2(0.8f, 0);
-			leftAirSpeed = -1 * rightAirSpeed;
+			rightAirForce = new Vector2(5f, 0);
+			leftAirForce = -1 * rightAirForce;
 			prevVelocity = Vector2.Zero;
 			normal = Vector2.Zero;
 			pressW = false;
 			holdW = false;
 
-			texIdle = new AnimatedTexture(texture, 19, 9 * 64, 0, 64, 64);
-			texRun = new AnimatedTexture(texture, 19, 28 * 64, 0, 64, 64);
-			texJump = new AnimatedTexture(texture, 9, 0, 0, 64, 64, 1, false, false);
+			texIdle = new AnimatedTexture(texture, 24, 0, 0, 120, 140);
+			texRun = new AnimatedTexture(texture, 19, 0, 140, 120, 140);
+			texJump = new AnimatedTexture(texture, 9, 19 * 120, 140, 120, 140, 1, false, false);
 			currentTexture = texIdle;
 		}
 
@@ -66,7 +69,7 @@ namespace MrGuy
 			{
 				if (currentTexture != texJump)
 					currentTexture = texJump;
-				int frame = (int)(torso.LinearVelocity.Y * MainGame.METER_TO_PIXEL) / 8 + 3;
+				int frame = (int)(torso.LinearVelocity.Y * MainGame.METER_TO_PIXEL) / 16 + 3;
 				if (frame < 0) frame = 0;
 				else if (frame > 8) frame = 8;
 				texJump.Frame = frame;
@@ -75,23 +78,25 @@ namespace MrGuy
 			// Walking
 			if (Keyboard.GetState().IsKeyDown(Keys.A))
 			{
+				facingLeft = true;
+				axis.MotorSpeed = 2.5f * -MathHelper.TwoPi;
 				if (onGround)
 				{
-					axis.MotorSpeed = 3 * -MathHelper.TwoPi;
 					currentTexture = texRun;
 				}
-				if (!onGround && torso.LinearVelocity.X > -1)
-					torso.ApplyForce(ref leftAirSpeed);
+				if (!onGround && torso.LinearVelocity.X > -2)
+					torso.ApplyForce(ref leftAirForce);
 			}
 			else if (Keyboard.GetState().IsKeyDown(Keys.D))
 			{
+				facingLeft = false;
+				axis.MotorSpeed = 2.5f * MathHelper.TwoPi;
 				if (onGround)
 				{
-					axis.MotorSpeed = 3 * MathHelper.TwoPi;
 					currentTexture = texRun;
 				}
-				if (!onGround && torso.LinearVelocity.X < 1)
-					torso.ApplyForce(ref rightAirSpeed);
+				if (!onGround && torso.LinearVelocity.X < 2)
+					torso.ApplyForce(ref rightAirForce);
 			}
 			else
 			{
@@ -105,16 +110,16 @@ namespace MrGuy
 
 			// Check if you're standing on something
 			onGround = false;
-			Vector2 start = legs.Position + new Vector2(0, 12 * MainGame.PIXEL_TO_METER);
-			Vector2 end = start + new Vector2(0, 12 * MainGame.PIXEL_TO_METER);
-			for (int i = -8; i <= 8; i += 8)
+			start = legs.Position + new Vector2(0, 24 * MainGame.PIXEL_TO_METER);
+			end = start + new Vector2(0, 24 * MainGame.PIXEL_TO_METER);
+			for (int i = -30; i <= 30; i += 15)
 			{
 				start.X = legs.Position.X + i * MainGame.PIXEL_TO_METER;
 				end.X = legs.Position.X + i * MainGame.PIXEL_TO_METER;
 				w.RayCast((f, p, n, fr) =>
 				{
 					normal = n;
-					if (f != null && (string)f.UserData != "nonjumpable")
+					if (f != null)
 						onGround = true;
 					else
 						onGround = false;
@@ -132,7 +137,11 @@ namespace MrGuy
 				{
 					if (onGround)
 					{
-						torso.LinearVelocity = new Vector2(torso.LinearVelocity.X + 2 * normal.X, 6 * normal.Y);
+						if (Keyboard.GetState().IsKeyDown(Keys.A))
+							torso.LinearVelocity -= 0.7f * Vector2.UnitX;
+						if (Keyboard.GetState().IsKeyDown(Keys.D))
+							torso.LinearVelocity += 0.7f * Vector2.UnitX;
+						torso.LinearVelocity = new Vector2(torso.LinearVelocity.X, -8);
 						holdW = true;
 					}
 					pressW = true;
@@ -154,8 +163,8 @@ namespace MrGuy
 			List<float> fractions = new List<float>();
 			for (float i = -24f; i <= 24f; i += 24f)
 			{
-				start = light.Position * MainGame.PIXEL_TO_METER;
-				end = torso.Position + Vector2.UnitY * i * MainGame.PIXEL_TO_METER - start;
+				Vector2 start = light.Position * MainGame.PIXEL_TO_METER;
+				Vector2 end = torso.Position + Vector2.UnitY * i * MainGame.PIXEL_TO_METER - start;
 				end.Normalize();
 				end *= (light.Range - 32) * MainGame.PIXEL_TO_METER;
 				end += start;
@@ -183,14 +192,14 @@ namespace MrGuy
 
 		public void Draw(SpriteBatch sb)
 		{
-			currentTexture.Draw(sb, torso.Position * MainGame.METER_TO_PIXEL, Color.White, torso.Rotation, new Vector2(32, 32), Vector2.One, torso.LinearVelocity.X < 0 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
-
-			MainGame.DrawLine(sb, MainGame.blank, 1, Color.Black, start * MainGame.METER_TO_PIXEL, p * MainGame.METER_TO_PIXEL);
+			currentTexture.Draw(sb, torso.Position * MainGame.METER_TO_PIXEL, Color.White, torso.Rotation, new Vector2(60, 60), Vector2.One, facingLeft ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
 //			sb.Draw(Game1.texture, new Rectangle((int)(torso.Position.X * Game1.unitToPixel) - 16, (int)(torso.Position.Y * Game1.unitToPixel) - 16, 32, 46), Color.Green);
-			
-//			sb.Draw(Game1.texture, torso.Position * Game1.unitToPixel, null, Color.White, torso.Rotation, new Vector2(Game1.texture.Width / 2.0f, Game1.texture.Height / 2.0f), new Vector2(32 / Game1.texture.Width, 32 / Game1.texture.Height), SpriteEffects.None, 0);
-//			sb.Draw(Game1.texture, legs.Position * Game1.unitToPixel, null, Color.White, legs.Rotation, new Vector2(Game1.texture.Width / 2.0f, Game1.texture.Height / 2.0f), new Vector2(32 / Game1.texture.Width, 32 / Game1.texture.Height), SpriteEffects.None, 0);
+
+//			sb.Draw(MainGame.texBox, torso.Position * MainGame.METER_TO_PIXEL, null, Color.White, torso.Rotation, new Vector2(MainGame.texBox.Width / 2.0f, MainGame.texBox.Height / 2.0f), new Vector2(60f / MainGame.texBox.Width, 80f / MainGame.texBox.Height), SpriteEffects.None, 0);
+//			sb.Draw(MainGame.texBox, legs.Position * MainGame.METER_TO_PIXEL, null, Color.White, legs.Rotation, new Vector2(MainGame.texBox.Width / 2.0f, MainGame.texBox.Height / 2.0f), new Vector2(60f / MainGame.texBox.Width, 60f / MainGame.texBox.Height), SpriteEffects.None, 0);
+
+//			MainGame.DrawLine(sb, MainGame.blank, 1, Color.Black, start * MainGame.METER_TO_PIXEL, end * MainGame.METER_TO_PIXEL);
 
 //			sb.DrawString(Game1.font, normal.ToString(), Vector2.Zero, Color.Black);
 		}

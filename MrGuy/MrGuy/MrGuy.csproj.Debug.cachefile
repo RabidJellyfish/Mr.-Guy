@@ -1,12 +1,12 @@
-Content\tiles\forest\dirt.xnb
-Content\tiles\forest\flower1.xnb
-Content\tiles\forest\flower2.xnb
-Content\tiles\forest\flower3.xnb
-Content\tiles\forest\grass.xnb
-Content\tiles\forest\leaves.xnb
-Content\tiles\forest\tree trunk.xnb
-Content\box.xnb
-Content\simple stick.xnb
+Content\tiles\dirt.xnb
+Content\tiles\flower1.xnb
+Content\tiles\flower2.xnb
+Content\tiles\flower3.xnb
+Content\tiles\grass.xnb
+Content\tiles\leaves.xnb
+Content\tiles\tree trunk.xnb
+Content\objects\box.xnb
+Content\mrguy.xnb
 Content\KryptonEffect.xnb
 Content\levels\test.xml
 Content\mainfont.xnb
@@ -17,3 +17,4 @@ Content\tiles\flower3.xnb
 Content\tiles\grass.xnb
 Content\tiles\leaves.xnb
 Content\tiles\tree trunk.xnb
+Content\objects\box.xnb

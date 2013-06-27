@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -31,11 +32,13 @@ namespace MrGuyLevelEditor
 		public static int DScroll; // Amount mouse has been scrolled
 		public static GraphicsDeviceManager Graphics; // Stuff
 		public static SpriteFont Font; // Font for everything
-		public static Dictionary<string, Texture2D> Textures;
+		public static Dictionary<string, Texture2D> TileTextures;
+		public static Dictionary<string, Texture2D> ObjectTextures;
 
 		SpriteBatch spriteBatch;
 		private Rectangle levelSize; // When writing to XML file, subtract levelSize.X and levelSize.Y from all of the positions
 		private bool changingBounds;
+		private bool creatingObject;
 		Camera camera;
 
 		Controls controls;
@@ -57,6 +60,7 @@ namespace MrGuyLevelEditor
 		public List<TileInformation> tileInfo;
 		public List<StaticBodyInformation> sbInfo;
 		StaticBodyInformation currentBody;
+		public List<ObjectInformation> objInfo;
 
 		public Editor()
 		{
@@ -80,8 +84,10 @@ namespace MrGuyLevelEditor
 			rotOnceLeft = false;
 			rotOnceRight = false;
 			unfocused = false;
+			creatingObject = false;
 			tileInfo = new List<TileInformation>();
 			sbInfo = new List<StaticBodyInformation>();
+			objInfo = new List<ObjectInformation>();
 			Content.RootDirectory = "Content";
 		}
 
@@ -99,23 +105,39 @@ namespace MrGuyLevelEditor
 			Font = Content.Load<SpriteFont>("mainfont");
 			BlankTexture = new Texture2D(Graphics.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
 			BlankTexture.SetData(new[] { Color.White });
-			BuildTextureDictionary();
+			BuildTileTextureDictionary();
+			BuildObjectsList();
 			camera.Zoom(-0.4f);
 			camera.Pan(-190, -112);
 		}
 
 		// Add to this every time you add a new texture
-		// Change so that it adds from list
-		private void BuildTextureDictionary()
+		private void BuildTileTextureDictionary()
 		{
-			Textures = new Dictionary<string, Texture2D>();
-			Textures.Add("dirt", Content.Load<Texture2D>("tiles/dirt"));
-			Textures.Add("flower1", Content.Load<Texture2D>("tiles/flower1"));
-			Textures.Add("flower2", Content.Load<Texture2D>("tiles/flower2"));
-			Textures.Add("flower3", Content.Load<Texture2D>("tiles/flower3"));
-			Textures.Add("grass", Content.Load<Texture2D>("tiles/grass"));
-			Textures.Add("leaves", Content.Load<Texture2D>("tiles/leaves"));
-			Textures.Add("tree trunk", Content.Load<Texture2D>("tiles/tree trunk"));
+			TileTextures = new Dictionary<string, Texture2D>();
+			TileTextures.Add("dirt", Content.Load<Texture2D>("tiles/dirt"));
+			TileTextures.Add("flower1", Content.Load<Texture2D>("tiles/flower1"));
+			TileTextures.Add("flower2", Content.Load<Texture2D>("tiles/flower2"));
+			TileTextures.Add("flower3", Content.Load<Texture2D>("tiles/flower3"));
+			TileTextures.Add("grass", Content.Load<Texture2D>("tiles/grass"));
+			TileTextures.Add("leaves", Content.Load<Texture2D>("tiles/leaves"));
+			TileTextures.Add("tree trunk", Content.Load<Texture2D>("tiles/tree trunk"));
+
+		}
+
+		private void BuildObjectsList()
+		{
+			using (StreamReader reader = new StreamReader("ObjectListItems.txt"))
+			{
+				List<ObjectListItem> items = new List<ObjectListItem>();
+				while (!reader.EndOfStream)
+					items.Add(new ObjectListItem(reader.ReadLine()));
+				controls.AddItems(items);
+				reader.Close();
+			}
+
+			ObjectTextures = new Dictionary<string, Texture2D>();
+			ObjectTextures.Add("MrGuy.Objects.Box", Content.Load<Texture2D>("objects/box"));
 		}
 
 		protected override void Update(GameTime gameTime)
@@ -157,7 +179,14 @@ namespace MrGuyLevelEditor
 					level.tiles = new List<TileInformation>();
 					foreach (TileInformation t in tileInfo)
 						TileInformation.AddTile(level.tiles, t.texture, new Vector2(t.X - levelSize.X, t.Y - levelSize.Y), t.Scale, t.Rotation, t.Layer, t.Effect);
-					level.staticBodies = sbInfo;
+					level.staticBodies = new List<StaticBodyInformation>();
+					foreach (StaticBodyInformation sb in sbInfo)
+					{
+						StaticBodyInformation body = new StaticBodyInformation();
+						foreach (Vector2 p in sb.Points)
+							body.AddPoint(new Vector2(p.X - levelSize.X, p.Y - levelSize.Y));
+						level.staticBodies.Add(body);
+					}
 					// TODO: Add physics objects
 
 					controls.Save(level);
@@ -192,11 +221,12 @@ namespace MrGuyLevelEditor
 			{
 				// Select tiles
 				if (controls.SelectedTile != null)
-					selectedTexture = Textures[controls.SelectedTile];
+					selectedTexture = TileTextures[controls.SelectedTile];
 			}
 			else if (controls.Tab == 2)
 			{
-				// Select physics objects and stuff
+				if (controls.SelectedObject != null)
+					selectedTexture = ObjectTextures[controls.SelectedObject.ToString()];
 			}
 
 			UpdateMouseStuff();
@@ -242,9 +272,34 @@ namespace MrGuyLevelEditor
 														  selTexEffect);
 							}
 							// Add objects
-							else if (controls.Tab == 2)
+							else if (controls.Tab == 2 && selectedTexture != null)
 							{
-								// add objects that do stuff instead of just sitting there like tiles
+								if (controls.SelectedObject.Parameters.Length > 0 && !creatingObject)
+								{
+									creatingObject = true;
+									MouseState state = Mouse.GetState();
+									ParameterEditor editor = new ParameterEditor();
+									editor.Location = controls.Location;
+									for (int i = 0; i < controls.SelectedObject.Parameters.Length; i++)
+									{
+										System.Windows.Forms.Label l = new System.Windows.Forms.Label();
+										l.Text = controls.SelectedObject.Parameters[i];
+										l.Location = new System.Drawing.Point(10, 10 + i * 30);
+										System.Windows.Forms.TextBox t = new System.Windows.Forms.TextBox();
+										t.Location = new System.Drawing.Point(130, 10 + i * 30);
+										t.Size = new System.Drawing.Size(275, t.Height);
+										editor.Controls.Add(l);
+										editor.Controls.Add(t);
+									}
+									System.Windows.Forms.DialogResult result = editor.ShowDialog();
+									ObjectInformation info = new ObjectInformation();
+									info.Type = controls.SelectedObject.Type;
+									info.Position = camera.CameraToGlobalPos(new Vector2(state.X, state.Y));
+									info.Texture = controls.SelectedObject.ToString();
+									info.Paramaters = editor.parameters;
+									objInfo.Add(info);
+									creatingObject = false;
+								}
 							}
 						}
 						else
@@ -277,9 +332,39 @@ namespace MrGuyLevelEditor
 			{
 				if (!Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 					RemoveThings();
-				else
+				else if (controls.Tab == 2 && !creatingObject)
 				{
-					// Drop down menus later
+					foreach (ObjectInformation obj in objInfo)
+					{
+						Rectangle boundingBox = new Rectangle((int)camera.GlobalToCameraPos((int)(obj.Position.X - ObjectTextures[obj.Texture].Width / 2 * selTexScale.X), (int)(obj.Position.Y - ObjectTextures[obj.Texture].Height / 2 * selTexScale.Y)).X,
+															  (int)camera.GlobalToCameraPos((int)(obj.Position.X - ObjectTextures[obj.Texture].Width / 2 * selTexScale.X), (int)(obj.Position.Y - ObjectTextures[obj.Texture].Height / 2 * selTexScale.Y)).Y,
+															  (int)(ObjectTextures[obj.Texture].Width * selTexScale.X * camera.TotalScale),
+															  (int)(ObjectTextures[obj.Texture].Width * selTexScale.Y * camera.TotalScale));
+						if (boundingBox.Contains(Mouse.GetState().X, Mouse.GetState().Y))
+						{
+							creatingObject = true;
+							MouseState state = Mouse.GetState();
+							ParameterEditor editor = new ParameterEditor();
+							editor.Location = controls.Location;
+							for (int i = 0; i < controls.SelectedObject.Parameters.Length; i++)
+							{
+								System.Windows.Forms.Label l = new System.Windows.Forms.Label();
+								l.Text = controls.SelectedObject.Parameters[i];
+								l.Location = new System.Drawing.Point(10, 10 + i * 30);
+								System.Windows.Forms.TextBox t = new System.Windows.Forms.TextBox();
+								t.Location = new System.Drawing.Point(130, 10 + i * 30);
+								t.Size = new System.Drawing.Size(275, t.Height);
+								t.Text = obj.Paramaters[i];
+								editor.Controls.Add(l);
+								editor.Controls.Add(t);
+							}
+							System.Windows.Forms.DialogResult result = editor.ShowDialog();
+							obj.Paramaters = editor.parameters;
+							creatingObject = false;
+
+							break;
+						}
+					}
 				}
 			}
 
@@ -443,10 +528,10 @@ namespace MrGuyLevelEditor
 					float m = translated.Length();
 					translated.X = m * (float)Math.Cos(newAngle) + camera.GlobalToCameraPos(obj.X, obj.Y).X;
 					translated.Y = m * (float)Math.Sin(newAngle) + camera.GlobalToCameraPos(obj.X, obj.Y).Y;
-					Rectangle boundingBox = new Rectangle((int)camera.GlobalToCameraPos((int)(obj.X - Textures[obj.texture].Width / 2 * selTexScale.X), (int)(obj.Y - Textures[obj.texture].Height / 2 * selTexScale.Y)).X,
-														  (int)camera.GlobalToCameraPos((int)(obj.X - Textures[obj.texture].Width / 2 * selTexScale.X), (int)(obj.Y - Textures[obj.texture].Height / 2 * selTexScale.Y)).Y,
-														  (int)(Textures[obj.texture].Width * selTexScale.X * camera.TotalScale),
-														  (int)(Textures[obj.texture].Width * selTexScale.Y * camera.TotalScale));
+					Rectangle boundingBox = new Rectangle((int)camera.GlobalToCameraPos((int)(obj.X - TileTextures[obj.texture].Width / 2 * selTexScale.X), (int)(obj.Y - TileTextures[obj.texture].Height / 2 * selTexScale.Y)).X,
+														  (int)camera.GlobalToCameraPos((int)(obj.X - TileTextures[obj.texture].Width / 2 * selTexScale.X), (int)(obj.Y - TileTextures[obj.texture].Height / 2 * selTexScale.Y)).Y,
+														  (int)(TileTextures[obj.texture].Width * selTexScale.X * camera.TotalScale),
+														  (int)(TileTextures[obj.texture].Width * selTexScale.Y * camera.TotalScale));
 					if (boundingBox.Contains((int)translated.X, (int)translated.Y))
 						toRemove.Add(obj);
 				}
@@ -455,7 +540,18 @@ namespace MrGuyLevelEditor
 			}
 			else if (controls.Tab == 2)
 			{
-				// Remove objects
+				List<ObjectInformation> toRemove = new List<ObjectInformation>();
+				foreach (ObjectInformation obj in objInfo)
+				{
+					Rectangle boundingBox = new Rectangle((int)camera.GlobalToCameraPos((int)(obj.Position.X - ObjectTextures[obj.Texture].Width / 2 * selTexScale.X), (int)(obj.Position.Y - ObjectTextures[obj.Texture].Height / 2 * selTexScale.Y)).X,
+														  (int)camera.GlobalToCameraPos((int)(obj.Position.X - ObjectTextures[obj.Texture].Width / 2 * selTexScale.X), (int)(obj.Position.Y - ObjectTextures[obj.Texture].Height / 2 * selTexScale.Y)).Y,
+														  (int)(ObjectTextures[obj.Texture].Width * selTexScale.X * camera.TotalScale),
+														  (int)(ObjectTextures[obj.Texture].Width * selTexScale.Y * camera.TotalScale));
+					if (boundingBox.Contains(Mouse.GetState().X, Mouse.GetState().Y))
+						toRemove.Add(obj);
+				}
+				foreach (ObjectInformation obj in toRemove)
+					objInfo.Remove(obj);
 			}
 		}
 
@@ -512,6 +608,8 @@ namespace MrGuyLevelEditor
 			// Draw objects
 			foreach (TileInformation tile in tileInfo)
 				tile.Draw(spriteBatch, camera);
+			foreach (ObjectInformation obj in objInfo)
+				obj.Draw(spriteBatch, camera);
 
 			// Draw collision map
 			foreach (StaticBodyInformation sb in sbInfo)
@@ -548,6 +646,14 @@ namespace MrGuyLevelEditor
 				{
 					spriteBatch.Draw(selectedTexture, new Vector2(state.X, state.Y), null, new Color(255, 255, 255, 125), selTexRotation,
 										new Vector2(selectedTexture.Width / 2, selectedTexture.Height / 2), selTexScale, selTexEffect, layer);
+				}
+			}
+			else if (controls.Tab == 2)
+			{
+				if (selectedTexture != null)
+				{
+					spriteBatch.Draw(selectedTexture, new Vector2(state.X, state.Y), null, new Color(255, 255, 255, 125), 0f,
+										new Vector2(selectedTexture.Width / 2, selectedTexture.Height / 2), camera.TotalScale, SpriteEffects.None, 0.555556f);
 				}
 			}
 

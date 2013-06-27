@@ -20,6 +20,7 @@ using Krypton;
 using Krypton.Lights;
 
 using MrGuyLevelEditor;
+using MrGuy.Objects;
 
 namespace MrGuy
 {
@@ -34,9 +35,11 @@ namespace MrGuy
 		List<StaticBody> collisionMap;
 		List<PhysicsObject> objects;
 
+		Player player;
+
 		Dictionary<string, Texture2D> textures;
 
-		public GameWorld(Game game, string name, string type)
+		public GameWorld(Game game, string name)
 		{
 			world = new World(9.8f * Vector2.UnitY);
 			lighting = new KryptonEngine(game, "KryptonEffect");
@@ -46,19 +49,20 @@ namespace MrGuy
 			collisionMap = new List<StaticBody>();
 			objects = new List<PhysicsObject>();
 
-			Load(game, name, type);
+			Load(game, name);
 			camera = new Camera(Vector2.Zero, size);
+			player = new Player(world, 100, 200, MainGame.texPlayer);
 		}
 
-		private void Load(Game game, string name, string type)
+		private void Load(Game game, string name)
 		{
 			// Load tiles for world type
 			textures = new Dictionary<string, Texture2D>();
-			string[] files = Directory.GetFiles("Content\\tiles\\" + type);
+			string[] files = Directory.GetFiles("Content\\tiles");
 			for (int i = 0; i < files.Length; i++)
 			{
 				string s = files[i].Replace(".xnb", "").Split('\\')[files[i].Split('\\').Length - 1];
-				textures.Add(s, game.Content.Load<Texture2D>("tiles\\" + type + "\\" + s));
+				textures.Add(s, game.Content.Load<Texture2D>("tiles\\" + s));
 			}
 
 			XmlSerializer ser = new XmlSerializer(typeof(LevelData));
@@ -68,6 +72,7 @@ namespace MrGuy
 				level = (LevelData)ser.Deserialize(reader);
 			}
 
+			this.size = level.size;
 			foreach (TileInformation t in level.tiles)
 				this.tiles.Add(new Tile(t.texture, new Vector2(t.X, t.Y), t.Scale, t.Rotation, t.Layer, t.Effect));
 			foreach (StaticBodyInformation sb in level.staticBodies)
@@ -78,6 +83,9 @@ namespace MrGuy
 			}
 //			foreach (PhysicsObject obj in level.physicsObjects)
 //				this.objects.Add(obj);
+			Box b = new Box(new Vector2(300, 100), "100", "100");
+			b.Initialize(world);
+			objects.Add(b);
 		}
 
 		public Camera GetCamera()
@@ -87,10 +95,10 @@ namespace MrGuy
 
 		public GameScreen Update(GameTime gameTime)
 		{
-			if (Keyboard.GetState().IsKeyDown(Keys.Left))
-				camera.X -= 10;
-			else if (Keyboard.GetState().IsKeyDown(Keys.Right))
-				camera.X += 10;
+			foreach (PhysicsObject obj in objects)
+				obj.Update();
+			player.Update(world);
+			camera.Position = player.Position * MainGame.METER_TO_PIXEL - Vector2.UnitX * MainGame.MAX_RES_X / 2 - Vector2.UnitY * MainGame.MAX_RES_Y / 2;
 			camera.Update();
 			world.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
 			return this;
@@ -103,10 +111,13 @@ namespace MrGuy
 
 		public void Draw(SpriteBatch sb)
 		{
+			player.Draw(sb);
+			foreach (PhysicsObject obj in objects)
+				obj.Draw(sb);
 			foreach (Tile t in tiles)
-				t.Draw(sb, textures, camera);
-			foreach (StaticBody b in collisionMap)
-				b.DebugDraw(sb, camera);
+				t.Draw(sb, textures);
+//			foreach (StaticBody b in collisionMap)
+//				b.DebugDraw(sb);
 		}
 	}
 }

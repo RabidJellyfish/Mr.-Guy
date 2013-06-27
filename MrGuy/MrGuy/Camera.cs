@@ -11,7 +11,7 @@ namespace MrGuy
 	public class Camera
 	{
 		private Vector2 pos;
-		public Vector2 Position { get { return this.pos; } }
+		public Vector2 Position { get { return this.pos; } set { pos = value; } }
 		public int X { get { return (int)Position.X; } set { pos.X = value; } }
 		public int Y { get { return (int)Position.Y; } set { pos.Y = value; } }
 		private Vector2 bounds;

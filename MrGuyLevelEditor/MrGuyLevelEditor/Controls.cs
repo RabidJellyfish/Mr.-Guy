@@ -34,8 +34,8 @@ namespace MrGuyLevelEditor
 			get { return tabControl.SelectedIndex; }
 		}
 
-		public string SelectedTile { get { return (string)lstTiles.SelectedItem; } }
-		public string SelectedObject { get { return (string)lstObjects.SelectedItem; } }
+		public string SelectedTile { get { return lstTiles.SelectedItem != null ? lstTiles.SelectedItem.ToString() : null; } }
+		public ObjectListItem SelectedObject { get { return lstObjects.SelectedItem != null ? (ObjectListItem)lstObjects.SelectedItem : null; } }
 
 		public Controls()
 		{
@@ -120,6 +120,12 @@ namespace MrGuyLevelEditor
 		private void Controls_Deactivate(object sender, EventArgs e)
 		{
 			HasFocus = false;
+		}
+
+		public void AddItems(List<ObjectListItem> items)
+		{
+			foreach (ObjectListItem i in items)
+				this.lstObjects.Items.Add(i);
 		}
 	}
 }

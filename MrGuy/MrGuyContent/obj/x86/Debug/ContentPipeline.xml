@@ -2,85 +2,85 @@
 <XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
   <Asset Type="Pipeline:BuildItemCollection">
     <Item>
-      <Source>tiles\forest\dirt.png</Source>
-      <Name>tiles\forest\dirt</Name>
+      <Source>tiles\dirt.png</Source>
+      <Name>tiles\dirt</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\tiles\forest\dirt.xnb</Output>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\tiles\dirt.xnb</Output>
       <Time>2013-06-23T19:18:55.0578556-04:00</Time>
     </Item>
     <Item>
-      <Source>tiles\forest\flower1.png</Source>
-      <Name>tiles\forest\flower1</Name>
+      <Source>tiles\flower1.png</Source>
+      <Name>tiles\flower1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\tiles\forest\flower1.xnb</Output>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\tiles\flower1.xnb</Output>
       <Time>2013-06-23T19:18:55.0588556-04:00</Time>
     </Item>
     <Item>
-      <Source>tiles\forest\flower2.png</Source>
-      <Name>tiles\forest\flower2</Name>
+      <Source>tiles\flower2.png</Source>
+      <Name>tiles\flower2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\tiles\forest\flower2.xnb</Output>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\tiles\flower2.xnb</Output>
       <Time>2013-06-23T19:18:55.0598557-04:00</Time>
     </Item>
     <Item>
-      <Source>tiles\forest\flower3.png</Source>
-      <Name>tiles\forest\flower3</Name>
+      <Source>tiles\flower3.png</Source>
+      <Name>tiles\flower3</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\tiles\forest\flower3.xnb</Output>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\tiles\flower3.xnb</Output>
       <Time>2013-06-23T19:18:55.0608557-04:00</Time>
     </Item>
     <Item>
-      <Source>tiles\forest\grass.png</Source>
-      <Name>tiles\forest\grass</Name>
+      <Source>tiles\grass.png</Source>
+      <Name>tiles\grass</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\tiles\forest\grass.xnb</Output>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\tiles\grass.xnb</Output>
       <Time>2013-06-23T19:18:55.0618558-04:00</Time>
     </Item>
     <Item>
-      <Source>tiles\forest\leaves.png</Source>
-      <Name>tiles\forest\leaves</Name>
+      <Source>tiles\leaves.png</Source>
+      <Name>tiles\leaves</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\tiles\forest\leaves.xnb</Output>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\tiles\leaves.xnb</Output>
       <Time>2013-06-23T19:18:55.0628559-04:00</Time>
     </Item>
     <Item>
-      <Source>tiles\forest\tree trunk.png</Source>
-      <Name>tiles\forest\tree trunk</Name>
+      <Source>tiles\tree trunk.png</Source>
+      <Name>tiles\tree trunk</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\tiles\forest\tree trunk.xnb</Output>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\tiles\tree trunk.xnb</Output>
       <Time>2013-06-23T19:18:55.0638559-04:00</Time>
     </Item>
     <Item>
-      <Source>box.png</Source>
-      <Name>box</Name>
+      <Source>objects\box.png</Source>
+      <Name>objects\box</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\box.xnb</Output>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\objects\box.xnb</Output>
       <Time>2013-06-23T22:24:39.112259-04:00</Time>
     </Item>
     <Item>
-      <Source>simple stick.PNG</Source>
-      <Name>simple stick</Name>
+      <Source>mrguy.png</Source>
+      <Name>mrguy</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\simple stick.xnb</Output>
-      <Time>2013-06-23T22:24:39.1132591-04:00</Time>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\mrguy.xnb</Output>
+      <Time>2013-06-25T16:51:13.7907084-04:00</Time>
     </Item>
     <Item>
       <Source>KryptonEffect.fx</Source>
@@ -105,7 +105,7 @@
     <Assemblies>
       <Assembly>
         <Key>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEditor\MrGuyLevelEditor\bin\x86\Debug\MrGuyLevelEditor.exe</Key>
-        <Value>2013-06-25T16:06:59.9147843-04:00</Value>
+        <Value>2013-06-26T22:14:24.307402-04:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>

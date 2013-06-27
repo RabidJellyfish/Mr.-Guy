@@ -42,37 +42,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="tiles\forest\dirt.png">
+    <Compile Include="tiles\dirt.png">
       <Name>dirt</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\forest\flower1.png">
+    <Compile Include="tiles\flower1.png">
       <Name>flower1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\forest\flower2.png">
+    <Compile Include="tiles\flower2.png">
       <Name>flower2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\forest\flower3.png">
+    <Compile Include="tiles\flower3.png">
       <Name>flower3</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\forest\grass.png">
+    <Compile Include="tiles\grass.png">
       <Name>grass</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\forest\leaves.png">
+    <Compile Include="tiles\leaves.png">
       <Name>leaves</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tiles\forest\tree trunk.png">
+    <Compile Include="tiles\tree trunk.png">
       <Name>tree trunk</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -86,13 +86,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="box.png">
+    <Compile Include="objects\box.png">
       <Name>box</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="simple stick.PNG">
-      <Name>simple stick</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -110,6 +105,13 @@
       <Processor>PassThroughProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="mrguy.png">
+      <Name>mrguy</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 

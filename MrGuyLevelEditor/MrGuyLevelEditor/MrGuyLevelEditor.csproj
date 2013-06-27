@@ -120,6 +120,14 @@
       <DependentUpon>Controls.cs</DependentUpon>
     </Compile>
     <Compile Include="LevelData.cs" />
+    <Compile Include="ObjectInformation.cs" />
+    <Compile Include="ObjectListItem.cs" />
+    <Compile Include="ParameterEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ParameterEditor.Designer.cs">
+      <DependentUpon>ParameterEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Editor.cs" />
@@ -167,6 +175,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Controls.resx">
       <DependentUpon>Controls.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ParameterEditor.resx">
+      <DependentUpon>ParameterEditor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

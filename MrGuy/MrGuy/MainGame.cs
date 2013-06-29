@@ -25,7 +25,7 @@ namespace MrGuy
 
 		public const float METER_TO_PIXEL = 140f;
 		public const float PIXEL_TO_METER = 1 / 140f;
-		public static float RESOLUTION_SCALE = 0.5f;
+		public static float RESOLUTION_SCALE = 1f;
 		public const float MAX_RES_X = 1920;
 		public const float MAX_RES_Y = 1080;
 

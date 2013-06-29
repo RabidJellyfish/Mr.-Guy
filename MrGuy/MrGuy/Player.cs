@@ -194,7 +194,7 @@ namespace MrGuy
 
 		public void Draw(SpriteBatch sb)
 		{
-			currentTexture.Draw(sb, torso.Position * MainGame.METER_TO_PIXEL, Color.White, torso.Rotation, new Vector2(60, 60), Vector2.One, facingLeft ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+			currentTexture.Draw(sb, torso.Position * MainGame.METER_TO_PIXEL, Color.White, torso.Rotation, new Vector2(60, 70), Vector2.One, facingLeft ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
 //			sb.Draw(Game1.texture, new Rectangle((int)(torso.Position.X * Game1.unitToPixel) - 16, (int)(torso.Position.Y * Game1.unitToPixel) - 16, 32, 46), Color.Green);
 

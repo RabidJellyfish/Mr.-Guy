@@ -5,10 +5,9 @@ To add new object
 
 TODO:
 
-- Rewrite player code
-	- Crouching
-	- Rolling
-	- Climbing ledges?
+x Rewrite player code
+	x Crouching
+	x Rolling
 
 - Custom cameras
 	- Add to level editor

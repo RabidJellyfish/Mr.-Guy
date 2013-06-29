@@ -113,6 +113,8 @@
     <Compile Include="Camera.cs" />
     <Compile Include="GameScreen.cs" />
     <Compile Include="GameWorld.cs" />
+    <Compile Include="Guy.cs" />
+    <Compile Include="MrGuy.cs" />
     <Compile Include="Objects\Box.cs" />
     <Compile Include="Objects\PhysicsObject.cs" />
     <Compile Include="Player.cs" />

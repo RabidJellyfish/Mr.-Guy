@@ -35,7 +35,7 @@ namespace MrGuy
 		List<StaticBody> collisionMap;
 		List<PhysicsObject> objects;
 
-		Player player;
+		MrGuy player;
 
 		Dictionary<string, Texture2D> textures;
 
@@ -51,7 +51,7 @@ namespace MrGuy
 
 			Load(game, name);
 			camera = new Camera(Vector2.Zero, size);
-			player = new Player(world, 100, 200, MainGame.texPlayer);
+			player = new MrGuy(world, 100, 200, MainGame.texPlayer);
 		}
 
 		private void Load(Game game, string name)
@@ -103,8 +103,8 @@ namespace MrGuy
 		{
 			foreach (PhysicsObject obj in objects)
 				obj.Update();
-			player.Update(world);
-			camera.Position = player.Position * MainGame.METER_TO_PIXEL - Vector2.UnitX * MainGame.MAX_RES_X / 2 - Vector2.UnitY * MainGame.MAX_RES_Y / 2;
+			player.Update();
+			camera.Position = player.Position - Vector2.UnitX * MainGame.MAX_RES_X / 2 - Vector2.UnitY * MainGame.MAX_RES_Y / 2;
 			camera.Update();
 			world.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
 			return this;

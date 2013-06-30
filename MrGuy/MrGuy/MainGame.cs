@@ -16,6 +16,8 @@ using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 
+using MrGuy.Screens;
+
 namespace MrGuy
 {
 	public class MainGame : Microsoft.Xna.Framework.Game

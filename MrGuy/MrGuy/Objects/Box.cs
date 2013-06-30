@@ -19,19 +19,26 @@ namespace MrGuy.Objects
 
 		private Texture2D texture;
 
-		public Box(Vector2 pos, string width, string height)
+		public override Vector2 Position
 		{
-			this.Position = pos;
+			get { return box.Position * MainGame.METER_TO_PIXEL; }
+			set { box.Position = value * MainGame.PIXEL_TO_METER; }
+		}
+
+		public Box(World w, Vector2 pos, string width, string height)
+		{
 			this.width = int.Parse(width);
 			this.height = int.Parse(height);
+			CreateBody(w, pos);
+
 			this.texture = MainGame.texBox;
 		}
 
-		public override void Initialize(World w)
+		private void CreateBody(World w, Vector2 pos)
 		{
 			box = BodyFactory.CreateRectangle(w, width * MainGame.PIXEL_TO_METER, height * MainGame.PIXEL_TO_METER, 1.0f);
-			box.Position = this.Position * MainGame.PIXEL_TO_METER;
 			box.BodyType = BodyType.Dynamic;
+			this.Position = pos;
 		}
 
 		public override void Update()

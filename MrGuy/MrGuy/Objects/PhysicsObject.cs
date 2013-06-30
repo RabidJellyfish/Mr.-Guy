@@ -13,9 +13,7 @@ namespace MrGuy.Objects
 {
 	public abstract class PhysicsObject
 	{
-		public Vector2 Position { get; set; }
-
-		public abstract void Initialize(World w);
+		public virtual Vector2 Position { get; set; }
 
 		public abstract void Update();
 

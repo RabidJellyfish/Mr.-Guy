@@ -12,6 +12,8 @@ using System.Xml.Serialization;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
 
+using MrGuyLevelEditor.XMLInfo;
+
 namespace MrGuyLevelEditor
 {
 	public partial class Controls : Form
@@ -22,10 +24,21 @@ namespace MrGuyLevelEditor
 			get { return creatingMap; }
 			set { creatingMap = value; btnDrawPoly.Enabled = !creatingMap; }
 		}
+		public bool ColDonePressed { get; set; }
+
+		private bool creatingCam;
+		public bool CreatingCam
+		{
+			get { return creatingCam; }
+			set { creatingCam = value; btnDrawCam.Enabled = !creatingCam; }
+		}
+		public bool CamDonePressed { get; set; }
+		
 		public bool NewPressed { get; set; }
 		public bool SavePressed { get; set; }
 		public bool LoadPressed { get; set; }
-		public bool DonePressed { get; set; }
+
+		public float CamPriority { get { return float.Parse(txtPriority.Text); } }
 
 		public bool HasFocus { get; set; }
 
@@ -105,11 +118,23 @@ namespace MrGuyLevelEditor
 		private void btnDrawPoly_Click(object sender, EventArgs e)
 		{
 			this.CreatingMap = true;
+			this.CreatingCam = false;
 		}
 
-		private void btnDone_Click(object sender, EventArgs e)
+		private void btnColDone_Click(object sender, EventArgs e)
 		{
-			this.DonePressed = true;
+			this.ColDonePressed = true;
+		}
+
+		private void btnDrawCam_Click(object sender, EventArgs e)
+		{
+			this.CreatingCam = true;
+			this.CreatingMap = false;
+		}
+
+		private void btnCamDone_Click(object sender, EventArgs e)
+		{
+			this.CamDonePressed = true;
 		}
 
 		private void Controls_Activated(object sender, EventArgs e)
@@ -126,6 +151,13 @@ namespace MrGuyLevelEditor
 		{
 			foreach (ObjectListItem i in items)
 				this.lstObjects.Items.Add(i);
+		}
+
+		private void txtPriority_TextChanged(object sender, EventArgs e)
+		{
+			float result;
+			if (!float.TryParse(txtPriority.Text, out result))
+				txtPriority.Text = "0";
 		}
 	}
 }

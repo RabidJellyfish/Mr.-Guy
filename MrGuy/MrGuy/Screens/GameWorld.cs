@@ -20,6 +20,7 @@ using Krypton;
 using Krypton.Lights;
 
 using MrGuyLevelEditor;
+using MrGuyLevelEditor.XMLInfo;
 using MrGuy.Objects;
 
 namespace MrGuy.Screens
@@ -33,7 +34,7 @@ namespace MrGuy.Screens
 
 		List<Tile> tiles;
 		List<StaticBody> collisionMap;
-		List<PhysicsObject> objects;
+		List<GameObject> objects;
 
 		PlayerGuy player;
 
@@ -47,11 +48,11 @@ namespace MrGuy.Screens
 
 			tiles = new List<Tile>();
 			collisionMap = new List<StaticBody>();
-			objects = new List<PhysicsObject>();
+			objects = new List<GameObject>();
 
 			Load(game, name);
 			player = new PlayerGuy(world, 100, 200, MainGame.texPlayer);
-			camera = new Camera(Vector2.Zero, size, 10f, player);
+			camera = new Camera(Vector2.Zero, size, 15f, player);
 		}
 
 		private void Load(Game game, string name)
@@ -89,9 +90,11 @@ namespace MrGuy.Screens
 				parameters[1] = obj.Position;
 				for (int i = 2; i < parameters.Length; i++)
 					parameters[i] = obj.ParameterValues[i - 2];
-				PhysicsObject converted = Activator.CreateInstance(Type.GetType(obj.Type), parameters) as PhysicsObject;
+				GameObject converted = Activator.CreateInstance(Type.GetType(obj.Type), parameters) as GameObject;
 				this.objects.Add(converted);
 			}
+			foreach (CameraBoxInformation cam in level.cameras)
+				this.objects.Add(new CameraBox(cam.Target, cam.Bounds, cam.Priority));
 		}
 
 		public Camera GetCamera()
@@ -101,14 +104,11 @@ namespace MrGuy.Screens
 
 		public GameScreen Update(GameTime gameTime)
 		{
-			foreach (PhysicsObject obj in objects)
-				obj.Update();
-			player.Update();
+			foreach (GameObject obj in objects)
+				obj.Update(objects);
+			player.Update(objects);
 
-			camera.Target2 = objects[0];
-
-			camera.Position = player.Position - Vector2.UnitX * MainGame.MAX_RES_X / 2 - Vector2.UnitY * MainGame.MAX_RES_Y / 2;
-			camera.Update();
+			camera.Update(objects);
 			world.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
 			return this;
 		}
@@ -121,7 +121,7 @@ namespace MrGuy.Screens
 		public void Draw(SpriteBatch sb)
 		{
 			player.Draw(sb);
-			foreach (PhysicsObject obj in objects)
+			foreach (GameObject obj in objects)
 				obj.Draw(sb);
 			foreach (Tile t in tiles)
 				t.Draw(sb, textures);

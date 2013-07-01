@@ -15,7 +15,7 @@ using FarseerPhysics.Factories;
 
 namespace MrGuy.Objects
 {
-	class Guy : PhysicsObject
+	class Guy : GameObject
 	{
 		// Physics bodies
 		private World world;
@@ -119,7 +119,7 @@ namespace MrGuy.Objects
 
 		#region Updating
 
-		public override void Update()
+		public override void Update(List<GameObject> otherObjects)
 		{
 			UpdateTexture();
 			UpdateMovement();

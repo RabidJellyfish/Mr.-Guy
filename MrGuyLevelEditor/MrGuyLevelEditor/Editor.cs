@@ -11,6 +11,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using MrGuyLevelEditor.XMLInfo;
+
 // left click - place things
 // right click - (page 1) remove point from polygon  (page 2/3) remove things
 // shift+right click - (page 1) remove entire polygon rather than single point
@@ -39,7 +41,9 @@ namespace MrGuyLevelEditor
 		private Rectangle levelSize; // When writing to XML file, subtract levelSize.X and levelSize.Y from all of the positions
 		private bool changingBounds;
 		private bool creatingObject;
+
 		Camera camera;
+		private int step;
 
 		Controls controls;
 		System.Windows.Forms.Form thisForm;
@@ -61,6 +65,8 @@ namespace MrGuyLevelEditor
 		public List<StaticBodyInformation> sbInfo;
 		StaticBodyInformation currentBody;
 		public List<ObjectInformation> objInfo;
+		public List<CameraBoxInformation> camInfo;
+		Vector2[] currentCam;
 
 		public Editor()
 		{
@@ -85,9 +91,12 @@ namespace MrGuyLevelEditor
 			rotOnceRight = false;
 			unfocused = false;
 			creatingObject = false;
+			step = 1;
+			currentCam = new Vector2[2];
 			tileInfo = new List<TileInformation>();
 			sbInfo = new List<StaticBodyInformation>();
 			objInfo = new List<ObjectInformation>();
+			camInfo = new List<CameraBoxInformation>();
 			Content.RootDirectory = "Content";
 		}
 
@@ -199,6 +208,17 @@ namespace MrGuyLevelEditor
 						moved.Type = obj.Type;
 						level.objects.Add(moved);
 					}
+					level.cameras = new List<CameraBoxInformation>();
+					foreach (CameraBoxInformation cam in camInfo)
+					{
+						CameraBoxInformation moved = new CameraBoxInformation(
+							cam.Bounds.Left - (int)levelSize.X,
+							cam.Bounds.Top - (int)levelSize.Y,
+							cam.Bounds.Right - (int)levelSize.X,
+							cam.Bounds.Bottom - (int)levelSize.Y,
+							cam.Target, cam.Priority);
+						level.cameras.Add(moved);
+					}
 
 					controls.Save(level);
 
@@ -214,23 +234,30 @@ namespace MrGuyLevelEditor
 					tileInfo = level.tiles;
 					sbInfo = level.staticBodies;
 					objInfo = level.objects;
+					camInfo = level.cameras;
 
 					controls.LoadPressed = false;
 				}
-				else if (controls.DonePressed)
+				else if (controls.ColDonePressed)
 				{
 					if (currentBody != null && currentBody.Count() > 2)
 					{
 						sbInfo.Add(currentBody);
 						currentBody = null;
 					}
-					controls.DonePressed = false;
+					controls.ColDonePressed = false;
 					controls.CreatingMap = false;
+				}
+				else if (controls.CamDonePressed)
+				{
+					step = 1;
+					currentCam = new Vector2[2];
+					controls.CamDonePressed = false;
+					controls.CreatingCam = false;
 				}
 			}
 			else if (controls.Tab == 1)
 			{
-				// Select tiles
 				if (controls.SelectedTile != null)
 					selectedTexture = TileTextures[controls.SelectedTile];
 			}
@@ -256,19 +283,48 @@ namespace MrGuyLevelEditor
 						if (!changingBounds)
 						{
 							// Draw collision polygons
-							if (controls.Tab == 0 && controls.CreatingMap)
+							if (controls.Tab == 0)
 							{
-								if (currentBody == null)
-									currentBody = new StaticBodyInformation(camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y));
-								else
+								if (controls.CreatingMap)
 								{
-									bool done = currentBody.AddPoint(camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y));
-									if (done)
+									if (currentBody == null)
+										currentBody = new StaticBodyInformation(camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y));
+									else
 									{
-										sbInfo.Add(currentBody);
-										currentBody = null;
-										controls.CreatingMap = false;
-									}		
+										bool done = currentBody.AddPoint(camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y));
+										if (done)
+										{
+											sbInfo.Add(currentBody);
+											currentBody = null;
+											controls.CreatingMap = false;
+										}
+									}
+								}
+								else if (controls.CreatingCam)
+								{
+									if (step == 1)
+									{
+										step++;
+										currentCam[0] = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
+									}
+									else if (step == 2)
+									{
+										step++;
+										currentCam[1] = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
+									}
+									else
+									{
+										step = 1;
+										camInfo.Add(new CameraBoxInformation(
+														(int)currentCam[0].X,
+														(int)currentCam[0].Y,
+														(int)currentCam[1].X,
+														(int)currentCam[1].Y,
+														camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y),
+														controls.CamPriority));
+										currentCam = new Vector2[2];
+										controls.CreatingCam = false;
+									}
 								}
 							}
 							// Add tiles
@@ -533,6 +589,18 @@ namespace MrGuyLevelEditor
 					}
 					if (toRemove != null)
 						sbInfo.Remove(toRemove);
+
+					CameraBoxInformation toRemove2 = null;
+					foreach (CameraBoxInformation cam in camInfo)
+					{
+						if ((camToGlob - cam.Target).Length() <= 5)
+						{
+							toRemove2 = cam;
+							break;
+						}
+					}
+					if (toRemove2 != null)
+						camInfo.Remove(toRemove2);
 				}
 			}
 			else if (controls.Tab == 1)
@@ -636,6 +704,23 @@ namespace MrGuyLevelEditor
 				currentBody.Draw(spriteBatch, camera);
 				DrawLine(spriteBatch, camera.GlobalToCameraPos(currentBody.LastPoint()), new Vector2(state.X, state.Y), Color.Lime);
 			}
+
+			// Draw camera areas
+			foreach (CameraBoxInformation box in camInfo)
+				box.Draw(spriteBatch, camera);
+			
+			if (step == 2)
+				DrawRectangleOutline(spriteBatch, new Rectangle(
+													(int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).X,
+													(int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).Y,
+													Mouse.GetState().X - (int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).X,
+													Mouse.GetState().Y - (int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).Y), Color.Cyan);
+			else if (step == 3)
+				DrawRectangleOutline(spriteBatch, new Rectangle(
+													(int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).X,
+													(int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).Y,
+													(int)camera.GlobalToCameraPos((int)currentCam[1].X, (int)currentCam[1].Y).X - (int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).X,
+													(int)camera.GlobalToCameraPos((int)currentCam[1].X, (int)currentCam[1].Y).Y - (int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).Y), Color.Cyan);
 
 			// Draw level bounds
 			Vector2 levelTopLeft = camera.GlobalToCameraPos(levelSize.X, levelSize.Y);

@@ -10,8 +10,10 @@ x Rewrite player code
 	x Rolling
 
 - Custom cameras
+	- CameraTarget object
+		- position, width, height
 	- Add to level editor
-	- Improve game cameras
+	x Improve game cameras
 
 - Level linking
 

@@ -20,23 +20,39 @@ namespace MrGuy
 		private Vector2 bounds;
 
 		public float MaxSpeed { get; set; }
-		public PhysicsObject Target1 { get; set; }
-		public PhysicsObject Target2 { get; set; }
-		public float Target2Priority { get; set; }
+		public GameObject Target { get; set; }
 
-		public Camera(Vector2 pos, Vector2 bounds, float maxSpeed, PhysicsObject target)
+		public Camera(Vector2 pos, Vector2 bounds, float maxSpeed, GameObject target)
 		{
-			this.Target1 = target;
-			this.Target2 = target;
-			this.Target2Priority = 0f;
+			this.Target = target;
 			this.MaxSpeed = maxSpeed;
 			this.pos = pos;
 			this.bounds = bounds;
 		}
 
-		public void Update()
+		public void Update(List<GameObject> otherObjects)
 		{
-			this.pos = Target1.Position + (Target2.Position - Target1.Position) * Target2Priority - MainGame.MAX_RES_X / 2 * Vector2.UnitX - MainGame.MAX_RES_Y / 2 * Vector2.UnitY;
+			var cameraBoxes = from GameObject obj in otherObjects
+							  where obj is CameraBox
+							  select obj as CameraBox;
+			CameraBox targetBox = null;
+			foreach (CameraBox camBox in cameraBoxes)
+				if (camBox.ContainsObject(this.Target))
+				{
+					targetBox = camBox;
+					break;
+				}
+
+			Vector2 distance;
+			if (targetBox != null)
+				distance = (Target.Position + (targetBox.Position - Target.Position) * targetBox.Priority - MainGame.MAX_RES_X / 2 * Vector2.UnitX - MainGame.MAX_RES_Y / 2 * Vector2.UnitY) - this.pos;
+			else
+				distance = Target.Position - MainGame.MAX_RES_X / 2 * Vector2.UnitX - MainGame.MAX_RES_Y / 2 * Vector2.UnitY - this.pos;
+			
+			if (distance.Length() > MaxSpeed)
+				pos += (distance / distance.Length()) * MaxSpeed;
+			else
+				pos += distance;
 			StayInBounds();
 		}
 

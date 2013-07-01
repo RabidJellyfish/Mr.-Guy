@@ -12,7 +12,7 @@ using FarseerPhysics.Factories;
 
 namespace MrGuy.Objects
 {
-	class Box : PhysicsObject
+	class Box : GameObject
 	{
 		private Body box;
 		private int width, height;
@@ -41,7 +41,7 @@ namespace MrGuy.Objects
 			this.Position = pos;
 		}
 
-		public override void Update()
+		public override void Update(List<GameObject> otherObjects)
 		{
 			this.Position = box.Position * MainGame.METER_TO_PIXEL;
 		}

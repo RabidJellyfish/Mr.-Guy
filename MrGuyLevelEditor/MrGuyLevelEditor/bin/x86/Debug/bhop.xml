@@ -262,4 +262,23 @@
       </ParameterNames>
     </ObjectInformation>
   </objects>
+  <cameras>
+    <CameraBoxInformation>
+      <Target>
+        <X>804</X>
+        <Y>618</Y>
+      </Target>
+      <Bounds>
+        <X>1424</X>
+        <Y>270</Y>
+        <Width>1091</Width>
+        <Height>763</Height>
+        <Location>
+          <X>1424</X>
+          <Y>270</Y>
+        </Location>
+      </Bounds>
+      <Priority>0.5</Priority>
+    </CameraBoxInformation>
+  </cameras>
 </LevelData>

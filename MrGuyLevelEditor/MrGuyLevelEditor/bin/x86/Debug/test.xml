@@ -1630,4 +1630,23 @@
       </ParameterNames>
     </ObjectInformation>
   </objects>
+  <cameras>
+    <CameraBoxInformation>
+      <Target>
+        <X>2120</X>
+        <Y>810</Y>
+      </Target>
+      <Bounds>
+        <X>1410</X>
+        <Y>44</Y>
+        <Width>1164</Width>
+        <Height>1300</Height>
+        <Location>
+          <X>1410</X>
+          <Y>44</Y>
+        </Location>
+      </Bounds>
+      <Priority>1</Priority>
+    </CameraBoxInformation>
+  </cameras>
 </LevelData>

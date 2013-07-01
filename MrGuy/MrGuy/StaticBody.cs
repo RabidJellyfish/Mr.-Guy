@@ -13,6 +13,8 @@ using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 
+using Krypton;
+
 namespace MrGuy
 {
 	public class StaticBody
@@ -31,14 +33,20 @@ namespace MrGuy
 		}
 
 		// Make sure this is called for each StaticBody after loading level data
-		public void CreateBody(World w)
+		public void CreateBody(World w, KryptonEngine lightEngine)
 		{
 			Vertices vs = new Vertices();
-			foreach (Vector2 vec in vertices)
-				vs.Add(vec * MainGame.PIXEL_TO_METER);
+			Vector2[] points = new Vector2[this.vertices.Count];
+			for (int i = 0; i < vertices.Count; i++)
+			{
+				vs.Add(vertices[i] * MainGame.PIXEL_TO_METER);
+				points[i] = vertices[i];
+			}
 			List<Vertices> list = FarseerPhysics.Common.Decomposition.EarclipDecomposer.ConvexPartition(vs);
 			poly = BodyFactory.CreateCompoundPolygon(w, list, 1.0f);
 			poly.BodyType = BodyType.Static;
+
+			lightEngine.Hulls.Add(ShadowHull.CreateConvex(ref points));
 		}
 
 		public void DebugDraw(SpriteBatch sb)

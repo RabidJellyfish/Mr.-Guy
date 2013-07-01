@@ -5,15 +5,15 @@ To add new object
 
 TODO:
 
-x Rewrite player code
-	x Crouching
-	x Rolling
+- Shit man you need to clean up that level editor
 
-- Custom cameras
-	- CameraTarget object
-		- position, width, height
-	- Add to level editor
-	x Improve game cameras
+- Lighting
+	- Global lighting
+		- No shadows, just really big radial light
+		- Can change color/brightness in level editor (tab 0)
+	- Dynamic lighting
+		- Casts shadows
+	- Use two different light engine objects, only add shadows to dynamic lighting engine
 
 - Level linking
 

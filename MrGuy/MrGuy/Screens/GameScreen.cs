@@ -32,6 +32,6 @@ namespace MrGuy.Screens
 		/// Draws the current game screen
 		/// </summary>
 		/// <param name="sb">The SpriteBatch used to draw the screen</param>
-		void Draw(SpriteBatch sb);
+		void Draw(Game game, SpriteBatch sb, GameTime gameTime);
 	}
 }

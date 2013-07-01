@@ -28,7 +28,7 @@ namespace MrGuy.Screens
 	class GameWorld : GameScreen
 	{
 		World world;
-		KryptonEngine lighting;
+		KryptonEngine globalLighting;
 		Camera camera;
 		Vector2 size;
 
@@ -43,8 +43,8 @@ namespace MrGuy.Screens
 		public GameWorld(Game game, string name)
 		{
 			world = new World(9.8f * Vector2.UnitY);
-			lighting = new KryptonEngine(game, "KryptonEffect");
-			lighting.Initialize();
+			globalLighting = new KryptonEngine(game, "KryptonEffect");
+			globalLighting.Initialize();
 
 			tiles = new List<Tile>();
 			collisionMap = new List<StaticBody>();
@@ -79,7 +79,7 @@ namespace MrGuy.Screens
 			foreach (StaticBodyInformation sb in level.staticBodies)
 			{
 				StaticBody body = new StaticBody(sb.Points);
-				body.CreateBody(world);
+				body.CreateBody(world, globalLighting);
 				this.collisionMap.Add(body);
 			}
 			foreach (ObjectInformation obj in level.objects)
@@ -95,6 +95,22 @@ namespace MrGuy.Screens
 			}
 			foreach (CameraBoxInformation cam in level.cameras)
 				this.objects.Add(new CameraBox(cam.Target, cam.Bounds, cam.Priority));
+
+			Texture2D lightTexture = LightTextureBuilder.CreatePointLight(game.GraphicsDevice, 512);
+			Light2D globalLight = new Light2D()
+			{
+				Texture = lightTexture,
+				Range = 1000,
+				Color = Color.White,
+				Intensity = 0.5f,
+				X = level.size.X / 2,
+				Y = 0,
+				Fov = MathHelper.TwoPi
+			};
+			
+			globalLighting.Lights.Add(globalLight);
+			globalLighting.AmbientColor = new Color(150, 150, 150);
+			
 		}
 
 		public Camera GetCamera()
@@ -118,8 +134,27 @@ namespace MrGuy.Screens
 			return null;
 		}
 
-		public void Draw(SpriteBatch sb)
+		public void Draw(Game game, SpriteBatch sb, GameTime gameTime)
 		{
+			Matrix transformMatrix;
+			if (camera != null)
+				transformMatrix = Matrix.CreateTranslation(new Vector3(-camera.Position, 0));
+			else
+				transformMatrix = Matrix.Identity;
+			transformMatrix *= Matrix.CreateScale(MainGame.RESOLUTION_SCALE);
+
+			globalLighting.SpriteBatchCompatablityEnabled = true;
+			globalLighting.Matrix = transformMatrix;
+			globalLighting.CullMode = CullMode.None;
+			globalLighting.Game.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+			globalLighting.Bluriness = 5;
+			globalLighting.LightMapPrepare();
+
+			game.GraphicsDevice.Clear(new Color(5, 5, 5));
+
+			globalLighting.Draw(gameTime);
+
+			sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, transformMatrix);
 			player.Draw(sb);
 			foreach (GameObject obj in objects)
 				obj.Draw(sb);
@@ -127,6 +162,9 @@ namespace MrGuy.Screens
 				t.Draw(sb, textures);
 //			foreach (StaticBody b in collisionMap)
 //				b.DebugDraw(sb);
+			sb.End();
+
+			globalLighting.Draw(gameTime);
 		}
 	}
 }

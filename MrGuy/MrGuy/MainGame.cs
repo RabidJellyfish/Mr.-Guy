@@ -89,20 +89,7 @@ namespace MrGuy
 
 		protected override void Draw(GameTime gameTime)
 		{
-			GraphicsDevice.Clear(Color.CornflowerBlue);
-
-			// Transform based on camera and resolution
-			Camera cam = currentScreen.GetCamera();
-			Matrix transformMatrix;
-			if (cam != null)
-				transformMatrix = Matrix.CreateTranslation(new Vector3(-cam.Position, 0));
-			else
-				transformMatrix = Matrix.Identity;
-			transformMatrix *= Matrix.CreateScale(RESOLUTION_SCALE);
-
-			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, transformMatrix);
-			currentScreen.Draw(spriteBatch);
-			spriteBatch.End();
+			currentScreen.Draw(this, spriteBatch, gameTime);
 
 			base.Draw(gameTime);
 		}

@@ -80,7 +80,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\mrguy.xnb</Output>
-      <Time>2013-06-28T23:51:42.6384305-04:00</Time>
+      <Time>2013-07-01T20:45:49.011413-04:00</Time>
     </Item>
     <Item>
       <Source>KryptonEffect.fx</Source>
@@ -105,7 +105,7 @@
     <Assemblies>
       <Assembly>
         <Key>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEditor\MrGuyLevelEditor\bin\x86\Debug\MrGuyLevelEditor.exe</Key>
-        <Value>2013-06-30T18:00:50.8745255-04:00</Value>
+        <Value>2013-07-01T22:39:31.8135708-04:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>

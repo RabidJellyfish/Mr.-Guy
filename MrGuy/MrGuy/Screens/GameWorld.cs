@@ -100,17 +100,16 @@ namespace MrGuy.Screens
 			Light2D globalLight = new Light2D()
 			{
 				Texture = lightTexture,
-				Range = 1000,
+				Range = 10000,
 				Color = Color.White,
-				Intensity = 0.5f,
+				Intensity = 1f,
 				X = level.size.X / 2,
 				Y = 0,
 				Fov = MathHelper.TwoPi
 			};
 			
 			globalLighting.Lights.Add(globalLight);
-			globalLighting.AmbientColor = new Color(150, 150, 150);
-			
+			globalLighting.AmbientColor = new Color(50, 50, 50);
 		}
 
 		public Camera GetCamera()

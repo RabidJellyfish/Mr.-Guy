@@ -5,15 +5,7 @@ To add new object
 
 TODO:
 
-- Shit man you need to clean up that level editor
-
 - Lighting
-	- Global lighting
-		- No shadows, just really big radial light
-		- Can change color/brightness in level editor (tab 0)
-	- Dynamic lighting
-		- Casts shadows
-	- Use two different light engine objects, only add shadows to dynamic lighting engine
-
+	
 - Level linking
 

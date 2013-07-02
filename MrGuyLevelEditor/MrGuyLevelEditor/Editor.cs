@@ -68,6 +68,11 @@ namespace MrGuyLevelEditor
 		public List<CameraBoxInformation> camInfo;
 		Vector2[] currentCam;
 
+		#region Creation
+
+		/// <summary>
+		/// Editor constructor
+		/// </summary>
 		public Editor()
 		{
 			Graphics = new GraphicsDeviceManager(this);
@@ -77,14 +82,16 @@ namespace MrGuyLevelEditor
 			levelSize = new Rectangle(0, 0, 1920, 1080);
 			camera = new Camera();
 
-			IsMouseVisible = true;
-			prevMX = 0;
-			prevMY = 0;
-			prevScrollTotal = 0;
 			selTexRotation = 0.0f;
 			selTexScale = Vector2.One;
 			selTexEffect = SpriteEffects.None;
 			layer = 0.55555555555555556f;
+
+			IsMouseVisible = true;
+			prevMX = 0;
+			prevMY = 0;
+			prevScrollTotal = 0;
+
 			xPressed = false;
 			mleftPressed = false;
 			rotOnceLeft = false;
@@ -92,14 +99,19 @@ namespace MrGuyLevelEditor
 			unfocused = false;
 			creatingObject = false;
 			step = 1;
+
 			currentCam = new Vector2[2];
 			tileInfo = new List<TileInformation>();
 			sbInfo = new List<StaticBodyInformation>();
 			objInfo = new List<ObjectInformation>();
 			camInfo = new List<CameraBoxInformation>();
+
 			Content.RootDirectory = "Content";
 		}
 
+		/// <summary>
+		/// Initializes components
+		/// </summary>
 		protected override void Initialize()
 		{
 			controls = new Controls();
@@ -108,6 +120,9 @@ namespace MrGuyLevelEditor
 			thisForm = (System.Windows.Forms.Form)System.Windows.Forms.Form.FromHandle(this.Window.Handle);
 		}
 
+		/// <summary>
+		/// Loads textures and sets up editor values
+		/// </summary>
 		protected override void LoadContent()
 		{
 			spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -121,8 +136,13 @@ namespace MrGuyLevelEditor
 		}
 
 		// Add to this every time you add a new texture
+		/// <summary>
+		/// Loads all tile textures from the Content folder
+		/// </summary>
 		private void BuildTileTextureDictionary()
 		{
+			// TODO: Change so they're loaded from folder with IO
+
 			TileTextures = new Dictionary<string, Texture2D>();
 			TileTextures.Add("dirt", Content.Load<Texture2D>("tiles/dirt"));
 			TileTextures.Add("flower1", Content.Load<Texture2D>("tiles/flower1"));
@@ -134,6 +154,9 @@ namespace MrGuyLevelEditor
 
 		}
 
+		/// <summary>
+		/// Loads all object textures and object properties
+		/// </summary>
 		private void BuildObjectsList()
 		{
 			using (StreamReader reader = new StreamReader("ObjectListItems.txt"))
@@ -147,9 +170,55 @@ namespace MrGuyLevelEditor
 
 			ObjectTextures = new Dictionary<string, Texture2D>();
 			ObjectTextures.Add("MrGuy.Objects.Box", Content.Load<Texture2D>("objects/box"));
+
 		}
 
+		#endregion
+
+		/// <summary>
+		/// Updates the screen
+		/// </summary>
+		/// <param name="gameTime">The amount of time passed</param>
 		protected override void Update(GameTime gameTime)
+		{
+			UpdateFocus();
+
+			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+				this.Exit();
+
+			if (controls.Tab == 0)
+			{
+				if (controls.NewPressed)
+					NewLevel();
+				else if (controls.SavePressed)
+					SaveLevel();
+				else if (controls.LoadPressed)
+					LoadLevel();
+				else if (controls.ColDonePressed || controls.CamDonePressed)
+					ResetControlButtons();
+			}
+			else if (controls.Tab == 1)
+			{
+				if (controls.SelectedTile != null)
+					selectedTexture = TileTextures[controls.SelectedTile];
+			}
+			else if (controls.Tab == 2)
+			{
+				if (controls.SelectedObject != null)
+					selectedTexture = ObjectTextures[controls.SelectedObject.ToString()];
+			}
+
+			UpdateMouseStuff();
+
+			base.Update(gameTime);
+		}
+
+		#region Control operations
+
+		/// <summary>
+		/// Changes which form has focus based on mouse position
+		/// </summary>
+		private void UpdateFocus()
 		{
 			controls.Location = new System.Drawing.Point(thisForm.Location.X - 207, thisForm.Location.Y);
 			if (this.IsActive)
@@ -168,112 +237,113 @@ namespace MrGuyLevelEditor
 			{
 				thisForm.Focus();
 			}
-
-			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-				this.Exit();
-
-			// Set up side bar
-			if (controls.Tab == 0)
-			{
-				if (controls.NewPressed)
-				{
-					tileInfo.Clear();
-					sbInfo.Clear();
-					objInfo.Clear();
-					controls.NewPressed = false;
-				}
-				else if (controls.SavePressed)
-				{
-					LevelData level = new LevelData();
-					level.size = new Vector2(levelSize.Width, levelSize.Height);
-					level.tiles = new List<TileInformation>();
-					foreach (TileInformation t in tileInfo)
-						TileInformation.AddTile(level.tiles, t.texture, new Vector2(t.X - levelSize.X, t.Y - levelSize.Y), t.Scale, t.Rotation, t.Layer, t.Effect);
-					level.staticBodies = new List<StaticBodyInformation>();
-					foreach (StaticBodyInformation sb in sbInfo)
-					{
-						StaticBodyInformation body = new StaticBodyInformation();
-						foreach (Vector2 p in sb.Points)
-							body.AddPoint(new Vector2(p.X - levelSize.X, p.Y - levelSize.Y));
-						level.staticBodies.Add(body);
-					}
-					level.objects = new List<ObjectInformation>();
-					foreach (ObjectInformation obj in objInfo)
-					{
-						ObjectInformation moved = new ObjectInformation();
-						moved.ParameterNames = obj.ParameterNames;
-						moved.ParameterValues = obj.ParameterValues;
-						moved.Position = obj.Position - new Vector2(levelSize.X, levelSize.Y);
-						moved.Texture = obj.Texture;
-						moved.Type = obj.Type;
-						level.objects.Add(moved);
-					}
-					level.cameras = new List<CameraBoxInformation>();
-					foreach (CameraBoxInformation cam in camInfo)
-					{
-						CameraBoxInformation moved = new CameraBoxInformation(
-							cam.Bounds.Left - (int)levelSize.X,
-							cam.Bounds.Top - (int)levelSize.Y,
-							cam.Bounds.Right - (int)levelSize.X,
-							cam.Bounds.Bottom - (int)levelSize.Y,
-							cam.Target, cam.Priority);
-						level.cameras.Add(moved);
-					}
-
-					controls.Save(level);
-
-					controls.SavePressed = false;
-				}
-				else if (controls.LoadPressed)
-				{
-					LevelData level = controls.LoadLevel();
-					if (level == null)
-						return;
-
-					levelSize = new Rectangle(0, 0, (int)level.size.X, (int)level.size.Y);
-					tileInfo = level.tiles;
-					sbInfo = level.staticBodies;
-					objInfo = level.objects;
-					camInfo = level.cameras;
-
-					controls.LoadPressed = false;
-				}
-				else if (controls.ColDonePressed)
-				{
-					if (currentBody != null && currentBody.Count() > 2)
-					{
-						sbInfo.Add(currentBody);
-						currentBody = null;
-					}
-					controls.ColDonePressed = false;
-					controls.CreatingMap = false;
-				}
-				else if (controls.CamDonePressed)
-				{
-					step = 1;
-					currentCam = new Vector2[2];
-					controls.CamDonePressed = false;
-					controls.CreatingCam = false;
-				}
-			}
-			else if (controls.Tab == 1)
-			{
-				if (controls.SelectedTile != null)
-					selectedTexture = TileTextures[controls.SelectedTile];
-			}
-			else if (controls.Tab == 2)
-			{
-				if (controls.SelectedObject != null)
-					selectedTexture = ObjectTextures[controls.SelectedObject.ToString()];
-			}
-
-			UpdateMouseStuff();
-
-			base.Update(gameTime);
 		}
 
+		/// <summary>
+		/// Clears the editor window
+		/// </summary>
+		private void NewLevel()
+		{
+			tileInfo.Clear();
+			sbInfo.Clear();
+			objInfo.Clear();
+			camInfo.Clear();
+			controls.NewPressed = false;
+		}
+
+		/// <summary>
+		/// Exports the level into an XML file
+		/// </summary>
+		private void SaveLevel()
+		{
+			LevelData level = new LevelData();
+			level.size = new Vector2(levelSize.Width, levelSize.Height);
+			level.tiles = new List<TileInformation>();
+			foreach (TileInformation t in tileInfo)
+				TileInformation.AddTile(level.tiles, t.texture, new Vector2(t.X - levelSize.X, t.Y - levelSize.Y), t.Scale, t.Rotation, t.Layer, t.Effect);
+			level.staticBodies = new List<StaticBodyInformation>();
+			foreach (StaticBodyInformation sb in sbInfo)
+			{
+				StaticBodyInformation body = new StaticBodyInformation();
+				foreach (Vector2 p in sb.Points)
+					body.AddPoint(new Vector2(p.X - levelSize.X, p.Y - levelSize.Y));
+				level.staticBodies.Add(body);
+			}
+			level.objects = new List<ObjectInformation>();
+			foreach (ObjectInformation obj in objInfo)
+			{
+				ObjectInformation moved = new ObjectInformation();
+				moved.ParameterNames = obj.ParameterNames;
+				moved.ParameterValues = obj.ParameterValues;
+				moved.Position = obj.Position - new Vector2(levelSize.X, levelSize.Y);
+				moved.Texture = obj.Texture;
+				moved.Type = obj.Type;
+				level.objects.Add(moved);
+			}
+			level.cameras = new List<CameraBoxInformation>();
+			foreach (CameraBoxInformation cam in camInfo)
+			{
+				CameraBoxInformation moved = new CameraBoxInformation(
+					cam.Bounds.Left - (int)levelSize.X,
+					cam.Bounds.Top - (int)levelSize.Y,
+					cam.Bounds.Right - (int)levelSize.X,
+					cam.Bounds.Bottom - (int)levelSize.Y,
+					cam.Target, cam.Priority);
+				level.cameras.Add(moved);
+			}
+
+			controls.Save(level);
+
+			controls.SavePressed = false;
+		}
+
+		/// <summary>
+		/// Loads a level from an XML file
+		/// </summary>
+		private void LoadLevel()
+		{
+			LevelData level = controls.LoadLevel();
+			if (level == null)
+				return;
+
+			levelSize = new Rectangle(0, 0, (int)level.size.X, (int)level.size.Y);
+			tileInfo = level.tiles;
+			sbInfo = level.staticBodies;
+			objInfo = level.objects;
+			camInfo = level.cameras;
+
+			controls.LoadPressed = false;
+		}
+
+		/// <summary>
+		/// Resets the buttons in the control window
+		/// </summary>
+		private void ResetControlButtons()
+		{
+			if (currentBody != null && currentBody.Count() > 2)
+			{
+				sbInfo.Add(currentBody);
+				currentBody = null;
+			}
+			step = 1;
+			currentCam = new Vector2[2];
+			controls.ColDonePressed = false;
+			controls.CreatingMap = false;
+			controls.CamDonePressed = false;
+			controls.CreatingCam = false;
+		}
+
+		#endregion
+
+		#region Editor operations
+
+		/// <summary>
+		/// Updates mouse-dependent actions
+		/// </summary>
 		private void UpdateMouseStuff()
 		{
+			#region Mouse left
+
 			if (Mouse.GetState().LeftButton == ButtonState.Pressed && MouseInBounds())
 			{
 				if (!mleftPressed)
@@ -282,121 +352,37 @@ namespace MrGuyLevelEditor
 					{
 						if (!changingBounds)
 						{
-							// Draw collision polygons
 							if (controls.Tab == 0)
 							{
 								if (controls.CreatingMap)
-								{
-									if (currentBody == null)
-										currentBody = new StaticBodyInformation(camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y));
-									else
-									{
-										bool done = currentBody.AddPoint(camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y));
-										if (done)
-										{
-											sbInfo.Add(currentBody);
-											currentBody = null;
-											controls.CreatingMap = false;
-										}
-									}
-								}
+									CreateMap();
 								else if (controls.CreatingCam)
-								{
-									if (step == 1)
-									{
-										step++;
-										currentCam[0] = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
-									}
-									else if (step == 2)
-									{
-										step++;
-										currentCam[1] = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
-									}
-									else
-									{
-										step = 1;
-										camInfo.Add(new CameraBoxInformation(
-														(int)currentCam[0].X,
-														(int)currentCam[0].Y,
-														(int)currentCam[1].X,
-														(int)currentCam[1].Y,
-														camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y),
-														controls.CamPriority));
-										currentCam = new Vector2[2];
-										controls.CreatingCam = false;
-									}
-								}
+									CreateCam();
 							}
-							// Add tiles
 							else if (controls.Tab == 1 && selectedTexture != null)
-							{
-								TileInformation.AddTile(tileInfo,
-														  controls.SelectedTile,
-														  camera.CameraToGlobalPos(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)),
-														  selTexScale / camera.TotalScale,
-														  selTexRotation,
-														  layer,
-														  selTexEffect);
-							}
-							// Add objects
+								CreateTile();
 							else if (controls.Tab == 2 && selectedTexture != null)
-							{
-								if (controls.SelectedObject.Parameters.Length > 0 && !creatingObject)
-								{
-									creatingObject = true;
-									MouseState state = Mouse.GetState();
-									ParameterEditor editor = new ParameterEditor();
-									editor.Location = controls.Location;
-									for (int i = 0; i < controls.SelectedObject.Parameters.Length; i++)
-									{
-										System.Windows.Forms.Label l = new System.Windows.Forms.Label();
-										l.Text = controls.SelectedObject.Parameters[i];
-										l.Location = new System.Drawing.Point(10, 10 + i * 30);
-										l.Tag = i;
-										editor.Controls.Add(l);
-										System.Windows.Forms.TextBox t = new System.Windows.Forms.TextBox();
-										t.Location = new System.Drawing.Point(130, 10 + i * 30);
-										t.Size = new System.Drawing.Size(275, t.Height);
-										t.Tag = i;
-										editor.Controls.Add(t);
-									}
-									System.Windows.Forms.DialogResult result = editor.ShowDialog();
-									ObjectInformation info = new ObjectInformation();
-									info.Type = controls.SelectedObject.Type;
-									info.Position = camera.CameraToGlobalPos(new Vector2(state.X, state.Y));
-									info.Texture = controls.SelectedObject.ToString();
-									info.ParameterNames = editor.ParameterNames;
-									info.ParameterValues = editor.ParameterValues;
-									objInfo.Add(info);
-									creatingObject = false;
-								}
-							}
+								CreateObject();
 						}
 						else
-						{
-							changingBounds = false;
-							Vector2 size = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
-							levelSize.Width = (int)size.X - levelSize.X;
-							levelSize.Height = (int)size.Y - levelSize.Y;
-						}
-
+							FinishChangingBounds();
 					}
 					else
 					{
-						// Change level size when holding shift
 						if (!changingBounds)
-						{
-							changingBounds = true;
-							Vector2 size = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
-							levelSize.X = (int)size.X;
-							levelSize.Y = (int)size.Y;
-						}
+							StartChangingBounds();
+						else
+							FinishChangingBounds();
 					}
 				}
 				mleftPressed = true;
 			}
 			else
 				mleftPressed = false;
+
+			#endregion
+
+			#region Mouse right
 
 			if (Mouse.GetState().RightButton == ButtonState.Pressed)
 			{
@@ -441,6 +427,10 @@ namespace MrGuyLevelEditor
 				}
 			}
 
+			#endregion
+
+			#region Rotating
+
 			// Rotate selection counterclockwise
 			if (Keyboard.GetState().IsKeyUp(Keys.LeftControl))
 			{
@@ -483,6 +473,10 @@ namespace MrGuyLevelEditor
 					selTexRotation -= MathHelper.TwoPi;
 			}
 
+			#endregion
+
+			#region Scaling
+
 			// Scale selection
 			if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 			{
@@ -506,6 +500,10 @@ namespace MrGuyLevelEditor
 					selTexScale /= 1.03f;
 			}
 
+			#endregion
+
+			#region Flipping
+
 			// Flip selection
 			if (Keyboard.GetState().IsKeyDown(Keys.X))
 			{
@@ -518,11 +516,19 @@ namespace MrGuyLevelEditor
 			else
 				xPressed = false;
 
+			#endregion
+
+			#region Layer
+
 			// Change selected layer
 			Keys[] pressedKeys = Keyboard.GetState().GetPressedKeys();
 			if (pressedKeys.Count() > 0)
 				if (pressedKeys[0] >= Keys.D0 && pressedKeys[0] <= Keys.D9)
 					layer = float.Parse(Enum.GetName(typeof(Keys), pressedKeys[0]).Substring(1)) / 9.0f;
+
+			#endregion
+
+			#region Camera controls
 
 			// Zoom
 			DScroll = Mouse.GetState().ScrollWheelValue - prevScrollTotal;
@@ -535,8 +541,134 @@ namespace MrGuyLevelEditor
 				camera.Pan(Mouse.GetState().X - prevMX, Mouse.GetState().Y - prevMY);
 			prevMX = Mouse.GetState().X;
 			prevMY = Mouse.GetState().Y;
+
+			#endregion
 		}
-		
+
+		/// <summary>
+		/// Proceeds to the next step of drawing collision polygons
+		/// </summary>
+		private void CreateMap()
+		{
+			if (currentBody == null)
+				currentBody = new StaticBodyInformation(camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y));
+			else
+			{
+				bool done = currentBody.AddPoint(camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y));
+				if (done)
+				{
+					sbInfo.Add(currentBody);
+					currentBody = null;
+					controls.CreatingMap = false;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Proceeds to the next step of creating a camera box
+		/// </summary>
+		private void CreateCam()
+		{
+			if (step == 1)
+			{
+				step++;
+				currentCam[0] = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
+			}
+			else if (step == 2)
+			{
+				step++;
+				currentCam[1] = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
+			}
+			else
+			{
+				step = 1;
+				camInfo.Add(new CameraBoxInformation(
+								(int)currentCam[0].X,
+								(int)currentCam[0].Y,
+								(int)currentCam[1].X,
+								(int)currentCam[1].Y,
+								camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y),
+								controls.CamPriority));
+				currentCam = new Vector2[2];
+				controls.CreatingCam = false;
+			}
+		}
+
+		/// <summary>
+		/// Adds a tile
+		/// </summary>
+		private void CreateTile()
+		{
+			TileInformation.AddTile(tileInfo,
+									  controls.SelectedTile,
+									  camera.CameraToGlobalPos(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)),
+									  selTexScale / camera.TotalScale,
+									  selTexRotation,
+									  layer,
+									  selTexEffect);
+		}
+
+		/// <summary>
+		/// Adds an object
+		/// </summary>
+		private void CreateObject()
+		{
+			if (controls.SelectedObject.Parameters.Length > 0 && !creatingObject)
+			{
+				creatingObject = true;
+				MouseState state = Mouse.GetState();
+				ParameterEditor editor = new ParameterEditor();
+				editor.Location = controls.Location;
+				for (int i = 0; i < controls.SelectedObject.Parameters.Length; i++)
+				{
+					System.Windows.Forms.Label l = new System.Windows.Forms.Label();
+					l.Text = controls.SelectedObject.Parameters[i];
+					l.Location = new System.Drawing.Point(10, 10 + i * 30);
+					l.Tag = i;
+					editor.Controls.Add(l);
+					System.Windows.Forms.TextBox t = new System.Windows.Forms.TextBox();
+					t.Location = new System.Drawing.Point(130, 10 + i * 30);
+					t.Size = new System.Drawing.Size(275, t.Height);
+					t.Tag = i;
+					editor.Controls.Add(t);
+				}
+				System.Windows.Forms.DialogResult result = editor.ShowDialog();
+				ObjectInformation info = new ObjectInformation();
+				info.Type = controls.SelectedObject.Type;
+				info.Position = camera.CameraToGlobalPos(new Vector2(state.X, state.Y));
+				info.Texture = controls.SelectedObject.ToString();
+				info.ParameterNames = editor.ParameterNames;
+				info.ParameterValues = editor.ParameterValues;
+				objInfo.Add(info);
+				creatingObject = false;
+			}
+		}
+
+		/// <summary>
+		/// Starts changing level bounds
+		/// </summary>
+		private void StartChangingBounds()
+		{
+			changingBounds = true;
+			Vector2 size = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
+			levelSize.X = (int)size.X;
+			levelSize.Y = (int)size.Y;
+		}
+
+		/// <summary>
+		/// Finishes changing level bounds
+		/// </summary>
+		private void FinishChangingBounds()
+		{
+			changingBounds = false;
+			Vector2 size = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
+			levelSize.Width = (int)size.X - levelSize.X;
+			levelSize.Height = (int)size.Y - levelSize.Y;
+		}
+
+		/// <summary>
+		/// Removes the items selected by the cursor
+		/// </summary>
 		private void RemoveThings()
 		{
 			Vector2 mouseCoords = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
@@ -640,6 +772,10 @@ namespace MrGuyLevelEditor
 			}
 		}
 
+		/// <summary>
+		/// Checks if the mouse is in the editor window
+		/// </summary>
+		/// <returns>True if the mouse is in the editor window</returns>
 		private bool MouseInBounds()
 		{
 			return Mouse.GetState().X >= 0 && Mouse.GetState().X <= Graphics.PreferredBackBufferWidth &&
@@ -683,6 +819,12 @@ namespace MrGuyLevelEditor
 			}
 		}
 
+		#endregion
+
+		/// <summary>
+		/// Renders everything in the editor
+		/// </summary>
+		/// <param name="gameTime">The amount of time passed</param>
 		protected override void Draw(GameTime gameTime)
 		{
 			GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -690,13 +832,44 @@ namespace MrGuyLevelEditor
 			spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 			MouseState state = Mouse.GetState();
 
-			// Draw objects
+			DrawTextures();
+			DrawCollisionMaps(state);
+			DrawCameraBoxes(state);
+
+			Vector2 levelTopLeft = camera.GlobalToCameraPos(levelSize.X, levelSize.Y);
+			DrawLevelBounds(levelTopLeft, state);
+			DrawInformation(levelTopLeft, state);
+
+			DrawMouse(state);
+
+			// Make sure you include scale values for camera and shit
+
+			// Draw debug stuff
+//			spriteBatch.DrawString(Global.Font, "(" + Mouse.GetState().X.ToString() + ", " + Mouse.GetState().Y.ToString() + ")", Vector2.Zero, Color.Black);
+//			spriteBatch.DrawString(Font, camera.X.ToString(), Vector2.Zero, Color.Black);
+
+			spriteBatch.End();
+
+			base.Draw(gameTime);
+		}
+
+		/// <summary>
+		/// Draws all the objects
+		/// </summary>
+		private void DrawTextures()
+		{
 			foreach (TileInformation tile in tileInfo)
 				tile.Draw(spriteBatch, camera);
 			foreach (ObjectInformation obj in objInfo)
 				obj.Draw(spriteBatch, camera);
+		}
 
-			// Draw collision map
+		/// <summary>
+		/// Draws all collision polygons
+		/// </summary>
+		/// <param name="state">The state of the mouse</param>
+		private void DrawCollisionMaps(MouseState state)
+		{
 			foreach (StaticBodyInformation sb in sbInfo)
 				sb.Draw(spriteBatch, camera);
 			if (currentBody != null)
@@ -704,11 +877,17 @@ namespace MrGuyLevelEditor
 				currentBody.Draw(spriteBatch, camera);
 				DrawLine(spriteBatch, camera.GlobalToCameraPos(currentBody.LastPoint()), new Vector2(state.X, state.Y), Color.Lime);
 			}
+		}
 
-			// Draw camera areas
+		/// <summary>
+		/// Draws all camera boxes
+		/// </summary>
+		/// <param name="state">The state of the mouse</param>
+		private void DrawCameraBoxes(MouseState state)
+		{
 			foreach (CameraBoxInformation box in camInfo)
 				box.Draw(spriteBatch, camera);
-			
+
 			if (step == 2)
 				DrawRectangleOutline(spriteBatch, new Rectangle(
 													(int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).X,
@@ -721,27 +900,46 @@ namespace MrGuyLevelEditor
 													(int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).Y,
 													(int)camera.GlobalToCameraPos((int)currentCam[1].X, (int)currentCam[1].Y).X - (int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).X,
 													(int)camera.GlobalToCameraPos((int)currentCam[1].X, (int)currentCam[1].Y).Y - (int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).Y), Color.Cyan);
+		}
 
-			// Draw level bounds
-			Vector2 levelTopLeft = camera.GlobalToCameraPos(levelSize.X, levelSize.Y);
+		/// <summary>
+		/// Draws the bounds of the level
+		/// </summary>
+		/// <param name="levelTopLeft">The position of the level's bounding box</param>
+		/// <param name="state">The state of the mouse</param>
+		private void DrawLevelBounds(Vector2 levelTopLeft, MouseState state)
+		{
 			Rectangle levelSizeSkewed = new Rectangle((int)levelTopLeft.X, (int)levelTopLeft.Y,
 													  changingBounds ? state.X - (int)levelTopLeft.X : (int)(levelSize.Width * camera.TotalScale),
 													  changingBounds ? state.Y - (int)levelTopLeft.Y : (int)(levelSize.Height * camera.TotalScale));
 			DrawRectangleOutline(spriteBatch, levelSizeSkewed, Color.Black);
 			if (changingBounds)
-				spriteBatch.DrawString(Font, 
-										"<" + ((state.X - (int)levelTopLeft.X) / camera.TotalScale).ToString() + 
+				spriteBatch.DrawString(Font,
+										"<" + ((state.X - (int)levelTopLeft.X) / camera.TotalScale).ToString() +
 										", " + ((state.Y - (int)levelTopLeft.Y) / camera.TotalScale).ToString() + ">",
 										Vector2.UnitX * state.X + Vector2.UnitY * state.Y, Color.Black);
-			
-			// Draw camera info
-			spriteBatch.DrawString(Font, "Mouse: <" + ((state.X - (int)levelTopLeft.X) / camera.TotalScale).ToString("0") + 
+		}
+
+		/// <summary>
+		/// Draws information at the bottom of the screen
+		/// </summary>
+		/// <param name="levelTopLeft">The position of the level's bounding box</param>
+		/// <param name="state">The state of the mouse</param>
+		private void DrawInformation(Vector2 levelTopLeft, MouseState state)
+		{
+			spriteBatch.DrawString(Font, "Mouse: <" + ((state.X - (int)levelTopLeft.X) / camera.TotalScale).ToString("0") +
 								   ", " + ((state.Y - (int)levelTopLeft.Y) / camera.TotalScale).ToString("0") + ">",
 								   new Vector2(Graphics.PreferredBackBufferWidth - 546, Graphics.PreferredBackBufferHeight - 32), Color.Black);
 			spriteBatch.DrawString(Font, "Zoom: x" + camera.TotalScale.ToString("0.00"), new Vector2(Graphics.PreferredBackBufferWidth - 300, Graphics.PreferredBackBufferHeight - 32), Color.Black);
 			spriteBatch.DrawString(Font, "Layer: " + layer.ToString("0.00"), new Vector2(Graphics.PreferredBackBufferWidth - 134, Graphics.PreferredBackBufferHeight - 32), Color.Black);
+		}
 
-			// Draw creation selection at mouse
+		/// <summary>
+		/// Draws mouse related drawings
+		/// </summary>
+		/// <param name="state">The state of the mouse</param>
+		private void DrawMouse(MouseState state)
+		{
 			if (controls.Tab == 1)
 			{
 				if (selectedTexture != null)
@@ -758,18 +956,15 @@ namespace MrGuyLevelEditor
 										new Vector2(selectedTexture.Width / 2, selectedTexture.Height / 2), camera.TotalScale, SpriteEffects.None, 0.555556f);
 				}
 			}
-
-			// Make sure you include scale values for camera and shit
-
-			// Draw debug stuff
-//			spriteBatch.DrawString(Global.Font, "(" + Mouse.GetState().X.ToString() + ", " + Mouse.GetState().Y.ToString() + ")", Vector2.Zero, Color.Black);
-//			spriteBatch.DrawString(Font, camera.X.ToString(), Vector2.Zero, Color.Black);
-
-			spriteBatch.End();
-
-			base.Draw(gameTime);
 		}
 
+		/// <summary>
+		/// Draws a line
+		/// </summary>
+		/// <param name="sb">The sprite batch used to draw the line</param>
+		/// <param name="point1">Initial point</param>
+		/// <param name="point2">Terminating point</param>
+		/// <param name="c">The color of the line</param>
 		public static void DrawLine(SpriteBatch sb, Vector2 point1, Vector2 point2, Color c)
 		{
 			float angle = (float)Math.Atan2(point2.Y - point1.Y, point2.X - point1.X);
@@ -777,6 +972,12 @@ namespace MrGuyLevelEditor
 			sb.Draw(BlankTexture, point1, null, c, angle, Vector2.Zero, new Vector2(length, 1), SpriteEffects.None, 0);
 		}
 
+		/// <summary>
+		/// Draws a rectangle
+		/// </summary>
+		/// <param name="sb">The sprite batch used to draw the rectangle</param>
+		/// <param name="r">The rectangle to draw</param>
+		/// <param name="c">The color of the rectangle</param>
 		public static void DrawRectangleOutline(SpriteBatch sb, Rectangle r, Color c)
 		{
 			DrawLine(sb, new Vector2(r.X, r.Y), new Vector2(r.X + r.Width, r.Y), c);

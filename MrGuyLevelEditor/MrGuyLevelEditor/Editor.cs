@@ -258,6 +258,10 @@ namespace MrGuyLevelEditor
 		{
 			LevelData level = new LevelData();
 			level.size = new Vector2(levelSize.Width, levelSize.Height);
+			level.R = controls.R;
+			level.G = controls.G;
+			level.B = controls.B;
+
 			level.tiles = new List<TileInformation>();
 			foreach (TileInformation t in tileInfo)
 				TileInformation.AddTile(level.tiles, t.texture, new Vector2(t.X - levelSize.X, t.Y - levelSize.Y), t.Scale, t.Rotation, t.Layer, t.Effect);
@@ -307,6 +311,10 @@ namespace MrGuyLevelEditor
 				return;
 
 			levelSize = new Rectangle(0, 0, (int)level.size.X, (int)level.size.Y);
+			controls.R = level.R;
+			controls.G = level.G;
+			controls.B = level.B;
+
 			tileInfo = level.tiles;
 			sbInfo = level.staticBodies;
 			objInfo = level.objects;

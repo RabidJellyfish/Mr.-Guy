@@ -96,20 +96,23 @@ namespace MrGuy.Screens
 			foreach (CameraBoxInformation cam in level.cameras)
 				this.objects.Add(new CameraBox(cam.Target, cam.Bounds, cam.Priority));
 
+
+			globalLighting.AmbientColor = new Color(level.R, level.G, level.B);
+
+			//---- Temp ----
 			Texture2D lightTexture = LightTextureBuilder.CreatePointLight(game.GraphicsDevice, 512);
 			Light2D globalLight = new Light2D()
 			{
 				Texture = lightTexture,
-				Range = 10000,
+				Range = 1000,
 				Color = Color.White,
 				Intensity = 1f,
 				X = level.size.X / 2,
 				Y = 0,
 				Fov = MathHelper.TwoPi
 			};
-			
 			globalLighting.Lights.Add(globalLight);
-			globalLighting.AmbientColor = new Color(50, 50, 50);
+			// -------------
 		}
 
 		public Camera GetCamera()

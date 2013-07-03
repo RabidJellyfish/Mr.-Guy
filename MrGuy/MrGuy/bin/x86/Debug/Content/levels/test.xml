@@ -4,6 +4,9 @@
     <X>2669</X>
     <Y>1354</Y>
   </size>
+  <R>50</R>
+  <G>50</G>
+  <B>50</B>
   <tiles>
     <TileInformation>
       <texture>dirt</texture>

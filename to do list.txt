@@ -5,7 +5,9 @@ To add new object
 
 TODO:
 
-- Lighting
+- Backgrounds
+
+- Global lighting customizability in level editor
 	
 - Level linking
 

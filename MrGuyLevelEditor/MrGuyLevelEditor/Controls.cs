@@ -39,6 +39,9 @@ namespace MrGuyLevelEditor
 		public bool LoadPressed { get; set; }
 
 		public float CamPriority { get { return float.Parse(txtPriority.Text); } }
+		public int R { get { return int.Parse(txtR.Text); } set { txtR.Text = value.ToString(); } }
+		public int G { get { return int.Parse(txtG.Text); } set { txtG.Text = value.ToString(); } }
+		public int B { get { return int.Parse(txtB.Text); } set { txtB.Text = value.ToString(); } }
 
 		public bool HasFocus { get; set; }
 
@@ -158,6 +161,14 @@ namespace MrGuyLevelEditor
 			float result;
 			if (!float.TryParse(txtPriority.Text, out result))
 				txtPriority.Text = "0";
+		}
+
+		private void txtColor_TextChanged(object sender, EventArgs e)
+		{
+			TextBox str = sender as TextBox;
+			int result;
+			if (!int.TryParse(str.Text, out result) || result > 255 || result < 0)
+				str.Text = "255";
 		}
 	}
 }

@@ -88,7 +88,7 @@ namespace MrGuy.Objects
 			torso = BodyFactory.CreateRectangle(w, 60 * MainGame.PIXEL_TO_METER, 80 * MainGame.PIXEL_TO_METER, 1);
 			torso.BodyType = BodyType.Dynamic;
 			torso.UserData = this;
-			legs = BodyFactory.CreateCircle(w, 31 * MainGame.PIXEL_TO_METER, 1);
+			legs = BodyFactory.CreateCircle(w, 32 * MainGame.PIXEL_TO_METER, 1);
 			legs.BodyType = BodyType.Dynamic;
 			legs.Friction = 5.0f;
 			legs.UserData = this;

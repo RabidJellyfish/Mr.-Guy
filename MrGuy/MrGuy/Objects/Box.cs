@@ -25,8 +25,9 @@ namespace MrGuy.Objects
 			set { box.Position = value * MainGame.PIXEL_TO_METER; }
 		}
 
-		public Box(World w, Vector2 pos, string width, string height)
+		public Box(World w, int index, Vector2 pos, string width, string height)
 		{
+			this.Index = index;
 			this.width = int.Parse(width);
 			this.height = int.Parse(height);
 			CreateBody(w, pos);

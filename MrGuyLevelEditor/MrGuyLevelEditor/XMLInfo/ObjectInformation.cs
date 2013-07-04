@@ -11,6 +11,7 @@ namespace MrGuyLevelEditor.XMLInfo
 	public class ObjectInformation
 	{
 		public string Type;
+		public int Index;
 		public string Texture;
 		public Vector2 Position;
 		public string[] ParameterValues;

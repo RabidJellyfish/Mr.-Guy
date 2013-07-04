@@ -68,6 +68,9 @@ namespace MrGuyLevelEditor
 		public List<CameraBoxInformation> camInfo;
 		Vector2[] currentCam;
 
+		List<int> indices;
+		int index;
+
 		#region Creation
 
 		/// <summary>
@@ -105,6 +108,9 @@ namespace MrGuyLevelEditor
 			sbInfo = new List<StaticBodyInformation>();
 			objInfo = new List<ObjectInformation>();
 			camInfo = new List<CameraBoxInformation>();
+
+			indices = new List<int>();
+			index = 0;
 
 			Content.RootDirectory = "Content";
 		}
@@ -627,6 +633,8 @@ namespace MrGuyLevelEditor
 				MouseState state = Mouse.GetState();
 				ParameterEditor editor = new ParameterEditor();
 				editor.Location = controls.Location;
+				UpdateIndex();
+				editor.Text = "ID: " + index;
 				for (int i = 0; i < controls.SelectedObject.Parameters.Length; i++)
 				{
 					System.Windows.Forms.Label l = new System.Windows.Forms.Label();
@@ -643,6 +651,7 @@ namespace MrGuyLevelEditor
 				System.Windows.Forms.DialogResult result = editor.ShowDialog();
 				ObjectInformation info = new ObjectInformation();
 				info.Type = controls.SelectedObject.Type;
+				info.Index = index;
 				info.Position = camera.CameraToGlobalPos(new Vector2(state.X, state.Y));
 				info.Texture = controls.SelectedObject.ToString();
 				info.ParameterNames = editor.ParameterNames;
@@ -650,6 +659,16 @@ namespace MrGuyLevelEditor
 				objInfo.Add(info);
 				creatingObject = false;
 			}
+		}
+
+		/// <summary>
+		/// Updates the index to a new unique number
+		/// </summary>
+		private void UpdateIndex()
+		{
+			while (indices.Contains(index))
+				index++;
+			indices.Add(index);
 		}
 
 		/// <summary>
@@ -776,7 +795,12 @@ namespace MrGuyLevelEditor
 						toRemove.Add(obj);
 				}
 				foreach (ObjectInformation obj in toRemove)
+				{
+					indices.Remove(obj.Index);
 					objInfo.Remove(obj);
+				}
+				index = 0;
+				UpdateIndex();
 			}
 		}
 
@@ -860,6 +884,8 @@ namespace MrGuyLevelEditor
 
 			base.Draw(gameTime);
 		}
+
+		#region Drawing
 
 		/// <summary>
 		/// Draws all the objects
@@ -993,5 +1019,7 @@ namespace MrGuyLevelEditor
 			DrawLine(sb, new Vector2(r.X + r.Width, r.Y), new Vector2(r.X + r.Width, r.Y + r.Height), c);
 			DrawLine(sb, new Vector2(r.X, r.Y + r.Height), new Vector2(r.X + r.Width, r.Y + r.Height), c);
 		}
+
+		#endregion
 	}
 }

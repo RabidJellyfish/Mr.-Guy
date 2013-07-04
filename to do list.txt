@@ -5,9 +5,12 @@ To add new object
 
 TODO:
 
-- Backgrounds
+- Give every object an index (for scripting purposes)
+	- Write GetObject(string/int index) method to get object from list
 
-- Global lighting customizability in level editor
+- Brainstorm
+
+- Backgrounds
 	
 - Level linking
 

@@ -48,7 +48,7 @@
 			this.ClientSize = new System.Drawing.Size(414, 518);
 			this.Controls.Add(this.button1);
 			this.Name = "ParameterEditor";
-			this.Text = "Parameter Editor";
+			this.Text = "ID: ";
 			this.ResumeLayout(false);
 
 		}

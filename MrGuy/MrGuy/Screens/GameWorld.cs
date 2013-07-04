@@ -85,11 +85,12 @@ namespace MrGuy.Screens
 			foreach (ObjectInformation obj in level.objects)
 			{
 //				Console.WriteLine(typeof(Box).AssemblyQualifiedName.ToArray());
-				object[] parameters = new object[obj.ParameterValues.Count() + 2];
+				object[] parameters = new object[obj.ParameterValues.Count() + 3];
 				parameters[0] = world;
-				parameters[1] = obj.Position;
-				for (int i = 2; i < parameters.Length; i++)
-					parameters[i] = obj.ParameterValues[i - 2];
+				parameters[1] = obj.Index;
+				parameters[2] = obj.Position;
+				for (int i = 3; i < parameters.Length; i++)
+					parameters[i] = obj.ParameterValues[i - 3];
 				GameObject converted = Activator.CreateInstance(Type.GetType(obj.Type), parameters) as GameObject;
 				this.objects.Add(converted);
 			}

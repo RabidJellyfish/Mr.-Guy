@@ -13,6 +13,8 @@ namespace MrGuy.Objects
 {
 	public abstract class GameObject
 	{
+		public int Index { get; set; }
+
 		public virtual Vector2 Position { get; set; }
 
 		public abstract void Update(List<GameObject> otherObjects);

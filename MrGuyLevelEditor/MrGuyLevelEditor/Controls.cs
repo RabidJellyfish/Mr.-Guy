@@ -77,7 +77,7 @@ namespace MrGuyLevelEditor
 		{
 			saveFD.FileName = "";
 			saveFD.Title = "Save level";
-			saveFD.InitialDirectory = Application.StartupPath;
+			saveFD.InitialDirectory = "C:\\Users\\Tad\\Desktop\\Documents\\Visual Studio 2010\\Projects\\MrGuy\\MrGuy\\MrGuy\\bin\\x86\\Debug\\Content\\levels";
 			saveFD.Filter = "XML Files (*.xml)|*.xml";
 			DialogResult result = saveFD.ShowDialog();
 			if (result == DialogResult.OK)
@@ -102,7 +102,7 @@ namespace MrGuyLevelEditor
 		{
 			openFD.FileName = "";
 			openFD.Title = "Open level";
-			openFD.InitialDirectory = Application.StartupPath;
+			openFD.InitialDirectory = "C:\\Users\\Tad\\Desktop\\Documents\\Visual Studio 2010\\Projects\\MrGuy\\MrGuy\\MrGuy\\bin\\x86\\Debug\\Content\\levels";
 			openFD.Filter = "XML Files (*.xml)|*.xml";
 			DialogResult result = openFD.ShowDialog();
 			if (result == DialogResult.OK)

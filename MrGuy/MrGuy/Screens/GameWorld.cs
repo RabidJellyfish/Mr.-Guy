@@ -97,7 +97,6 @@ namespace MrGuy.Screens
 			foreach (CameraBoxInformation cam in level.cameras)
 				this.objects.Add(new CameraBox(cam.Target, cam.Bounds, cam.Priority));
 
-
 			globalLighting.AmbientColor = new Color(level.R, level.G, level.B);
 
 			//---- Temp ----

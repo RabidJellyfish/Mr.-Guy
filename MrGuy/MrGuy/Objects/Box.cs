@@ -14,7 +14,7 @@ namespace MrGuy.Objects
 {
 	class Box : GameObject
 	{
-		private Body box;
+		public Body box;
 		private int width, height;
 
 		private Texture2D texture;

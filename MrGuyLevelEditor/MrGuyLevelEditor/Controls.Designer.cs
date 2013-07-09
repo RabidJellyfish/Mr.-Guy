@@ -100,7 +100,7 @@
 			this.txtB.Location = new System.Drawing.Point(144, 171);
 			this.txtB.Name = "txtB";
 			this.txtB.Size = new System.Drawing.Size(27, 20);
-			this.txtB.TabIndex = 4;
+			this.txtB.TabIndex = 10;
 			this.txtB.Text = "255";
 			this.txtB.TextChanged += new System.EventHandler(this.txtColor_TextChanged);
 			// 
@@ -109,7 +109,7 @@
 			this.txtG.Location = new System.Drawing.Point(90, 171);
 			this.txtG.Name = "txtG";
 			this.txtG.Size = new System.Drawing.Size(27, 20);
-			this.txtG.TabIndex = 4;
+			this.txtG.TabIndex = 9;
 			this.txtG.Text = "255";
 			this.txtG.TextChanged += new System.EventHandler(this.txtColor_TextChanged);
 			// 
@@ -118,7 +118,7 @@
 			this.txtR.Location = new System.Drawing.Point(36, 171);
 			this.txtR.Name = "txtR";
 			this.txtR.Size = new System.Drawing.Size(27, 20);
-			this.txtR.TabIndex = 4;
+			this.txtR.TabIndex = 8;
 			this.txtR.Text = "255";
 			this.txtR.TextChanged += new System.EventHandler(this.txtColor_TextChanged);
 			// 
@@ -172,7 +172,7 @@
 			this.txtPriority.Location = new System.Drawing.Point(106, 119);
 			this.txtPriority.Name = "txtPriority";
 			this.txtPriority.Size = new System.Drawing.Size(72, 20);
-			this.txtPriority.TabIndex = 2;
+			this.txtPriority.TabIndex = 7;
 			this.txtPriority.Text = "0.5";
 			this.txtPriority.TextChanged += new System.EventHandler(this.txtPriority_TextChanged);
 			// 
@@ -181,7 +181,7 @@
 			this.btnDrawCam.Location = new System.Drawing.Point(10, 90);
 			this.btnDrawCam.Name = "btnDrawCam";
 			this.btnDrawCam.Size = new System.Drawing.Size(110, 23);
-			this.btnDrawCam.TabIndex = 1;
+			this.btnDrawCam.TabIndex = 5;
 			this.btnDrawCam.Text = "Draw Camera Box";
 			this.btnDrawCam.UseVisualStyleBackColor = true;
 			this.btnDrawCam.Click += new System.EventHandler(this.btnDrawCam_Click);
@@ -191,7 +191,7 @@
 			this.btnCamDone.Location = new System.Drawing.Point(126, 90);
 			this.btnCamDone.Name = "btnCamDone";
 			this.btnCamDone.Size = new System.Drawing.Size(51, 23);
-			this.btnCamDone.TabIndex = 1;
+			this.btnCamDone.TabIndex = 6;
 			this.btnCamDone.Text = "Cancel";
 			this.btnCamDone.UseVisualStyleBackColor = true;
 			this.btnCamDone.Click += new System.EventHandler(this.btnCamDone_Click);
@@ -201,7 +201,7 @@
 			this.btnColDone.Location = new System.Drawing.Point(126, 61);
 			this.btnColDone.Name = "btnColDone";
 			this.btnColDone.Size = new System.Drawing.Size(52, 23);
-			this.btnColDone.TabIndex = 1;
+			this.btnColDone.TabIndex = 4;
 			this.btnColDone.Text = "Done";
 			this.btnColDone.UseVisualStyleBackColor = true;
 			this.btnColDone.Click += new System.EventHandler(this.btnColDone_Click);
@@ -211,7 +211,7 @@
 			this.btnDrawPoly.Location = new System.Drawing.Point(10, 61);
 			this.btnDrawPoly.Name = "btnDrawPoly";
 			this.btnDrawPoly.Size = new System.Drawing.Size(110, 23);
-			this.btnDrawPoly.TabIndex = 1;
+			this.btnDrawPoly.TabIndex = 3;
 			this.btnDrawPoly.Text = "Draw Collision Map";
 			this.btnDrawPoly.UseVisualStyleBackColor = true;
 			this.btnDrawPoly.Click += new System.EventHandler(this.btnDrawPoly_Click);
@@ -221,7 +221,7 @@
 			this.btnLoad.Location = new System.Drawing.Point(126, 6);
 			this.btnLoad.Name = "btnLoad";
 			this.btnLoad.Size = new System.Drawing.Size(52, 23);
-			this.btnLoad.TabIndex = 1;
+			this.btnLoad.TabIndex = 2;
 			this.btnLoad.Text = "Load";
 			this.btnLoad.UseVisualStyleBackColor = true;
 			this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
@@ -241,7 +241,7 @@
 			this.btnNew.Location = new System.Drawing.Point(10, 6);
 			this.btnNew.Name = "btnNew";
 			this.btnNew.Size = new System.Drawing.Size(52, 23);
-			this.btnNew.TabIndex = 1;
+			this.btnNew.TabIndex = 0;
 			this.btnNew.Text = "New";
 			this.btnNew.UseVisualStyleBackColor = true;
 			this.btnNew.Click += new System.EventHandler(this.btnNew_Click);

@@ -5,12 +5,29 @@ To add new object
 
 TODO:
 
-- Give every object an index (for scripting purposes)
-	- Write GetObject(string/int index) method to get object from list
-
 - Brainstorm
+	- Areas
+		- Forest (2 parts? 1 tutorial 1 other stuff)
+		- Guy village (hub)
+		- Skyland (name=wat, above forest)
+		- Volcano
+		- Temple
+		- Prison
+		- Dream world
 
 - Backgrounds
+	- position = camera.position * 0.5?
 	
 - Level linking
 
+- Scripts
+	- Store scripts in dictionary, each has object[] params
+	- Add script parameter in ObjectListItems (split each field by space, formatted 		"name param1 param2 etc"
+
+- Guys
+	- NPC, you can talk to them
+	- Attach scripts to them
+
+- Animals
+	- Big scary kind that chase/kill you if they see you
+	- Smaller kind that you can squish?

@@ -33,8 +33,8 @@ namespace MrGuyLevelEditor.XMLInfo
 					Color.White, 
 					ParameterNames.Contains("Rotation") ? float.Parse(ValueFromName("Rotation")) : 0f,
 					new Vector2(Editor.ObjectTextures[this.Texture].Width / 2, Editor.ObjectTextures[this.Texture].Height / 2),
-					camera.TotalScale * ((ParameterNames.Contains("Width") ? int.Parse(ValueFromName("Width")) / Editor.ObjectTextures[this.Texture].Width : 1f) * Vector2.UnitX +
-										 (ParameterNames.Contains("Height") ? int.Parse(ValueFromName("Height")) / Editor.ObjectTextures[this.Texture].Height : 1f) * Vector2.UnitY),
+					camera.TotalScale * ((ParameterNames.Contains("Width") ? (float)int.Parse(ValueFromName("Width")) / Editor.ObjectTextures[this.Texture].Width : 1f) * Vector2.UnitX +
+										 (ParameterNames.Contains("Height") ? (float)int.Parse(ValueFromName("Height")) / Editor.ObjectTextures[this.Texture].Height : 1f) * Vector2.UnitY),
 					SpriteEffects.None,
 					0.5555556f);
 		}

@@ -214,10 +214,10 @@ namespace MrGuy.Objects
 				{
 					if (onGround)
 					{
-						if (Keyboard.GetState().IsKeyDown(Keys.A))
-							torso.LinearVelocity -= 0.7f * Vector2.UnitX;
-						if (Keyboard.GetState().IsKeyDown(Keys.D))
-							torso.LinearVelocity += 0.7f * Vector2.UnitX;
+//						if (Keyboard.GetState().IsKeyDown(Keys.A))
+//						    torso.LinearVelocity -= 0.7f * Vector2.UnitX;
+//						if (Keyboard.GetState().IsKeyDown(Keys.D))
+//						    torso.LinearVelocity += 0.7f * Vector2.UnitX;
 						torso.LinearVelocity = new Vector2(torso.LinearVelocity.X, JUMP_VELOCITY);
 						holdJump = true;
 					}

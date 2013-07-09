@@ -141,23 +141,19 @@ namespace MrGuyLevelEditor
 			camera.Pan(-190, -112);
 		}
 
-		// Add to this every time you add a new texture
 		/// <summary>
 		/// Loads all tile textures from the Content folder
 		/// </summary>
 		private void BuildTileTextureDictionary()
 		{
-			// TODO: Change so they're loaded from folder with IO
-
 			TileTextures = new Dictionary<string, Texture2D>();
-			TileTextures.Add("dirt", Content.Load<Texture2D>("tiles/dirt"));
-			TileTextures.Add("flower1", Content.Load<Texture2D>("tiles/flower1"));
-			TileTextures.Add("flower2", Content.Load<Texture2D>("tiles/flower2"));
-			TileTextures.Add("flower3", Content.Load<Texture2D>("tiles/flower3"));
-			TileTextures.Add("grass", Content.Load<Texture2D>("tiles/grass"));
-			TileTextures.Add("leaves", Content.Load<Texture2D>("tiles/leaves"));
-			TileTextures.Add("tree trunk", Content.Load<Texture2D>("tiles/tree trunk"));
 
+			string[] files = Directory.GetFiles("Content\\tiles");
+			for (int i = 0; i < files.Length; i++)
+			{
+				string s = files[i].Replace(".xnb", "").Split('\\')[files[i].Split('\\').Length - 1];
+				TileTextures.Add(s, Content.Load<Texture2D>("tiles\\" + s));
+			}
 		}
 
 		/// <summary>
@@ -174,6 +170,7 @@ namespace MrGuyLevelEditor
 				reader.Close();
 			}
 
+			// Add to here everytime new object is added to editor
 			ObjectTextures = new Dictionary<string, Texture2D>();
 			ObjectTextures.Add("MrGuy.Objects.Box", Content.Load<Texture2D>("objects/box"));
 
@@ -253,7 +250,9 @@ namespace MrGuyLevelEditor
 			tileInfo.Clear();
 			sbInfo.Clear();
 			objInfo.Clear();
-			camInfo.Clear();
+			camInfo.Clear(); 
+			indices.Clear();
+			index = 0;
 			controls.NewPressed = false;
 		}
 
@@ -325,6 +324,11 @@ namespace MrGuyLevelEditor
 			sbInfo = level.staticBodies;
 			objInfo = level.objects;
 			camInfo = level.cameras;
+
+			indices.Clear();
+			foreach (ObjectInformation obj in objInfo)
+				indices.Add(obj.Index);
+			UpdateIndex();
 
 			controls.LoadPressed = false;
 		}
@@ -416,6 +420,7 @@ namespace MrGuyLevelEditor
 							MouseState state = Mouse.GetState();
 							ParameterEditor editor = new ParameterEditor();
 							editor.Location = controls.Location;
+							editor.Text = "ID: " + obj.Index.ToString();
 							for (int i = 0; i < obj.ParameterNames.Length; i++)
 							{
 								System.Windows.Forms.Label l = new System.Windows.Forms.Label();
@@ -634,6 +639,7 @@ namespace MrGuyLevelEditor
 				ParameterEditor editor = new ParameterEditor();
 				editor.Location = controls.Location;
 				UpdateIndex();
+				indices.Add(index);
 				editor.Text = "ID: " + index;
 				for (int i = 0; i < controls.SelectedObject.Parameters.Length; i++)
 				{
@@ -666,9 +672,9 @@ namespace MrGuyLevelEditor
 		/// </summary>
 		private void UpdateIndex()
 		{
+			index = 0;
 			while (indices.Contains(index))
 				index++;
-			indices.Add(index);
 		}
 
 		/// <summary>
@@ -799,7 +805,6 @@ namespace MrGuyLevelEditor
 					indices.Remove(obj.Index);
 					objInfo.Remove(obj);
 				}
-				index = 0;
 				UpdateIndex();
 			}
 		}

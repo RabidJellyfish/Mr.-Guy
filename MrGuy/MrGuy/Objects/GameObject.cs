@@ -20,5 +20,13 @@ namespace MrGuy.Objects
 		public abstract void Update(List<GameObject> otherObjects);
 
 		public abstract void Draw(SpriteBatch sb);
+
+		public static GameObject GetObjectFromIndex(int index, List<GameObject> objects)
+		{
+			var obj = from GameObject o in objects
+					  where o.Index == index
+					  select o;
+			return obj.First();
+		}
 	}
 }

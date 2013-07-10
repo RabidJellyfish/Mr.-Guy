@@ -4,9 +4,9 @@
     <X>2669</X>
     <Y>1354</Y>
   </size>
-  <R>255</R>
-  <G>255</G>
-  <B>255</B>
+  <R>50</R>
+  <G>50</G>
+  <B>50</B>
   <tiles>
     <TileInformation>
       <texture>dirt</texture>
@@ -1102,84 +1102,24 @@
     </TileInformation>
     <TileInformation>
       <texture>dirt</texture>
-      <X>93</X>
-      <Y>642</Y>
-      <Rotation>0.350000024</Rotation>
-      <Scale>
-        <X>2.57172751</X>
-        <Y>3.74069357</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
-      <X>11</X>
-      <Y>697</Y>
-      <Rotation>1.54999959</Rotation>
-      <Scale>
-        <X>2.57172751</X>
-        <Y>3.74069357</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
-      <X>18</X>
-      <Y>1006</Y>
-      <Rotation>3.09999824</Rotation>
-      <Scale>
-        <X>3.10970569</X>
-        <Y>2.221218</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
-      <X>95</X>
-      <Y>983</Y>
-      <Rotation>3.19999814</Rotation>
-      <Scale>
-        <X>2.24651885</X>
-        <Y>1.6046561</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>grass</texture>
-      <X>98</X>
-      <Y>935</Y>
+      <X>25</X>
+      <Y>993</Y>
       <Rotation>0</Rotation>
       <Scale>
-        <X>2.24651885</X>
-        <Y>1.6046561</Y>
+        <X>3.636364</X>
+        <Y>1.81818175</Y>
       </Scale>
       <Layer>0.5555556</Layer>
       <Effect>None</Effect>
     </TileInformation>
     <TileInformation>
       <texture>grass</texture>
-      <X>173</X>
-      <Y>938</Y>
-      <Rotation>6.08318472</Rotation>
+      <X>53</X>
+      <Y>928</Y>
+      <Rotation>0</Rotation>
       <Scale>
-        <X>1.2811594</X>
-        <Y>0.915113747</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>grass</texture>
-      <X>-26</X>
-      <Y>931</Y>
-      <Rotation>7.450581E-09</Rotation>
-      <Scale>
-        <X>2.31391549</X>
-        <Y>1.65279675</Y>
+        <X>2.91417623</X>
+        <Y>1.16567016</Y>
       </Scale>
       <Layer>0.5555556</Layer>
       <Effect>None</Effect>
@@ -1509,16 +1449,12 @@
           <Y>569</Y>
         </Vector2>
         <Vector2>
-          <X>117</X>
-          <Y>765</Y>
+          <X>-193</X>
+          <Y>762</Y>
         </Vector2>
         <Vector2>
-          <X>-123</X>
-          <Y>759</Y>
-        </Vector2>
-        <Vector2>
-          <X>-117</X>
-          <Y>915</Y>
+          <X>-196</X>
+          <Y>925</Y>
         </Vector2>
         <Vector2>
           <X>323</X>
@@ -1577,12 +1513,12 @@
           <Y>1482</Y>
         </Vector2>
         <Vector2>
-          <X>-199</X>
-          <Y>1449</Y>
+          <X>-387</X>
+          <Y>1428</Y>
         </Vector2>
         <Vector2>
-          <X>-193</X>
-          <Y>-63</Y>
+          <X>-322</X>
+          <Y>-77</Y>
         </Vector2>
       </Points>
     </StaticBodyInformation>
@@ -1593,8 +1529,8 @@
       <Index>0</Index>
       <Texture>MrGuy.Objects.Box</Texture>
       <Position>
-        <X>798</X>
-        <Y>200</Y>
+        <X>729</X>
+        <Y>144</Y>
       </Position>
       <ParameterValues>
         <string>32</string>
@@ -1610,8 +1546,8 @@
       <Index>0</Index>
       <Texture>MrGuy.Objects.Box</Texture>
       <Position>
-        <X>887</X>
-        <Y>229</Y>
+        <X>781</X>
+        <Y>222</Y>
       </Position>
       <ParameterValues>
         <string>32</string>
@@ -1627,8 +1563,8 @@
       <Index>0</Index>
       <Texture>MrGuy.Objects.Box</Texture>
       <Position>
-        <X>849</X>
-        <Y>156</Y>
+        <X>817</X>
+        <Y>139</Y>
       </Position>
       <ParameterValues>
         <string>32</string>
@@ -1644,8 +1580,8 @@
       <Index>0</Index>
       <Texture>MrGuy.Objects.Box</Texture>
       <Position>
-        <X>834</X>
-        <Y>274</Y>
+        <X>862</X>
+        <Y>236</Y>
       </Position>
       <ParameterValues>
         <string>32</string>
@@ -1661,8 +1597,8 @@
       <Index>0</Index>
       <Texture>MrGuy.Objects.Box</Texture>
       <Position>
-        <X>816</X>
-        <Y>76</Y>
+        <X>872</X>
+        <Y>152</Y>
       </Position>
       <ParameterValues>
         <string>32</string>
@@ -1678,8 +1614,8 @@
       <Index>0</Index>
       <Texture>MrGuy.Objects.Box</Texture>
       <Position>
-        <X>2036</X>
-        <Y>1185</Y>
+        <X>2045</X>
+        <Y>1201</Y>
       </Position>
       <ParameterValues>
         <string>140</string>
@@ -1695,36 +1631,39 @@
       <Index>0</Index>
       <Texture>MrGuy.Objects.Box</Texture>
       <Position>
-        <X>1821</X>
-        <Y>723</Y>
+        <X>2221</X>
+        <Y>783</Y>
       </Position>
       <ParameterValues>
-        <string>64</string>
-        <string>64</string>
+        <string>80</string>
+        <string>80</string>
       </ParameterValues>
       <ParameterNames>
         <string>Width</string>
         <string>Height</string>
+      </ParameterNames>
+    </ObjectInformation>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.LevelLink, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>0</Index>
+      <Texture>MrGuy.Objects.LevelLink</Texture>
+      <Position>
+        <X>-88</X>
+        <Y>825</Y>
+      </Position>
+      <ParameterValues>
+        <string>32</string>
+        <string>220</string>
+        <string>test</string>
+        <string>1920, 580</string>
+      </ParameterValues>
+      <ParameterNames>
+        <string>Width</string>
+        <string>Height</string>
+        <string>Level Name</string>
+        <string>New Position</string>
       </ParameterNames>
     </ObjectInformation>
   </objects>
-  <cameras>
-    <CameraBoxInformation>
-      <Target>
-        <X>1363</X>
-        <Y>717</Y>
-      </Target>
-      <Bounds>
-        <X>-6</X>
-        <Y>-2</Y>
-        <Width>2674</Width>
-        <Height>1357</Height>
-        <Location>
-          <X>-6</X>
-          <Y>-2</Y>
-        </Location>
-      </Bounds>
-      <Priority>0.5</Priority>
-    </CameraBoxInformation>
-  </cameras>
+  <cameras />
 </LevelData>

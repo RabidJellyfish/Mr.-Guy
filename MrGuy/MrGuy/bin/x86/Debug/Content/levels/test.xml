@@ -481,6 +481,27 @@
         <string>Height</string>
       </ParameterNames>
     </ObjectInformation>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.LevelLink, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>0</Index>
+      <Texture>MrGuy.Objects.LevelLink</Texture>
+      <Position>
+        <X>1953</X>
+        <Y>592</Y>
+      </Position>
+      <ParameterValues>
+        <string>32</string>
+        <string>200</string>
+        <string>test2</string>
+        <string>0, 800</string>
+      </ParameterValues>
+      <ParameterNames>
+        <string>Width</string>
+        <string>Height</string>
+        <string>Level Name</string>
+        <string>New Position</string>
+      </ParameterNames>
+    </ObjectInformation>
   </objects>
   <cameras />
 </LevelData>

@@ -19,12 +19,14 @@ TODO:
 	- position = camera.position * 0.5?
 	
 - Level linking
+	x Switch levels
+	- Make them fade in/out when level changes
 
 - Scripts
 	- Store scripts in dictionary, each has object[] params
 	- Add script parameter in ObjectListItems (split each field by space, formatted 		"name param1 param2 etc"
 
-- Guys
+- NPCGuys
 	- NPC, you can talk to them
 	- Attach scripts to them
 

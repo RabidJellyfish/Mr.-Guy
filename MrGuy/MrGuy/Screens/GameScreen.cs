@@ -20,7 +20,7 @@ namespace MrGuy.Screens
 		/// Runs once every frame, updates the game screen
 		/// </summary>
 		/// <returns>If the current gamescreen should ever change, this method will return that gamescreen. Otherwise it returns itself</returns>
-		GameScreen Update(GameTime gameTime);
+		GameScreen Update(Game game, GameTime gameTime);
 
 		/// <summary>
 		/// Called when the escape key is pressed

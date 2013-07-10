@@ -60,7 +60,7 @@ namespace MrGuy
 			texBox = Content.Load<Texture2D>("objects/box");
 			texPlayer = Content.Load<Texture2D>("mrguy");
 
-			currentScreen = new GameWorld(this, "test");
+			currentScreen = new GameWorld(new Vector2(100, 200), this, "test");
 		}
 
 		protected override void UnloadContent()
@@ -80,7 +80,7 @@ namespace MrGuy
 			else
 				escapePressed = false;
 
-			currentScreen = currentScreen == null ? null : currentScreen.Update(gameTime);
+			currentScreen = currentScreen == null ? null : currentScreen.Update(this, gameTime);
 			if (currentScreen == null)
 				this.Exit();
 

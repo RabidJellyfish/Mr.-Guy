@@ -40,9 +40,10 @@ namespace MrGuy.Screens
 
 		Dictionary<string, Texture2D> textures;
 
-		public GameWorld(Game game, string name)
+		public GameWorld(Vector2 playerPos, Game game, string name)
 		{
 			world = new World(9.8f * Vector2.UnitY);
+			
 			globalLighting = new KryptonEngine(game, "KryptonEffect");
 			globalLighting.Initialize();
 
@@ -51,8 +52,8 @@ namespace MrGuy.Screens
 			objects = new List<GameObject>();
 
 			Load(game, name);
-			player = new PlayerGuy(world, 100, 200, MainGame.texPlayer);
-			camera = new Camera(Vector2.Zero, size, 15f, player);
+			player = new PlayerGuy(world, playerPos.X, playerPos.Y, MainGame.texPlayer);
+			camera = new Camera(player.Position, size, 15f, this.player);
 		}
 
 		private void Load(Game game, string name)
@@ -120,19 +121,34 @@ namespace MrGuy.Screens
 			return this.camera;
 		}
 
-		public GameScreen Update(GameTime gameTime)
+		public GameScreen Update(Game game, GameTime gameTime)
 		{
+			// Update objects
 			foreach (GameObject obj in objects)
 				obj.Update(objects);
 			player.Update(objects);
-
 			camera.Update(objects);
 			world.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
+
+			// Change level if level link is hit
+			GameWorld changeWorld;
+			var links = from GameObject o in objects
+						where o is LevelLink
+						select o as LevelLink;
+			foreach (LevelLink l in links)
+			{
+				changeWorld = l.CheckWorldChange(game, player);
+				if (changeWorld == null)
+					changeWorld = this;
+				else
+					return changeWorld;
+			}
 			return this;
 		}
 
 		public GameScreen Exit()
 		{
+			// TODO: Show dialog, return to menu and stuff
 			return null;
 		}
 

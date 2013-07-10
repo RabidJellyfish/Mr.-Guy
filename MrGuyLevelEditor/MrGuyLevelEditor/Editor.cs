@@ -173,6 +173,7 @@ namespace MrGuyLevelEditor
 			// Add to here everytime new object is added to editor
 			ObjectTextures = new Dictionary<string, Texture2D>();
 			ObjectTextures.Add("MrGuy.Objects.Box", Content.Load<Texture2D>("objects/box"));
+			ObjectTextures.Add("MrGuy.Objects.LevelLink", Content.Load<Texture2D>("objects/unknown"));
 
 		}
 

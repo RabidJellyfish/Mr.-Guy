@@ -24,7 +24,7 @@ TODO:
 
 - Scripts
 	- Store scripts in dictionary, each has object[] params
-	- Add script parameter in ObjectListItems (split each field by space, formatted 		"name param1 param2 etc"
+	- Add script parameter in ObjectListItems (split each field by space, formatted "name param1 param2 etc"
 
 - NPCGuys
 	- NPC, you can talk to them

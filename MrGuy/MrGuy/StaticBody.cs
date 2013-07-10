@@ -46,7 +46,13 @@ namespace MrGuy
 			poly = BodyFactory.CreateCompoundPolygon(w, list, 1.0f);
 			poly.BodyType = BodyType.Static;
 
-			lightEngine.Hulls.Add(ShadowHull.CreateConvex(ref points));
+			foreach (Vertices v in list)
+			{
+				Vector2[] p = new Vector2[v.Count];
+				for (int i = 0; i < p.Length; i++)
+					p[i] = v[p.Length - i - 1] * MainGame.METER_TO_PIXEL;
+				lightEngine.Hulls.Add(ShadowHull.CreateConvex(ref p));
+			}
 		}
 
 		public void DebugDraw(SpriteBatch sb)

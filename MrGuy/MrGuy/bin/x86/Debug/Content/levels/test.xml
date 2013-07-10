@@ -4,9 +4,9 @@
     <X>1920</X>
     <Y>1080</Y>
   </size>
-  <R>255</R>
-  <G>255</G>
-  <B>255</B>
+  <R>150</R>
+  <G>150</G>
+  <B>150</B>
   <tiles>
     <TileInformation>
       <texture>dirt</texture>

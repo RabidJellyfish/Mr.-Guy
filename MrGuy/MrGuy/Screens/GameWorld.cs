@@ -40,6 +40,8 @@ namespace MrGuy.Screens
 
 		Dictionary<string, Texture2D> textures;
 
+		private Color targetLight;
+
 		public GameWorld(Vector2 playerPos, Game game, string name)
 		{
 			world = new World(9.8f * Vector2.UnitY);
@@ -98,18 +100,19 @@ namespace MrGuy.Screens
 			foreach (CameraBoxInformation cam in level.cameras)
 				this.objects.Add(new CameraBox(cam.Target, cam.Bounds, cam.Priority));
 
-			globalLighting.AmbientColor = new Color(level.R, level.G, level.B);
+			targetLight = new Color(level.R, level.G, level.B);
+			globalLighting.AmbientColor = new Color(0, 0, 0);
 
 			//---- Temp ----
 			Texture2D lightTexture = LightTextureBuilder.CreatePointLight(game.GraphicsDevice, 512);
 			Light2D globalLight = new Light2D()
 			{
 				Texture = lightTexture,
-				Range = 1000,
+				Range = 1600,
 				Color = Color.White,
 				Intensity = 1f,
 				X = level.size.X / 2,
-				Y = 0,
+				Y = 600,
 				Fov = MathHelper.TwoPi
 			};
 			globalLighting.Lights.Add(globalLight);
@@ -123,6 +126,12 @@ namespace MrGuy.Screens
 
 		public GameScreen Update(Game game, GameTime gameTime)
 		{
+			// Update light
+			if (globalLighting.AmbientColor != targetLight)
+				globalLighting.AmbientColor = new Color(Math.Min(globalLighting.AmbientColor.R + 5, targetLight.R),
+														Math.Min(globalLighting.AmbientColor.G + 5, targetLight.G),
+														Math.Min(globalLighting.AmbientColor.B + 5, targetLight.B));
+
 			// Update objects
 			foreach (GameObject obj in objects)
 				obj.Update(objects);
@@ -165,10 +174,10 @@ namespace MrGuy.Screens
 			globalLighting.Matrix = transformMatrix;
 			globalLighting.CullMode = CullMode.None;
 			globalLighting.Game.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-			globalLighting.Bluriness = 5;
+			globalLighting.Bluriness = 10;
 			globalLighting.LightMapPrepare();
 
-			game.GraphicsDevice.Clear(new Color(5, 5, 5));
+			game.GraphicsDevice.Clear(Color.CornflowerBlue);
 
 			globalLighting.Draw(gameTime);
 

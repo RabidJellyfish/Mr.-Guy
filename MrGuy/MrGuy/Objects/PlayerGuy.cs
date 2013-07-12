@@ -14,7 +14,10 @@ namespace MrGuy.Objects
 {
 	class PlayerGuy : Guy
 	{
-		public PlayerGuy(World w, float x, float y, Texture2D texture) : base(w, x, y, texture) { }
+		public PlayerGuy(World w, float x, float y, Texture2D texture) : base(w, x, y, texture) 
+		{
+			this.Index = -1;
+		}
 
 		public override void Update(List<GameObject> otherObjects)
 		{

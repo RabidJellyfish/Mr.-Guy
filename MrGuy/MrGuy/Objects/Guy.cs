@@ -63,8 +63,10 @@ namespace MrGuy.Objects
 			get { return _crouching; }
 			set
 			{
+				if (!_crouching && value)
+					legs.Rotation = 0f;
 				_crouching = value;
-				torso.CollidesWith = _crouching && onGround ? Category.None : Category.All;
+				torso.CollidesWith = _crouching ? Category.None : Category.All;
 			}
 		}
 
@@ -100,7 +102,6 @@ namespace MrGuy.Objects
 			axis.CollideConnected = false;
 			axis.MotorEnabled = true;
 			axis.MotorSpeed = 0.0f;
-			axis.MotorTorque = 3.0f;
 			axis.MaxMotorTorque = 10.0f;
 		}
 
@@ -130,7 +131,7 @@ namespace MrGuy.Objects
 		private void UpdateTexture()
 		{
 			currentTexture.Update();
-			if (!onGround)
+			if (!onGround && !Crouching)
 			{
 				if (currentTexture != texJump)
 					currentTexture = texJump;
@@ -143,38 +144,48 @@ namespace MrGuy.Objects
 
 		private void UpdateMovement()
 		{
+			if (Crouching)
+				currentTexture = texRoll;
+
 			if (MovingLeft)
 			{
 				facingLeft = true;
-				axis.MotorSpeed = 2.5f * -MathHelper.TwoPi;
-				if (onGround)
-					if (Crouching)
-						currentTexture = texRoll;
-					else
-						currentTexture = texRun;
-				if (!onGround && torso.LinearVelocity.X > -2)
+				axis.MotorEnabled = true;
+				axis.MaxMotorTorque = Crouching ? 0.3f : 10.0f;
+				axis.MotorSpeed = -MOTOR_SPEED;
+				if (onGround && !Crouching)
+					currentTexture = texRun;
+				if (!onGround && torso.LinearVelocity.X > -MAX_AIRSPEED)
 					torso.ApplyForce(ref left_airForce);
 			}
 			else if (MovingRight)
 			{
 				facingLeft = false;
-				axis.MotorSpeed = 2.5f * MathHelper.TwoPi;
-				if (onGround)
-					if (Crouching)
-						currentTexture = texRoll;
-					else
-						currentTexture = texRun;
-				if (!onGround && torso.LinearVelocity.X < 2)
+				axis.MotorEnabled = true;
+				axis.MaxMotorTorque = Crouching ? 0.3f : 10.0f;
+				axis.MotorSpeed = MOTOR_SPEED;
+				if (onGround && !Crouching)
+					currentTexture = texRun;
+				if (!onGround && torso.LinearVelocity.X < MAX_AIRSPEED)
 					torso.ApplyForce(ref right_airForce);
 			}
 			else
 			{
 				if (onGround)
+				{
 					if (Crouching)
-						currentTexture = texCrouch;
+					{
+						axis.MotorEnabled = false;
+						axis.MaxMotorTorque = 0.0f;
+					}
 					else
+					{
 						currentTexture = texIdle;
-				axis.MotorSpeed = 0;
+						axis.MotorEnabled = true;
+						axis.MaxMotorTorque = 10.0f;
+						axis.MotorSpeed = 0;
+					}
+				}
 			}
 
 			if (!onGround)
@@ -214,10 +225,12 @@ namespace MrGuy.Objects
 				{
 					if (onGround)
 					{
+						// Bunny hopping
 //						if (Keyboard.GetState().IsKeyDown(Keys.A))
 //						    torso.LinearVelocity -= 0.7f * Vector2.UnitX;
 //						if (Keyboard.GetState().IsKeyDown(Keys.D))
 //						    torso.LinearVelocity += 0.7f * Vector2.UnitX;
+
 						torso.LinearVelocity = new Vector2(torso.LinearVelocity.X, JUMP_VELOCITY);
 						holdJump = true;
 					}
@@ -239,9 +252,9 @@ namespace MrGuy.Objects
 		{
 			currentTexture.Draw(
 				sb,
-				Crouching && onGround ? legs.Position * MainGame.METER_TO_PIXEL : torso.Position * MainGame.METER_TO_PIXEL,
+				Crouching ? legs.Position * MainGame.METER_TO_PIXEL : torso.Position * MainGame.METER_TO_PIXEL,
 				Color.White,
-				Crouching && (MovingLeft || MovingRight) && onGround? legs.Rotation : 0f,
+				Crouching ? legs.Rotation : 0f,
 				new Vector2(60, 70),
 				Vector2.One,
 				facingLeft ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 

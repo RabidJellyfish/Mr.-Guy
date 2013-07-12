@@ -17,14 +17,14 @@ TODO:
 
 - Backgrounds
 	- position = camera.position * 0.5?
-	
-- Level linking
-	x Switch levels
-	- Make them fade in/out when level changes
 
 - Scripts
-	- Store scripts in dictionary, each has object[] params
-	- Add script parameter in ObjectListItems (split each field by space, formatted "name param1 param2 etc"
+	- Store scripts in dictionary<name, Script>, each has object[] params
+	- Add script parameter in ObjectListItems (split each field by space, formatted "script1,param1,param2#script2,param1,param2#etc."
+		- Objects you can add scripts to will have a list of scripts you can iterate through in Update method and stuff
+	- Call script with dictionary[name].Activate() or something
+	- Properties
+		- runOnce and hasRun bools, check dictionary for whether or not to repeat script
 
 - NPCGuys
 	- NPC, you can talk to them

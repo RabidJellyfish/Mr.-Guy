@@ -42,6 +42,7 @@ namespace MrGuy
 			graphics = new GraphicsDeviceManager(this);
 			graphics.PreferredBackBufferWidth = (int)(MAX_RES_X * RESOLUTION_SCALE);
 			graphics.PreferredBackBufferHeight = (int)(MAX_RES_Y * RESOLUTION_SCALE);
+			graphics.IsFullScreen = true;
 			graphics.ApplyChanges();
 			escapePressed = true;
 			Content.RootDirectory = "Content";

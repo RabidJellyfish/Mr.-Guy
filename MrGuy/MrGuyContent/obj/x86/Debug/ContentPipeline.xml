@@ -80,7 +80,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\mrguy.xnb</Output>
-      <Time>2013-07-01T20:45:49.011413-04:00</Time>
+      <Time>2013-07-16T21:21:16.0308591-04:00</Time>
     </Item>
     <Item>
       <Source>KryptonEffect.fx</Source>
@@ -90,6 +90,42 @@
       <Options>None</Options>
       <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\KryptonEffect.xnb</Output>
       <Time>2013-06-23T22:18:01.9685437-04:00</Time>
+    </Item>
+    <Item>
+      <Source>textbox_arrow.png</Source>
+      <Name>textbox_arrow</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\textbox_arrow.xnb</Output>
+      <Time>2013-07-16T21:24:57.1875085-04:00</Time>
+    </Item>
+    <Item>
+      <Source>textbox_corner.png</Source>
+      <Name>textbox_corner</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\textbox_corner.xnb</Output>
+      <Time>2013-07-16T21:25:28.8273182-04:00</Time>
+    </Item>
+    <Item>
+      <Source>textbox_edge.png</Source>
+      <Name>textbox_edge</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\textbox_edge.xnb</Output>
+      <Time>2013-07-16T21:25:13.9304662-04:00</Time>
+    </Item>
+    <Item>
+      <Source>speechFont.spritefont</Source>
+      <Name>speechFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\speechFont.xnb</Output>
+      <Time>2013-07-17T16:28:46.2766073-04:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

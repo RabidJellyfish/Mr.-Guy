@@ -17,6 +17,12 @@ namespace MrGuy.Objects
 		public PlayerGuy(World w, float x, float y, Texture2D texture) : base(w, x, y, texture) 
 		{
 			this.Index = -1;
+
+			texIdle = new AnimatedTexture(texture, 24, 0, 0, 120, 140);
+			texRun = new AnimatedTexture(texture, 19, 0, 140, 120, 140);
+			texJump = new AnimatedTexture(texture, 9, 19 * 120, 140, 120, 140, 1, false, false);
+			texRoll = new AnimatedTexture(texture, 1, 4 * 120, 280, 120, 140);
+			currentTexture = texIdle;
 		}
 
 		public override void Update(List<GameObject> otherObjects)

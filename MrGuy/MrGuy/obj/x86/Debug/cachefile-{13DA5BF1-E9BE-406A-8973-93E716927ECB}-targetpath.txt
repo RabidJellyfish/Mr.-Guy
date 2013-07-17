@@ -8,3 +8,7 @@ Content\tiles\tree trunk.xnb
 Content\objects\box.xnb
 Content\mrguy.xnb
 Content\KryptonEffect.xnb
+Content\textbox_arrow.xnb
+Content\textbox_corner.xnb
+Content\textbox_edge.xnb
+Content\speechFont.xnb

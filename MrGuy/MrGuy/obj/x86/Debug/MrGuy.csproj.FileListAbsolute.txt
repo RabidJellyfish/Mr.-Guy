@@ -24,3 +24,7 @@ C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin
 C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\mrguy.xnb
 C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\objects\box.xnb
 C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\objects\unknown.xnb
+C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\textbox_arrow.xnb
+C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\textbox_corner.xnb
+C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\textbox_edge.xnb
+C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuy\MrGuy\bin\x86\Debug\Content\speechFont.xnb

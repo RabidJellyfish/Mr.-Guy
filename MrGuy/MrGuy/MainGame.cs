@@ -42,7 +42,7 @@ namespace MrGuy
 			graphics = new GraphicsDeviceManager(this);
 			graphics.PreferredBackBufferWidth = (int)(MAX_RES_X * RESOLUTION_SCALE);
 			graphics.PreferredBackBufferHeight = (int)(MAX_RES_Y * RESOLUTION_SCALE);
-			graphics.IsFullScreen = true;
+			graphics.IsFullScreen = false;
 			graphics.ApplyChanges();
 			escapePressed = true;
 			Content.RootDirectory = "Content";
@@ -60,8 +60,12 @@ namespace MrGuy
 			blank.SetData(new[] { Color.White });
 			texBox = Content.Load<Texture2D>("objects/box");
 			texPlayer = Content.Load<Texture2D>("mrguy");
+			SpeechBubble.texSpeech_Corner = Content.Load<Texture2D>("textbox_corner");
+			SpeechBubble.texSpeech_Edge = Content.Load<Texture2D>("textbox_edge");
+			SpeechBubble.texSpeech_Arrow = Content.Load<Texture2D>("textbox_arrow");
+			SpeechBubble.fntSpeech = Content.Load<SpriteFont>("speechFont");
 
-			currentScreen = new GameWorld(new Vector2(100, 200), this, "test");
+			currentScreen = new GameWorld(new Vector2(300, 600), this, "test");
 		}
 
 		protected override void UnloadContent()

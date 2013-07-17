@@ -49,7 +49,7 @@ namespace MrGuy.Objects
 
 		public override void Draw(SpriteBatch sb)
 		{
-			sb.Draw(texture, this.Position, null, Color.White, box.Rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), new Vector2(width / texture.Width, height / texture.Height), SpriteEffects.None, 1f);
+			sb.Draw(texture, this.Position, null, Color.White, box.Rotation, new Vector2(texture.Width / 2f, texture.Height / 2f), new Vector2(width / texture.Width, height / texture.Height), SpriteEffects.None, 0.5f);
 		}
 	}
 }

@@ -14,6 +14,11 @@ TODO:
 		- Temple
 		- Prison
 		- Dream world
+		- Dock/Island
+			- Collect hamsters
+
+- Water
+	- Make PlayerGuy swim (probably kind of like Mario)
 
 - Backgrounds
 	- position = camera.position * 0.5?
@@ -25,6 +30,7 @@ TODO:
 	- Call script with dictionary[name].Activate() or something
 	- Properties
 		- runOnce and hasRun bools, check dictionary for whether or not to repeat script
+	- Store externally and use reflection?
 
 - NPCGuys
 	- NPC, you can talk to them

@@ -37,8 +37,8 @@ namespace MrGuy.Objects
 		private bool startJump, holdJump;
 
 		// Drawing
-		private AnimatedTexture texIdle, texRun, texJump, texCrouch, texRoll;
-		private AnimatedTexture currentTexture;
+		protected AnimatedTexture texIdle, texRun, texJump, texRoll;
+		protected AnimatedTexture currentTexture;
 
 		/// <summary>
 		/// Gets and sets the position of MrGuy (in pixel coordinates)
@@ -79,8 +79,6 @@ namespace MrGuy.Objects
 			onGround = false;
 			facingLeft = false;
 			startJump = holdJump = false;
-
-			SetUpTextures(texture);
 		}
 
 		private void CreateBody(World w, float x, float y)
@@ -103,17 +101,6 @@ namespace MrGuy.Objects
 			axis.MotorEnabled = true;
 			axis.MotorSpeed = 0.0f;
 			axis.MaxMotorTorque = 10.0f;
-		}
-
-		private void SetUpTextures(Texture2D guyTexture)
-		{
-			texIdle = new AnimatedTexture(guyTexture, 24, 0, 0, 120, 140);
-			texRun = new AnimatedTexture(guyTexture, 19, 0, 140, 120, 140);
-			texJump = new AnimatedTexture(guyTexture, 9, 19 * 120, 140, 120, 140, 1, false, false);
-			texCrouch = new AnimatedTexture(guyTexture, 1, 4 * 120, 280, 120, 140);
-			texRoll = new AnimatedTexture(guyTexture, 1, 5 * 120, 280, 120, 140);
-			
-			currentTexture = texIdle;
 		}
 
 		#endregion
@@ -258,7 +245,7 @@ namespace MrGuy.Objects
 				new Vector2(60, 70),
 				Vector2.One,
 				facingLeft ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 
-				0);
+				0.5f);
 		}
 	}
 }

@@ -54,6 +54,7 @@ namespace MrGuy.Screens
 			objects = new List<GameObject>();
 
 			Load(game, name);
+
 			player = new PlayerGuy(world, playerPos.X, playerPos.Y, MainGame.texPlayer);
 			objects.Add(player); // Player will have an index of -1
 			camera = new Camera(player.Position, size, 15f, this.player);
@@ -182,18 +183,13 @@ namespace MrGuy.Screens
 			globalLighting.Draw(gameTime);
 
 			sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, transformMatrix);
-			
-			// TODO: Draw tiles in layers 0-0.5 before objects
-
 			foreach (GameObject obj in objects)
 				obj.Draw(sb);
-
-			// TODO: Draw tiles in layers 0.5-1.0 after objects
-
 			foreach (Tile t in tiles)
 				t.Draw(sb, textures);
 //			foreach (StaticBody b in collisionMap)
 //				b.DebugDraw(sb);
+
 			sb.End();
 
 			globalLighting.Draw(gameTime);

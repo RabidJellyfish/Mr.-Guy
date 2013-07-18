@@ -25,19 +25,23 @@ namespace MrGuy.Objects
 		// Control values
 		private const float JUMP_VELOCITY = -7f;
 		private Vector2 JUMP_FORCE = -Vector2.UnitY * 2f;
+		private const float SWIM_VELOCITY = -2f;
 		private const float MAX_AIRSPEED = 2f;
 		private const float AIR_FORCE = 5f;
 		private const float MOTOR_SPEED = 2.5f * MathHelper.TwoPi;
 
 		private Vector2 left_airForce = -AIR_FORCE * Vector2.UnitX;
+		private Vector2 left_waterForce = -AIR_FORCE * 1.5f * Vector2.UnitX;
 		private Vector2 right_airForce = AIR_FORCE * Vector2.UnitX;
+		private Vector2 right_waterForce = AIR_FORCE * 1.5f * Vector2.UnitX;
 
 		private bool onGround;
+		private bool inWater, swimming;
 		private bool facingLeft;
 		private bool startJump, holdJump;
 
 		// Drawing
-		protected AnimatedTexture texIdle, texRun, texJump, texRoll;
+		protected AnimatedTexture texIdle, texRun, texJump, texRoll, texWaterIdle, texSwim;
 		protected AnimatedTexture currentTexture;
 
 		/// <summary>
@@ -77,8 +81,18 @@ namespace MrGuy.Objects
 			CreateBody(world, x, y);
 
 			onGround = false;
+			inWater = true;
 			facingLeft = false;
 			startJump = holdJump = false;
+
+			texIdle = new AnimatedTexture(texture, 24, 0, 0, 120, 140);
+			texRun = new AnimatedTexture(texture, 19, 0, 144, 120, 140);
+			texJump = new AnimatedTexture(texture, 9, 19 * 120, 144, 120, 140, 1, false, false);
+			texRoll = new AnimatedTexture(texture, 1, 4 * 120, 288, 120, 140);
+			texWaterIdle = new AnimatedTexture(texture, 14, 5 * 120, 288, 120, 140, 2, true, false);
+			texSwim = new AnimatedTexture(texture, 17, 19 * 120, 288, 120, 144);
+
+			currentTexture = texIdle;
 		}
 
 		private void CreateBody(World w, float x, float y)
@@ -109,16 +123,24 @@ namespace MrGuy.Objects
 
 		public override void Update(List<GameObject> otherObjects)
 		{
-			UpdateTexture();
 			UpdateMovement();
 			CheckOnGround();
 			UpdateJumping();
+			UpdateTexture();
 		}
 
 		private void UpdateTexture()
 		{
+			if (swimming && !Crouching)
+				currentTexture = texSwim;
 			currentTexture.Update();
-			if (!onGround && !Crouching)
+			if (swimming && currentTexture.Frame == texSwim.Length - 1)
+			{
+				texSwim.Frame = 0;
+				swimming = false;
+			}
+
+			if (!onGround && !Crouching && !inWater)
 			{
 				if (currentTexture != texJump)
 					currentTexture = texJump;
@@ -140,10 +162,15 @@ namespace MrGuy.Objects
 				axis.MotorEnabled = true;
 				axis.MaxMotorTorque = Crouching ? 0.3f : 10.0f;
 				axis.MotorSpeed = -MOTOR_SPEED;
-				if (onGround && !Crouching)
-					currentTexture = texRun;
-				if (!onGround && torso.LinearVelocity.X > -MAX_AIRSPEED)
-					torso.ApplyForce(ref left_airForce);
+				if (!Crouching)
+				{
+					if (onGround)
+						currentTexture = texRun;
+					else if (inWater)
+						swimming = true;
+				}
+				if (!onGround && torso.LinearVelocity.X > -MAX_AIRSPEED * (inWater ? 1.5f : 1f))
+					torso.ApplyForce(inWater ? left_waterForce : left_airForce);
 			}
 			else if (MovingRight)
 			{
@@ -151,10 +178,15 @@ namespace MrGuy.Objects
 				axis.MotorEnabled = true;
 				axis.MaxMotorTorque = Crouching ? 0.3f : 10.0f;
 				axis.MotorSpeed = MOTOR_SPEED;
-				if (onGround && !Crouching)
-					currentTexture = texRun;
-				if (!onGround && torso.LinearVelocity.X < MAX_AIRSPEED)
-					torso.ApplyForce(ref right_airForce);
+				if (!Crouching)
+				{
+					if (onGround)
+						currentTexture = texRun;
+					else if (inWater)
+						swimming = true;
+				}
+				if (!onGround && torso.LinearVelocity.X < MAX_AIRSPEED * (inWater ? 1.5f : 1f))
+					torso.ApplyForce(inWater ? right_waterForce : right_airForce);
 			}
 			else
 			{
@@ -171,6 +203,15 @@ namespace MrGuy.Objects
 						axis.MotorEnabled = true;
 						axis.MaxMotorTorque = 10.0f;
 						axis.MotorSpeed = 0;
+					}
+				}
+				else
+				{
+					if (inWater && !Crouching)
+					{
+						currentTexture = texWaterIdle;
+						if (Math.Abs(torso.LinearVelocity.X) > 0)
+							torso.ApplyForce(-Math.Sign(torso.LinearVelocity.X) * Vector2.UnitX * 3);
 					}
 				}
 			}
@@ -206,19 +247,31 @@ namespace MrGuy.Objects
 
 		private void UpdateJumping()
 		{
+			if (inWater)
+			{
+				if (torso.LinearVelocity.Y < (Crouching ? 5f : 2.5f))
+					torso.ApplyForce(Vector2.UnitY * (Crouching ? -3f : -6f) * (torso.Mass + legs.Mass));
+				else if (torso.LinearVelocity.Y > (Crouching ? 5f : 2.5f))
+					torso.ApplyForce(Vector2.UnitY * -14f * (torso.Mass + legs.Mass));
+				else
+					torso.ApplyForce(Vector2.UnitY * -world.Gravity * (torso.Mass + legs.Mass));
+			}
+
 			if (Jumping)
 			{
 				if (!startJump)
 				{
-					if (onGround)
+					if (onGround || inWater)
 					{
 						// Bunny hopping
 //						if (Keyboard.GetState().IsKeyDown(Keys.A))
 //						    torso.LinearVelocity -= 0.7f * Vector2.UnitX;
 //						if (Keyboard.GetState().IsKeyDown(Keys.D))
 //						    torso.LinearVelocity += 0.7f * Vector2.UnitX;
-
-						torso.LinearVelocity = new Vector2(torso.LinearVelocity.X, JUMP_VELOCITY);
+						if (!(inWater && Crouching))
+							torso.LinearVelocity = new Vector2(torso.LinearVelocity.X, JUMP_VELOCITY * (inWater ? 0.5f : 1f));
+						if (inWater)
+							swimming = true;
 						holdJump = true;
 					}
 					startJump = true;
@@ -229,7 +282,7 @@ namespace MrGuy.Objects
 				startJump = false;
 				holdJump = false;
 			}
-			if (holdJump && torso.LinearVelocity.Y < 0)
+			if (holdJump && torso.LinearVelocity.Y < 0 && !inWater)
 				torso.ApplyForce(JUMP_FORCE);
 		}
 

@@ -16,6 +16,8 @@ TODO:
 		- Dream world
 		- Dock/Island
 			- Collect hamsters
+		- Underground
+			- Mole monsters
 
 - Water
 	- Make PlayerGuy swim (probably kind of like Mario)
@@ -35,7 +37,3 @@ TODO:
 - NPCGuys
 	- NPC, you can talk to them
 	- Attach scripts to them
-
-- Animals
-	- Big scary kind that chase/kill you if they see you
-	- Smaller kind that you can squish?

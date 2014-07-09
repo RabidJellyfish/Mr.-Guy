@@ -81,7 +81,7 @@ namespace MrGuy.Objects
 			CreateBody(world, x, y);
 
 			onGround = false;
-			inWater = true;
+			inWater = false;
 			facingLeft = false;
 			startJump = holdJump = false;
 
@@ -264,10 +264,14 @@ namespace MrGuy.Objects
 					if (onGround || inWater)
 					{
 						// Bunny hopping
-//						if (Keyboard.GetState().IsKeyDown(Keys.A))
-//						    torso.LinearVelocity -= 0.7f * Vector2.UnitX;
-//						if (Keyboard.GetState().IsKeyDown(Keys.D))
-//						    torso.LinearVelocity += 0.7f * Vector2.UnitX;
+						if (!inWater)
+						{
+							if (Keyboard.GetState().IsKeyDown(Keys.A))
+								torso.LinearVelocity -= 0.7f * Vector2.UnitX;
+							if (Keyboard.GetState().IsKeyDown(Keys.D))
+								torso.LinearVelocity += 0.7f * Vector2.UnitX;
+						}
+
 						if (!(inWater && Crouching))
 							torso.LinearVelocity = new Vector2(torso.LinearVelocity.X, JUMP_VELOCITY * (inWater ? 0.5f : 1f));
 						if (inWater)

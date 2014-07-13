@@ -35,6 +35,7 @@ namespace MrGuy.Screens
 		List<Tile> tiles;
 		List<StaticBody> collisionMap;
 		List<GameObject> objects;
+		List<Trigger> triggers;
 
 		PlayerGuy player;
 
@@ -52,6 +53,7 @@ namespace MrGuy.Screens
 			tiles = new List<Tile>();
 			collisionMap = new List<StaticBody>();
 			objects = new List<GameObject>();
+			triggers = new List<Trigger>();
 
 			Load(game, name);
 
@@ -101,6 +103,8 @@ namespace MrGuy.Screens
 			}
 			foreach (CameraBoxInformation cam in level.cameras)
 				this.objects.Add(new CameraBox(cam.Target, cam.Bounds, cam.Priority));
+			foreach (TriggerInformation trigger in level.triggers)
+				this.triggers.Add(new Trigger(trigger.Bounds, trigger.Name, trigger.ObjID, trigger.WhenTrigger));
 
 			targetLight = new Color(level.R, level.G, level.B);
 			globalLighting.AmbientColor = new Color(0, 0, 0);
@@ -137,6 +141,9 @@ namespace MrGuy.Screens
 			// Update objects
 			foreach (GameObject obj in objects)
 				obj.Update(objects);
+			Trigger.ActiveTriggers.Clear();
+			foreach (Trigger t in triggers)
+				t.Update(objects);
 			camera.Update(objects);
 			world.Step((float)gameTime.ElapsedGameTime.TotalSeconds);
 

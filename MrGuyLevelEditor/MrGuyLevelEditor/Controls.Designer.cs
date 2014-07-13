@@ -52,6 +52,8 @@
 			this.lstObjects = new System.Windows.Forms.ListBox();
 			this.openFD = new System.Windows.Forms.OpenFileDialog();
 			this.saveFD = new System.Windows.Forms.SaveFileDialog();
+			this.btnDrawTrigger = new System.Windows.Forms.Button();
+			this.btnTriggerDone = new System.Windows.Forms.Button();
 			this.tabControl.SuspendLayout();
 			this.pageStuff.SuspendLayout();
 			this.pageTiles.SuspendLayout();
@@ -71,6 +73,8 @@
 			// 
 			// pageStuff
 			// 
+			this.pageStuff.Controls.Add(this.btnDrawTrigger);
+			this.pageStuff.Controls.Add(this.btnTriggerDone);
 			this.pageStuff.Controls.Add(this.txtB);
 			this.pageStuff.Controls.Add(this.txtG);
 			this.pageStuff.Controls.Add(this.txtR);
@@ -97,7 +101,7 @@
 			// 
 			// txtB
 			// 
-			this.txtB.Location = new System.Drawing.Point(144, 171);
+			this.txtB.Location = new System.Drawing.Point(135, 217);
 			this.txtB.Name = "txtB";
 			this.txtB.Size = new System.Drawing.Size(27, 20);
 			this.txtB.TabIndex = 10;
@@ -106,7 +110,7 @@
 			// 
 			// txtG
 			// 
-			this.txtG.Location = new System.Drawing.Point(90, 171);
+			this.txtG.Location = new System.Drawing.Point(81, 217);
 			this.txtG.Name = "txtG";
 			this.txtG.Size = new System.Drawing.Size(27, 20);
 			this.txtG.TabIndex = 9;
@@ -115,7 +119,7 @@
 			// 
 			// txtR
 			// 
-			this.txtR.Location = new System.Drawing.Point(36, 171);
+			this.txtR.Location = new System.Drawing.Point(27, 217);
 			this.txtR.Name = "txtR";
 			this.txtR.Size = new System.Drawing.Size(27, 20);
 			this.txtR.TabIndex = 8;
@@ -125,7 +129,7 @@
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(127, 174);
+			this.label5.Location = new System.Drawing.Point(118, 220);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(14, 13);
 			this.label5.TabIndex = 1;
@@ -134,7 +138,7 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(73, 174);
+			this.label4.Location = new System.Drawing.Point(64, 220);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(15, 13);
 			this.label4.TabIndex = 1;
@@ -143,7 +147,7 @@
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(19, 174);
+			this.label3.Location = new System.Drawing.Point(10, 220);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(15, 13);
 			this.label3.TabIndex = 1;
@@ -152,7 +156,7 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(19, 155);
+			this.label2.Location = new System.Drawing.Point(10, 201);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(54, 13);
 			this.label2.TabIndex = 1;
@@ -161,7 +165,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(19, 122);
+			this.label1.Location = new System.Drawing.Point(10, 168);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(81, 13);
 			this.label1.TabIndex = 3;
@@ -169,7 +173,7 @@
 			// 
 			// txtPriority
 			// 
-			this.txtPriority.Location = new System.Drawing.Point(106, 119);
+			this.txtPriority.Location = new System.Drawing.Point(97, 165);
 			this.txtPriority.Name = "txtPriority";
 			this.txtPriority.Size = new System.Drawing.Size(72, 20);
 			this.txtPriority.TabIndex = 7;
@@ -295,6 +299,26 @@
 			// 
 			this.openFD.FileName = "openFileDialog1";
 			// 
+			// btnDrawTrigger
+			// 
+			this.btnDrawTrigger.Location = new System.Drawing.Point(10, 119);
+			this.btnDrawTrigger.Name = "btnDrawTrigger";
+			this.btnDrawTrigger.Size = new System.Drawing.Size(110, 23);
+			this.btnDrawTrigger.TabIndex = 11;
+			this.btnDrawTrigger.Text = "Draw Trigger";
+			this.btnDrawTrigger.UseVisualStyleBackColor = true;
+			this.btnDrawTrigger.Click += new System.EventHandler(this.btnDrawTrigger_Click);
+			// 
+			// btnTriggerDone
+			// 
+			this.btnTriggerDone.Location = new System.Drawing.Point(126, 119);
+			this.btnTriggerDone.Name = "btnTriggerDone";
+			this.btnTriggerDone.Size = new System.Drawing.Size(51, 23);
+			this.btnTriggerDone.TabIndex = 12;
+			this.btnTriggerDone.Text = "Cancel";
+			this.btnTriggerDone.UseVisualStyleBackColor = true;
+			this.btnTriggerDone.Click += new System.EventHandler(this.btnTriggerDone_Click);
+			// 
 			// Controls
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -342,5 +366,7 @@
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Button btnDrawTrigger;
+		private System.Windows.Forms.Button btnTriggerDone;
 	}
 }

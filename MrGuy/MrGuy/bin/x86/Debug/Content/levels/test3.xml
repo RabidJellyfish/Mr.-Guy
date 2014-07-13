@@ -1,273 +1,177 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <LevelData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <size>
-    <X>3470</X>
-    <Y>1894</Y>
+    <X>1920</X>
+    <Y>1080</Y>
   </size>
-  <R>255</R>
+  <R>100</R>
   <G>255</G>
-  <B>255</B>
+  <B>0</B>
   <tiles>
     <TileInformation>
-      <texture>dirt</texture>
-      <X>132</X>
-      <Y>1876</Y>
-      <Rotation>0</Rotation>
+      <texture>tree trunk</texture>
+      <X>742</X>
+      <Y>570</Y>
+      <Rotation>1.75000048</Rotation>
       <Scale>
-        <X>4.752536</X>
-        <Y>4.752536</Y>
+        <X>7.051015</X>
+        <Y>1.85101724</Y>
+      </Scale>
+      <Layer>0.111111112</Layer>
+      <Effect>None</Effect>
+    </TileInformation>
+    <TileInformation>
+      <texture>tree trunk</texture>
+      <X>1452</X>
+      <Y>654</Y>
+      <Rotation>1.30000091</Rotation>
+      <Scale>
+        <X>7.051015</X>
+        <Y>1.85101724</Y>
+      </Scale>
+      <Layer>0.111111112</Layer>
+      <Effect>None</Effect>
+    </TileInformation>
+    <TileInformation>
+      <texture>tree trunk</texture>
+      <X>278</X>
+      <Y>596</Y>
+      <Rotation>4.63318062</Rotation>
+      <Scale>
+        <X>7.051015</X>
+        <Y>1.85101724</Y>
+      </Scale>
+      <Layer>0.111111112</Layer>
+      <Effect>None</Effect>
+    </TileInformation>
+    <TileInformation>
+      <texture>grass</texture>
+      <X>176</X>
+      <Y>1016</Y>
+      <Rotation>0.0500009544</Rotation>
+      <Scale>
+        <X>7.790078</X>
+        <Y>7.790078</Y>
       </Scale>
       <Layer>0.5555556</Layer>
       <Effect>None</Effect>
     </TileInformation>
     <TileInformation>
-      <texture>dirt</texture>
-      <X>369</X>
-      <Y>1872</Y>
-      <Rotation>0</Rotation>
+      <texture>grass</texture>
+      <X>256</X>
+      <Y>1024</Y>
+      <Rotation>0.650001049</Rotation>
       <Scale>
-        <X>4.752536</X>
-        <Y>4.752536</Y>
+        <X>7.790078</X>
+        <Y>7.790078</Y>
       </Scale>
       <Layer>0.5555556</Layer>
       <Effect>None</Effect>
     </TileInformation>
     <TileInformation>
-      <texture>dirt</texture>
-      <X>602</X>
-      <Y>1856</Y>
-      <Rotation>0</Rotation>
+      <texture>grass</texture>
+      <X>392</X>
+      <Y>1002</Y>
+      <Rotation>1.5000006</Rotation>
       <Scale>
-        <X>4.752536</X>
-        <Y>4.752536</Y>
+        <X>7.790078</X>
+        <Y>7.790078</Y>
       </Scale>
       <Layer>0.5555556</Layer>
       <Effect>None</Effect>
     </TileInformation>
     <TileInformation>
-      <texture>dirt</texture>
-      <X>-58</X>
-      <Y>1312</Y>
-      <Rotation>0</Rotation>
+      <texture>grass</texture>
+      <X>680</X>
+      <Y>1028</Y>
+      <Rotation>2.69999957</Rotation>
       <Scale>
-        <X>4.752536</X>
-        <Y>22.4191914</Y>
+        <X>7.790078</X>
+        <Y>7.790078</Y>
       </Scale>
       <Layer>0.5555556</Layer>
       <Effect>None</Effect>
     </TileInformation>
     <TileInformation>
-      <texture>dirt</texture>
-      <X>-68</X>
-      <Y>562</Y>
-      <Rotation>0</Rotation>
+      <texture>grass</texture>
+      <X>952</X>
+      <Y>986</Y>
+      <Rotation>4.04999828</Rotation>
       <Scale>
-        <X>4.752536</X>
-        <Y>22.4191914</Y>
+        <X>7.790078</X>
+        <Y>7.790078</Y>
       </Scale>
       <Layer>0.5555556</Layer>
       <Effect>None</Effect>
     </TileInformation>
     <TileInformation>
-      <texture>dirt</texture>
-      <X>881</X>
-      <Y>819</Y>
-      <Rotation>5.53318262</Rotation>
-      <Scale>
-        <X>3.864248</X>
-        <Y>18.2288589</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
-      <X>1191</X>
-      <Y>1082</Y>
-      <Rotation>5.333182</Rotation>
-      <Scale>
-        <X>2.7103076</X>
-        <Y>12.7853651</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
-      <X>1408</X>
-      <Y>1212</Y>
-      <Rotation>5.03318071</Rotation>
-      <Scale>
-        <X>2.7103076</X>
-        <Y>12.7853651</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
-      <X>1808</X>
-      <Y>1322</Y>
-      <Rotation>4.78317976</Rotation>
-      <Scale>
-        <X>2.7103076</X>
-        <Y>12.7853651</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
-      <X>1291</X>
-      <Y>1246</Y>
-      <Rotation>5.083181</Rotation>
-      <Scale>
-        <X>3.333334</X>
-        <Y>3.333334</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
-      <X>1395</X>
-      <Y>1269</Y>
-      <Rotation>4.68317938</Rotation>
-      <Scale>
-        <X>3.333334</X>
-        <Y>3.333334</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
-      <X>1288</X>
-      <Y>1856</Y>
-      <Rotation>0</Rotation>
-      <Scale>
-        <X>25.01552</X>
-        <Y>5.30787325</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
-      <X>2755</X>
-      <Y>1842</Y>
-      <Rotation>0</Rotation>
-      <Scale>
-        <X>25.01552</X>
-        <Y>5.30787325</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
-      <X>3392</X>
-      <Y>1056</Y>
-      <Rotation>4.633179</Rotation>
-      <Scale>
-        <X>25.01552</X>
-        <Y>5.30787325</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
-      <X>480</X>
-      <Y>421</Y>
-      <Rotation>4.68317938</Rotation>
-      <Scale>
-        <X>3.46069384</X>
-        <Y>3.46069384</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
-      <X>29</X>
-      <Y>457</Y>
-      <Rotation>0.50000006</Rotation>
-      <Scale>
-        <X>4.69999743</X>
-        <Y>0.9999999</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
-      <X>416</X>
-      <Y>600</Y>
-      <Rotation>5.683183</Rotation>
-      <Scale>
-        <X>4.69999743</X>
-        <Y>0.9999999</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
-      <X>68</X>
-      <Y>809</Y>
-      <Rotation>0.6000001</Rotation>
-      <Scale>
-        <X>4.69999743</X>
-        <Y>0.9999999</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
-      <X>423</X>
+      <texture>grass</texture>
+      <X>1244</X>
       <Y>990</Y>
-      <Rotation>5.53318262</Rotation>
+      <Rotation>5.40000343</Rotation>
       <Scale>
-        <X>4.69999743</X>
-        <Y>0.9999999</Y>
+        <X>7.790078</X>
+        <Y>7.790078</Y>
       </Scale>
       <Layer>0.5555556</Layer>
       <Effect>None</Effect>
     </TileInformation>
     <TileInformation>
-      <texture>dirt</texture>
-      <X>142</X>
-      <Y>1213</Y>
-      <Rotation>0.7500001</Rotation>
+      <texture>grass</texture>
+      <X>1310</X>
+      <Y>980</Y>
+      <Rotation>0.266821384</Rotation>
       <Scale>
-        <X>4.69999743</X>
-        <Y>0.9999999</Y>
+        <X>7.790078</X>
+        <Y>7.790078</Y>
       </Scale>
       <Layer>0.5555556</Layer>
       <Effect>None</Effect>
     </TileInformation>
     <TileInformation>
-      <texture>dirt</texture>
-      <X>20</X>
-      <Y>1571</Y>
-      <Rotation>6.23318529</Rotation>
+      <texture>grass</texture>
+      <X>1640</X>
+      <Y>950</Y>
+      <Rotation>0.5168214</Rotation>
       <Scale>
-        <X>4.69999743</X>
-        <Y>0.9999999</Y>
+        <X>7.790078</X>
+        <Y>7.790078</Y>
       </Scale>
       <Layer>0.5555556</Layer>
       <Effect>None</Effect>
     </TileInformation>
     <TileInformation>
-      <texture>dirt</texture>
-      <X>394</X>
-      <Y>1471</Y>
-      <Rotation>6.23318529</Rotation>
+      <texture>grass</texture>
+      <X>1840</X>
+      <Y>966</Y>
+      <Rotation>0.216821328</Rotation>
       <Scale>
-        <X>1.753505</X>
-        <Y>1.753505</Y>
+        <X>7.790078</X>
+        <Y>7.790078</Y>
+      </Scale>
+      <Layer>0.5555556</Layer>
+      <Effect>None</Effect>
+    </TileInformation>
+    <TileInformation>
+      <texture>grass</texture>
+      <X>614</X>
+      <Y>912</Y>
+      <Rotation>2.94999933</Rotation>
+      <Scale>
+        <X>7.790078</X>
+        <Y>7.790078</Y>
+      </Scale>
+      <Layer>0.5555556</Layer>
+      <Effect>None</Effect>
+    </TileInformation>
+    <TileInformation>
+      <texture>grass</texture>
+      <X>954</X>
+      <Y>960</Y>
+      <Rotation>2.94999933</Rotation>
+      <Scale>
+        <X>7.790078</X>
+        <Y>7.790078</Y>
       </Scale>
       <Layer>0.5555556</Layer>
       <Effect>None</Effect>
@@ -277,212 +181,167 @@
     <StaticBodyInformation>
       <Points>
         <Vector2>
-          <X>86</X>
-          <Y>1537</Y>
+          <X>-34</X>
+          <Y>876</Y>
         </Vector2>
         <Vector2>
-          <X>161</X>
-          <Y>1535</Y>
+          <X>52</X>
+          <Y>890</Y>
         </Vector2>
         <Vector2>
-          <X>166</X>
-          <Y>1589</Y>
-        </Vector2>
-        <Vector2>
-          <X>85</X>
-          <Y>1594</Y>
-        </Vector2>
-        <Vector2>
-          <X>92</X>
-          <Y>1733</Y>
-        </Vector2>
-        <Vector2>
-          <X>486</X>
-          <Y>1723</Y>
-        </Vector2>
-        <Vector2>
-          <X>665</X>
-          <Y>1701</Y>
-        </Vector2>
-        <Vector2>
-          <X>1980</X>
-          <Y>1689</Y>
-        </Vector2>
-        <Vector2>
-          <X>3278</X>
-          <Y>1677</Y>
-        </Vector2>
-        <Vector2>
-          <X>3168</X>
-          <Y>278</Y>
-        </Vector2>
-        <Vector2>
-          <X>3528</X>
-          <Y>247</Y>
-        </Vector2>
-        <Vector2>
-          <X>3527</X>
-          <Y>1967</Y>
-        </Vector2>
-        <Vector2>
-          <X>-62</X>
-          <Y>1975</Y>
-        </Vector2>
-        <Vector2>
-          <X>-54</X>
-          <Y>-68</Y>
-        </Vector2>
-        <Vector2>
-          <X>75</X>
-          <Y>-29</Y>
-        </Vector2>
-        <Vector2>
-          <X>82</X>
-          <Y>454</Y>
-        </Vector2>
-        <Vector2>
-          <X>164</X>
-          <Y>503</Y>
-        </Vector2>
-        <Vector2>
-          <X>143</X>
-          <Y>552</Y>
-        </Vector2>
-        <Vector2>
-          <X>75</X>
-          <Y>516</Y>
-        </Vector2>
-        <Vector2>
-          <X>90</X>
+          <X>140</X>
           <Y>792</Y>
         </Vector2>
         <Vector2>
-          <X>199</X>
-          <Y>868</Y>
-        </Vector2>
-        <Vector2>
-          <X>178</X>
-          <Y>908</Y>
-        </Vector2>
-        <Vector2>
-          <X>88</X>
-          <Y>857</Y>
-        </Vector2>
-        <Vector2>
-          <X>90</X>
-          <Y>1124</Y>
+          <X>260</X>
+          <Y>882</Y>
         </Vector2>
         <Vector2>
           <X>262</X>
-          <Y>1291</Y>
+          <Y>780</Y>
         </Vector2>
+        <Vector2>
+          <X>494</X>
+          <Y>774</Y>
+        </Vector2>
+        <Vector2>
+          <X>498</X>
+          <Y>822</Y>
+        </Vector2>
+        <Vector2>
+          <X>808</X>
+          <Y>752</Y>
+        </Vector2>
+        <Vector2>
+          <X>826</X>
+          <Y>794</Y>
+        </Vector2>
+        <Vector2>
+          <X>896</X>
+          <Y>728</Y>
+        </Vector2>
+        <Vector2>
+          <X>978</X>
+          <Y>836</Y>
+        </Vector2>
+        <Vector2>
+          <X>1132</X>
+          <Y>812</Y>
+        </Vector2>
+        <Vector2>
+          <X>1238</X>
+          <Y>834</Y>
+        </Vector2>
+        <Vector2>
+          <X>1308</X>
+          <Y>764</Y>
+        </Vector2>
+        <Vector2>
+          <X>1436</X>
+          <Y>840</Y>
+        </Vector2>
+        <Vector2>
+          <X>1506</X>
+          <Y>772</Y>
+        </Vector2>
+        <Vector2>
+          <X>1640</X>
+          <Y>824</Y>
+        </Vector2>
+        <Vector2>
+          <X>1912</X>
+          <Y>880</Y>
+        </Vector2>
+        <Vector2>
+          <X>1936</X>
+          <Y>1084</Y>
+        </Vector2>
+        <Vector2>
+          <X>-10</X>
+          <Y>1100</Y>
+        </Vector2>
+      </Points>
+    </StaticBodyInformation>
+    <StaticBodyInformation>
+      <Points>
         <Vector2>
           <X>228</X>
-          <Y>1331</Y>
+          <Y>376</Y>
         </Vector2>
         <Vector2>
-          <X>90</X>
-          <Y>1205</Y>
+          <X>286</X>
+          <Y>372</Y>
         </Vector2>
-      </Points>
-    </StaticBodyInformation>
-    <StaticBodyInformation>
-      <Points>
-        <Vector2>
-          <X>462</X>
-          <Y>529</Y>
-        </Vector2>
-        <Vector2>
-          <X>285</X>
-          <Y>656</Y>
-        </Vector2>
-        <Vector2>
-          <X>309</X>
-          <Y>704</Y>
-        </Vector2>
-        <Vector2>
-          <X>496</X>
-          <Y>571</Y>
-        </Vector2>
-        <Vector2>
-          <X>1179</X>
-          <Y>1296</Y>
-        </Vector2>
-        <Vector2>
-          <X>2199</X>
-          <Y>1429</Y>
-        </Vector2>
-        <Vector2>
-          <X>2210</X>
-          <Y>1271</Y>
-        </Vector2>
-        <Vector2>
-          <X>1717</X>
-          <Y>1231</Y>
-        </Vector2>
-        <Vector2>
-          <X>1382</X>
-          <Y>1118</Y>
-        </Vector2>
-        <Vector2>
-          <X>1157</X>
-          <Y>958</Y>
-        </Vector2>
-        <Vector2>
-          <X>571</X>
-          <Y>321</Y>
-        </Vector2>
-        <Vector2>
-          <X>374</X>
-          <Y>314</Y>
-        </Vector2>
-        <Vector2>
-          <X>385</X>
-          <Y>520</Y>
-        </Vector2>
-      </Points>
-    </StaticBodyInformation>
-    <StaticBodyInformation>
-      <Points>
         <Vector2>
           <X>300</X>
-          <Y>1067</Y>
+          <Y>478</Y>
         </Vector2>
         <Vector2>
-          <X>507</X>
-          <Y>873</Y>
-        </Vector2>
-        <Vector2>
-          <X>545</X>
-          <Y>911</Y>
-        </Vector2>
-        <Vector2>
-          <X>340</X>
-          <Y>1111</Y>
+          <X>238</X>
+          <Y>478</Y>
         </Vector2>
       </Points>
     </StaticBodyInformation>
     <StaticBodyInformation>
       <Points>
         <Vector2>
-          <X>338</X>
-          <Y>1420</Y>
+          <X>752</X>
+          <Y>344</Y>
         </Vector2>
         <Vector2>
-          <X>442</X>
-          <Y>1418</Y>
+          <X>734</X>
+          <Y>438</Y>
         </Vector2>
         <Vector2>
-          <X>445</X>
-          <Y>1511</Y>
+          <X>790</X>
+          <Y>452</Y>
         </Vector2>
         <Vector2>
-          <X>347</X>
-          <Y>1525</Y>
+          <X>806</X>
+          <Y>352</Y>
+        </Vector2>
+      </Points>
+    </StaticBodyInformation>
+    <StaticBodyInformation>
+      <Points>
+        <Vector2>
+          <X>1362</X>
+          <Y>448</Y>
+        </Vector2>
+        <Vector2>
+          <X>1386</X>
+          <Y>522</Y>
+        </Vector2>
+        <Vector2>
+          <X>1440</X>
+          <Y>504</Y>
+        </Vector2>
+        <Vector2>
+          <X>1422</X>
+          <Y>426</Y>
         </Vector2>
       </Points>
     </StaticBodyInformation>
   </staticBodies>
   <objects />
   <cameras />
+  <triggers>
+    <TriggerInformation>
+      <Bounds>
+        <X>197</X>
+        <Y>237</Y>
+        <Width>123</Width>
+        <Height>141</Height>
+        <Location>
+          <X>197</X>
+          <Y>237</Y>
+        </Location>
+      </Bounds>
+      <Name>secret</Name>
+      <ObjID>
+        <int>-1</int>
+      </ObjID>
+      <WhenTrigger>1</WhenTrigger>
+    </TriggerInformation>
+  </triggers>
 </LevelData>

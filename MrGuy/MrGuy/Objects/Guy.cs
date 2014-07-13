@@ -264,13 +264,14 @@ namespace MrGuy.Objects
 					if (onGround || inWater)
 					{
 						// Bunny hopping
-						if (!inWater)
-						{
-							if (Keyboard.GetState().IsKeyDown(Keys.A))
-								torso.LinearVelocity -= 0.7f * Vector2.UnitX;
-							if (Keyboard.GetState().IsKeyDown(Keys.D))
-								torso.LinearVelocity += 0.7f * Vector2.UnitX;
-						}
+						// Commented out because OP on upward slopes
+//						if (!inWater)
+//						{
+//							if (Keyboard.GetState().IsKeyDown(Keys.A))
+//								torso.LinearVelocity -= 0.7f * Vector2.UnitX;
+//							if (Keyboard.GetState().IsKeyDown(Keys.D))
+//								torso.LinearVelocity += 0.7f * Vector2.UnitX;
+//						}
 
 						if (!(inWater && Crouching))
 							torso.LinearVelocity = new Vector2(torso.LinearVelocity.X, JUMP_VELOCITY * (inWater ? 0.5f : 1f));

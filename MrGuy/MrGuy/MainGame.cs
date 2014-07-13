@@ -65,7 +65,7 @@ namespace MrGuy
 			SpeechBubble.texSpeech_Arrow = Content.Load<Texture2D>("textbox_arrow");
 			SpeechBubble.fntSpeech = Content.Load<SpriteFont>("speechFont");
 
-			currentScreen = new GameWorld(new Vector2(300, 600), this, "test");
+			currentScreen = new GameWorld(new Vector2(300, 600), this, "test3");
 		}
 
 		protected override void UnloadContent()

@@ -33,6 +33,14 @@ namespace MrGuyLevelEditor
 			set { creatingCam = value; btnDrawCam.Enabled = !creatingCam; }
 		}
 		public bool CamDonePressed { get; set; }
+
+		private bool creatingTrigger;
+		public bool CreatingTrigger
+		{
+			get { return creatingTrigger; }
+			set { creatingTrigger = value; btnDrawTrigger.Enabled = !creatingTrigger; }
+		}
+		public bool TriggerDonePressed { get; set; }
 		
 		public bool NewPressed { get; set; }
 		public bool SavePressed { get; set; }
@@ -45,10 +53,7 @@ namespace MrGuyLevelEditor
 
 		public bool HasFocus { get; set; }
 
-		public int Tab
-		{
-			get { return tabControl.SelectedIndex; }
-		}
+		public int Tab { get { return tabControl.SelectedIndex; } }
 
 		public string SelectedTile { get { return lstTiles.SelectedItem != null ? lstTiles.SelectedItem.ToString() : null; } }
 		public ObjectListItem SelectedObject { get { return lstObjects.SelectedItem != null ? (ObjectListItem)lstObjects.SelectedItem : null; } }
@@ -122,6 +127,7 @@ namespace MrGuyLevelEditor
 		{
 			this.CreatingMap = true;
 			this.CreatingCam = false;
+			this.CreatingTrigger = false;
 		}
 
 		private void btnColDone_Click(object sender, EventArgs e)
@@ -131,13 +137,26 @@ namespace MrGuyLevelEditor
 
 		private void btnDrawCam_Click(object sender, EventArgs e)
 		{
-			this.CreatingCam = true;
 			this.CreatingMap = false;
+			this.CreatingCam = true;
+			this.CreatingTrigger = false;
 		}
 
 		private void btnCamDone_Click(object sender, EventArgs e)
 		{
 			this.CamDonePressed = true;
+		}
+
+		private void btnDrawTrigger_Click(object sender, EventArgs e)
+		{
+			this.CreatingMap = false;
+			this.CreatingCam = false;
+			this.CreatingTrigger = true;
+		}
+
+		private void btnTriggerDone_Click(object sender, EventArgs e)
+		{
+			this.TriggerDonePressed = true;
 		}
 
 		private void Controls_Activated(object sender, EventArgs e)

@@ -1,42 +1,19 @@
-- Change how objects/tiles are handled in level editor
-	- Step based creation
-	  eg. for box:
-		1. size/rotation/position
-		2. Other params (name)
-	  for tile:
-		1. size/rotation/position
-	  for spotlight:
-		1. rotation/position
-		2. light radius/width
-		3. rotation angle
-		4. Other params (name, speed, color)
-	  for camera:
-		1. trigger area top left
-		2. trigger area bottom right
-		3. focus position
-		4. Other params (name, focus %age)
-	  for static collisions:
-		1. point 1
-		2. point 2
-		3. ...
-		x. return to first point
-	  blank object - used exclusively for scripting
-		1. Position
-		2. Name
-	  rope
-		1. Position 1
-		2. Position 2
-	- EditObject
-		All above would implement
-		editor would have "current" editedobject
-		fields
-			- bool IsBeingEdited
-			- bool IsBeingMoved
-			- NextStep
-			- Remove
-			- Rotate, Resize, Flip
-			- Vector2 position
+- Change how objects are handled in level editor
+	- Step based creation, use common attributes to make creation easy
+		Step 1:
+			FacingLeft = x for flipping 				(enemies, guys)
+			Width/Height = w/a || shift+(w/a/s/d) for resize	(boxes, triggers)
+			Rotation = a/d || ctrl+(a/d) for angle			(boxes)
+		Step 2:
+			Radius = mouse position					(spotlights, balls)
+			Position2 = mouse position				(strings, wires)
+		Step 3:
+			Other attributes = window popup
+		^^^ Mostly change DrawMouse() method ^^^
+
 	- Right click menu
+		Could just be popup window because ez
+
 - Scripts
 	- Objects have list of script structs
 		- name of script
@@ -45,7 +22,9 @@
 	- Put in dictionary on game load
 	- Make scripts global so certain scripts can't be triggered multiple times, even if level is reloaded
 		- http://stackoverflow.com/questions/3767942/storing-a-list-of-methods-in-c-sharp
+
 - Triggers
+	- Separate from Game Objects
 	- Steps
 		1. Top left
 		2. Bottom right
@@ -55,3 +34,6 @@
 		- objects cycle through scripts
 			- scripts activated by triggers cycle through list of triggers
 				if istriggered, activate script
+
+
+- Add zoom to camera?

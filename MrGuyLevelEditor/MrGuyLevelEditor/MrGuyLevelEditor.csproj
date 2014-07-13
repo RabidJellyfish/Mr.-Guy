@@ -119,6 +119,12 @@
     <Compile Include="Controls.Designer.cs">
       <DependentUpon>Controls.cs</DependentUpon>
     </Compile>
+    <Compile Include="TriggerEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TriggerEditor.Designer.cs">
+      <DependentUpon>TriggerEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="XMLInfo\CameraBoxInformation.cs" />
     <Compile Include="XMLInfo\LevelData.cs" />
     <Compile Include="XMLInfo\ObjectInformation.cs" />
@@ -134,6 +140,7 @@
     <Compile Include="Editor.cs" />
     <Compile Include="XMLInfo\StaticBodyInformation.cs" />
     <Compile Include="XMLInfo\TileInformation.cs" />
+    <Compile Include="XMLInfo\TriggerInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
@@ -179,6 +186,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ParameterEditor.resx">
       <DependentUpon>ParameterEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TriggerEditor.resx">
+      <DependentUpon>TriggerEditor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

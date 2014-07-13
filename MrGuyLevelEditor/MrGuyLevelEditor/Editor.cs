@@ -42,8 +42,11 @@ namespace MrGuyLevelEditor
 		private bool changingBounds;
 		private bool creatingObject;
 
+		private bool escapePressed = true;
+
 		Camera camera;
 		private int step;
+		Vector2[] currentBox;
 
 		Controls controls;
 		System.Windows.Forms.Form thisForm;
@@ -66,7 +69,7 @@ namespace MrGuyLevelEditor
 		StaticBodyInformation currentBody;
 		public List<ObjectInformation> objInfo;
 		public List<CameraBoxInformation> camInfo;
-		Vector2[] currentCam;
+		public List<TriggerInformation> triggerInfo;
 
 		List<int> indices;
 		int index;
@@ -103,11 +106,12 @@ namespace MrGuyLevelEditor
 			creatingObject = false;
 			step = 1;
 
-			currentCam = new Vector2[2];
+			currentBox = new Vector2[2];
 			tileInfo = new List<TileInformation>();
 			sbInfo = new List<StaticBodyInformation>();
 			objInfo = new List<ObjectInformation>();
 			camInfo = new List<CameraBoxInformation>();
+			triggerInfo = new List<TriggerInformation>();
 
 			indices = new List<int>();
 			index = 0;
@@ -188,7 +192,34 @@ namespace MrGuyLevelEditor
 			UpdateFocus();
 
 			if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-				this.Exit();
+			{
+				if (!escapePressed)
+				{
+					escapePressed = true;
+
+					if (controls.CreatingCam)
+					{
+						controls.CreatingCam = false;
+						step = 1;
+					}
+					else if (controls.CreatingMap)
+					{
+						controls.CreatingMap = false;
+						currentBody = null;
+					}
+					else if (controls.CreatingTrigger)
+					{
+						controls.CreatingTrigger = false;
+						step = 1;
+					}
+					else if (changingBounds)
+						changingBounds = false;
+					else
+						this.Exit();
+				}
+			}
+			else
+				escapePressed = false;
 
 			if (controls.Tab == 0)
 			{
@@ -251,7 +282,8 @@ namespace MrGuyLevelEditor
 			tileInfo.Clear();
 			sbInfo.Clear();
 			objInfo.Clear();
-			camInfo.Clear(); 
+			camInfo.Clear();
+			triggerInfo.Clear();
 			indices.Clear();
 			index = 0;
 			controls.NewPressed = false;
@@ -301,6 +333,17 @@ namespace MrGuyLevelEditor
 					cam.Target, cam.Priority);
 				level.cameras.Add(moved);
 			}
+			level.triggers = new List<TriggerInformation>();
+			foreach (TriggerInformation trigger in triggerInfo)
+			{
+				TriggerInformation moved = new TriggerInformation(
+					trigger.Bounds.Left - (int)levelSize.X,
+					trigger.Bounds.Top - (int)levelSize.Y,
+					trigger.Bounds.Right - (int)levelSize.X,
+					trigger.Bounds.Bottom - (int)levelSize.Y,
+					trigger.Name, trigger.ObjID, trigger.WhenTrigger);
+				level.triggers.Add(moved);
+			}
 
 			controls.Save(level);
 
@@ -325,6 +368,7 @@ namespace MrGuyLevelEditor
 			sbInfo = level.staticBodies;
 			objInfo = level.objects;
 			camInfo = level.cameras;
+			triggerInfo = level.triggers;
 
 			indices.Clear();
 			foreach (ObjectInformation obj in objInfo)
@@ -345,11 +389,13 @@ namespace MrGuyLevelEditor
 				currentBody = null;
 			}
 			step = 1;
-			currentCam = new Vector2[2];
+			currentBox = new Vector2[2];
 			controls.ColDonePressed = false;
 			controls.CreatingMap = false;
 			controls.CamDonePressed = false;
 			controls.CreatingCam = false;
+			controls.TriggerDonePressed = false;
+			controls.CreatingTrigger = false;
 		}
 
 		#endregion
@@ -377,6 +423,8 @@ namespace MrGuyLevelEditor
 									CreateMap();
 								else if (controls.CreatingCam)
 									CreateCam();
+								else if (controls.CreatingTrigger)
+									CreateTrigger();
 							}
 							else if (controls.Tab == 1 && selectedTexture != null)
 								CreateTile();
@@ -592,25 +640,49 @@ namespace MrGuyLevelEditor
 			if (step == 1)
 			{
 				step++;
-				currentCam[0] = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
+				currentBox[0] = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
 			}
 			else if (step == 2)
 			{
 				step++;
-				currentCam[1] = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
+				currentBox[1] = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
 			}
 			else
 			{
 				step = 1;
 				camInfo.Add(new CameraBoxInformation(
-								(int)currentCam[0].X,
-								(int)currentCam[0].Y,
-								(int)currentCam[1].X,
-								(int)currentCam[1].Y,
+								(int)currentBox[0].X,
+								(int)currentBox[0].Y,
+								(int)currentBox[1].X,
+								(int)currentBox[1].Y,
 								camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y),
 								controls.CamPriority));
-				currentCam = new Vector2[2];
+				currentBox = new Vector2[2];
 				controls.CreatingCam = false;
+			}
+		}
+
+		/// <summary>
+		/// Proceeds to the next step of creating a trigger
+		/// </summary>
+		private void CreateTrigger()
+		{
+			if (step == 1)
+			{
+				step++;
+				currentBox[0] = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
+			}
+			else if (step == 2)
+			{
+				step = 3;
+				currentBox[1] = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
+				TriggerEditor editor = new TriggerEditor();
+				editor.Location = controls.Location;
+				System.Windows.Forms.DialogResult result = editor.ShowDialog();
+				TriggerInformation info = new TriggerInformation((int)currentBox[0].X, (int)currentBox[0].Y, (int)currentBox[1].X, (int)currentBox[1].Y, editor.Name, editor.ObjectIDs, editor.WhenTrigger);
+				triggerInfo.Add(info);
+				controls.CreatingTrigger = false;
+				step = 1;
 			}
 		}
 
@@ -767,6 +839,22 @@ namespace MrGuyLevelEditor
 					}
 					if (toRemove2 != null)
 						camInfo.Remove(toRemove2);
+
+					TriggerInformation toRemove3 = null;
+					foreach (TriggerInformation trigger in triggerInfo)
+					{
+						Vector2 topleft = new Vector2(trigger.Bounds.Left, trigger.Bounds.Top);
+						Vector2 topright = new Vector2(trigger.Bounds.Right, trigger.Bounds.Top);
+						Vector2 bottomleft = new Vector2(trigger.Bounds.Left, trigger.Bounds.Bottom);
+						Vector2 bottomright = new Vector2(trigger.Bounds.Right, trigger.Bounds.Bottom);
+						if ((camToGlob - topleft).Length() <= 5 || (camToGlob - topright).Length() <= 5 || (camToGlob - bottomleft).Length() <= 5 || (camToGlob - bottomright).Length() <= 5)
+						{
+							toRemove3 = trigger;
+							break;
+						}
+					}
+					if (toRemove3 != null)
+						triggerInfo.Remove(toRemove3);
 				}
 			}
 			else if (controls.Tab == 1)
@@ -872,6 +960,7 @@ namespace MrGuyLevelEditor
 
 			DrawTextures();
 			DrawCollisionMaps(state);
+			DrawTriggers(state);
 			DrawCameraBoxes(state);
 
 			Vector2 levelTopLeft = camera.GlobalToCameraPos(levelSize.X, levelSize.Y);
@@ -930,16 +1019,39 @@ namespace MrGuyLevelEditor
 
 			if (step == 2)
 				DrawRectangleOutline(spriteBatch, new Rectangle(
-													(int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).X,
-													(int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).Y,
-													Mouse.GetState().X - (int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).X,
-													Mouse.GetState().Y - (int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).Y), Color.Cyan);
+													(int)camera.GlobalToCameraPos((int)currentBox[0].X, (int)currentBox[0].Y).X,
+													(int)camera.GlobalToCameraPos((int)currentBox[0].X, (int)currentBox[0].Y).Y,
+													Mouse.GetState().X - (int)camera.GlobalToCameraPos((int)currentBox[0].X, (int)currentBox[0].Y).X,
+													Mouse.GetState().Y - (int)camera.GlobalToCameraPos((int)currentBox[0].X, (int)currentBox[0].Y).Y), Color.Cyan);
 			else if (step == 3)
 				DrawRectangleOutline(spriteBatch, new Rectangle(
-													(int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).X,
-													(int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).Y,
-													(int)camera.GlobalToCameraPos((int)currentCam[1].X, (int)currentCam[1].Y).X - (int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).X,
-													(int)camera.GlobalToCameraPos((int)currentCam[1].X, (int)currentCam[1].Y).Y - (int)camera.GlobalToCameraPos((int)currentCam[0].X, (int)currentCam[0].Y).Y), Color.Cyan);
+													(int)camera.GlobalToCameraPos((int)currentBox[0].X, (int)currentBox[0].Y).X,
+													(int)camera.GlobalToCameraPos((int)currentBox[0].X, (int)currentBox[0].Y).Y,
+													(int)camera.GlobalToCameraPos((int)currentBox[1].X, (int)currentBox[1].Y).X - (int)camera.GlobalToCameraPos((int)currentBox[0].X, (int)currentBox[0].Y).X,
+													(int)camera.GlobalToCameraPos((int)currentBox[1].X, (int)currentBox[1].Y).Y - (int)camera.GlobalToCameraPos((int)currentBox[0].X, (int)currentBox[0].Y).Y), Color.Cyan);
+		}
+
+		/// <summary>
+		/// Draw all triggers
+		/// </summary>
+		/// <param name="state">The state of the mouse</param>
+		private void DrawTriggers(MouseState state)
+		{
+			foreach (TriggerInformation trigger in triggerInfo)
+				trigger.Draw(spriteBatch, camera, state);
+
+			if (step == 2)
+				DrawRectangleOutline(spriteBatch, new Rectangle(
+													(int)camera.GlobalToCameraPos((int)currentBox[0].X, (int)currentBox[0].Y).X,
+													(int)camera.GlobalToCameraPos((int)currentBox[0].X, (int)currentBox[0].Y).Y,
+													Mouse.GetState().X - (int)camera.GlobalToCameraPos((int)currentBox[0].X, (int)currentBox[0].Y).X,
+													Mouse.GetState().Y - (int)camera.GlobalToCameraPos((int)currentBox[0].X, (int)currentBox[0].Y).Y), Color.Cyan);
+			else if (step == 3)
+				DrawRectangleOutline(spriteBatch, new Rectangle(
+													(int)camera.GlobalToCameraPos((int)currentBox[0].X, (int)currentBox[0].Y).X,
+													(int)camera.GlobalToCameraPos((int)currentBox[0].X, (int)currentBox[0].Y).Y,
+													(int)camera.GlobalToCameraPos((int)currentBox[1].X, (int)currentBox[1].Y).X - (int)camera.GlobalToCameraPos((int)currentBox[0].X, (int)currentBox[0].Y).X,
+													(int)camera.GlobalToCameraPos((int)currentBox[1].X, (int)currentBox[1].Y).Y - (int)camera.GlobalToCameraPos((int)currentBox[0].X, (int)currentBox[0].Y).Y), Color.Cyan);
 		}
 
 		/// <summary>

@@ -20,6 +20,7 @@ namespace MrGuy.Objects
 		private Vector2 newPosition;
 
 		public LevelLink(World world, int index, Vector2 pos, string width, string height, string destination, string newPos)
+			: base()
 		{
 			this.Position = pos;
 			this.Index = index;
@@ -44,9 +45,11 @@ namespace MrGuy.Objects
 				return null;
 		}
 
-		public override void Update(List<GameObject> otherObjects) 
+		public override void Update(List<GameObject> otherObjects, GameTime gameTime) 
 		{
  			// Update fadeout here?
+
+			base.Update(otherObjects, gameTime);
 		}
 		
 		public override void Draw(SpriteBatch sb) { }

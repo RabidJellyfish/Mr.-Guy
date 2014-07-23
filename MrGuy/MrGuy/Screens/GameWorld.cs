@@ -22,6 +22,7 @@ using Krypton.Lights;
 using MrGuyLevelEditor;
 using MrGuyLevelEditor.XMLInfo;
 using MrGuy.Objects;
+using MrGuy.Scripts;
 
 namespace MrGuy.Screens
 {
@@ -130,6 +131,11 @@ namespace MrGuy.Screens
 			return this.camera;
 		}
 
+		public List<GameObject> GetGameObjects()
+		{
+			return this.objects;
+		}
+
 		public GameScreen Update(Game game, GameTime gameTime)
 		{
 			// Update light
@@ -140,8 +146,8 @@ namespace MrGuy.Screens
 
 			// Update objects
 			foreach (GameObject obj in objects)
-				obj.Update(objects);
-			Trigger.ActiveTriggers.Clear();
+				obj.Update(objects, gameTime);
+			Trigger.Clear();
 			foreach (Trigger t in triggers)
 				t.Update(objects);
 			camera.Update(objects);

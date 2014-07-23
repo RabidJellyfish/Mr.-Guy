@@ -77,6 +77,7 @@ namespace MrGuy.Objects
 		#region Creation
 
 		public Guy(World world, float x, float y, Texture2D texture)
+			: base()
 		{
 			CreateBody(world, x, y);
 
@@ -121,12 +122,14 @@ namespace MrGuy.Objects
 
 		#region Updating
 
-		public override void Update(List<GameObject> otherObjects)
+		public override void Update(List<GameObject> otherObjects, GameTime gameTime)
 		{
 			UpdateMovement();
 			CheckOnGround();
 			UpdateJumping();
 			UpdateTexture();
+
+			base.Update(otherObjects, gameTime);
 		}
 
 		private void UpdateTexture()

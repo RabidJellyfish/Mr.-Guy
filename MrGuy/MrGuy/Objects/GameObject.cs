@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 
+using MrGuy.Scripts;
+
 namespace MrGuy.Objects
 {
 	public abstract class GameObject
@@ -17,7 +19,18 @@ namespace MrGuy.Objects
 
 		public virtual Vector2 Position { get; set; }
 
-		public abstract void Update(List<GameObject> otherObjects);
+		public List<Script> Scripts { get; set; }
+
+		public GameObject()
+		{
+			Scripts = new List<Script>();
+		}
+
+		public virtual void Update(List<GameObject> otherObjects, GameTime gameTime)
+		{
+			foreach (Script s in Scripts)
+				s.Update(gameTime);
+		}
 
 		public abstract void Draw(SpriteBatch sb);
 

@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Input;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 
+using MrGuy.Scripts;
+
 namespace MrGuy.Objects
 {
 	class PlayerGuy : Guy
@@ -22,14 +24,15 @@ namespace MrGuy.Objects
 		public static Buttons Btn_Left = Buttons.DPadLeft;
 		public static Buttons Btn_Right = Buttons.DPadRight;
 		public static Buttons Btn_Jump = Buttons.A;
-		public static Buttons Btn_Crouch = Buttons.B;
+		public static Buttons Btn_Crouch = Buttons.RightTrigger;
 
 		public PlayerGuy(World w, float x, float y, Texture2D texture) : base(w, x, y, texture) 
 		{
 			this.Index = -1;
+			Scripts.Add(new Script("test", "secret"));
 		}
 
-		public override void Update(List<GameObject> otherObjects)
+		public override void Update(List<GameObject> otherObjects, GameTime gameTime)
 		{
 			MovingLeft = Keyboard.GetState().IsKeyDown(Key_Left) || GamePad.GetState(0).IsButtonDown(Btn_Left);
 			MovingRight = Keyboard.GetState().IsKeyDown(Key_Right) || GamePad.GetState(0).IsButtonDown(Btn_Right);
@@ -37,7 +40,7 @@ namespace MrGuy.Objects
 			Jumping = Keyboard.GetState().IsKeyDown(Key_Jump) || GamePad.GetState(0).IsButtonDown(Btn_Jump);
 			Crouching = Keyboard.GetState().IsKeyDown(Key_Crouch) || GamePad.GetState(0).IsButtonDown(Btn_Crouch);
 
-			base.Update(otherObjects);
+			base.Update(otherObjects, gameTime);
 		}
 	}
 }

@@ -6,11 +6,13 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MrGuy.Objects
+using MrGuy.Objects;
+
+namespace MrGuy.Scripts
 {
 	public class Trigger
 	{
-		public static List<string> ActiveTriggers = new List<string>();
+		private static List<string> activeTriggers = new List<string>();
 
 		public Rectangle Bounds { get; set; }
 		public string Name { get; set; }
@@ -18,6 +20,16 @@ namespace MrGuy.Objects
 		public int WhenTrigger { get; set; }
 
 		private bool containsObj;
+
+		public static bool IsTriggered(string name)
+		{
+			return activeTriggers.Contains(name);
+		}
+
+		public static void Clear()
+		{
+			activeTriggers.Clear();
+		}
 
 		public Trigger(Rectangle bounds, string name, int[] objects, int when)
 		{
@@ -36,15 +48,15 @@ namespace MrGuy.Objects
 				if (Bounds.Contains((int)obj.Position.X, (int)obj.Position.Y))
 				{
 					if (WhenTrigger == 0)
-						ActiveTriggers.Add(Name);
+						activeTriggers.Add(Name);
 					else if (WhenTrigger == 1 && !containsObj)
-						ActiveTriggers.Add(Name);
+						activeTriggers.Add(Name);
 					containsObj = true;
 				}
 				else
 				{
 					if (WhenTrigger == -1 && containsObj)
-						ActiveTriggers.Add(Name);
+						activeTriggers.Add(Name);
 					containsObj = false;
 				}
 			}

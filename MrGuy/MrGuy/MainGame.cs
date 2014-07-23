@@ -34,7 +34,7 @@ namespace MrGuy
 		public static Texture2D blank;
 		public static Texture2D texPlayer, texBox;
 
-		GameScreen currentScreen;
+		public static GameScreen currentScreen;
 		private bool escapePressed;
 
 		public MainGame()

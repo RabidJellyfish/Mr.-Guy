@@ -26,6 +26,7 @@ namespace MrGuy.Objects
 		}
 
 		public Box(World w, int index, Vector2 pos, string width, string height)
+			: base()
 		{
 			this.Index = index;
 			this.width = int.Parse(width);
@@ -42,9 +43,9 @@ namespace MrGuy.Objects
 			this.Position = pos;
 		}
 
-		public override void Update(List<GameObject> otherObjects)
+		public override void Update(List<GameObject> otherObjects, GameTime gameTime)
 		{
-			this.Position = box.Position * MainGame.METER_TO_PIXEL;
+			base.Update(otherObjects, gameTime);
 		}
 
 		public override void Draw(SpriteBatch sb)

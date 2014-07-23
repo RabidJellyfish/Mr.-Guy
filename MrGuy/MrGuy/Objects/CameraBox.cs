@@ -16,18 +16,21 @@ namespace MrGuy.Objects
 		public float Priority { get; set; }
 
 		public CameraBox(Vector2 target, Rectangle area, float priority)
+			: base()
 		{
 			this.Position = target;
 			this.area = area;
 			this.Priority = priority;
 		}
 
-		public override void Update(List<GameObject> otherObjects)
+		public override void Update(List<GameObject> otherObjects, GameTime gameTime)
 		{
 			if (Priority > 1f)
 				Priority = 1f;
 			else if (Priority < 0f)
 				Priority = 0f;
+
+			base.Update(otherObjects, gameTime);
 		}
 
 		public bool ContainsObject(GameObject obj)

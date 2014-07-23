@@ -6,15 +6,23 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MrGuy.Objects;
+
 namespace MrGuy.Screens
 {
-	interface GameScreen
+	public interface GameScreen
 	{
 		/// <summary>
 		/// Returns the camera used by the game screen
 		/// </summary>
 		/// <returns>The camera used by the game screen</returns>
 		Camera GetCamera();
+
+		/// <summary>
+		/// Gets the list of game objects in this screen
+		/// </summary>
+		/// <returns>The list of game objects in this screen</returns>
+		List<GameObject> GetGameObjects();
 
 		/// <summary>
 		/// Runs once every frame, updates the game screen

@@ -51,6 +51,8 @@ namespace MrGuyLevelEditor
 		Controls controls;
 		System.Windows.Forms.Form thisForm;
 		bool unfocused;
+		RightClickMenu rcMenu;
+		List<RightClickMenu.MenuItem> objMenuChoices;
 
 		private Texture2D selectedTexture;
 		private float selTexRotation;
@@ -60,7 +62,7 @@ namespace MrGuyLevelEditor
 
 		private bool xPressed;
 		private bool rotOnceLeft, rotOnceRight;
-		private bool mleftPressed;
+		private bool mleftPressed, mRightPressed;
 		private int prevScrollTotal;
 		private int prevMX, prevMY;
 
@@ -115,6 +117,13 @@ namespace MrGuyLevelEditor
 
 			indices = new List<int>();
 			index = 0;
+
+			objMenuChoices = new List<RightClickMenu.MenuItem>();
+			objMenuChoices.Add(new RightClickMenu.MenuItem("Obj ID: ", ""));
+			objMenuChoices.Add(new RightClickMenu.MenuItem("Edit fields", "edit"));
+			objMenuChoices.Add(new RightClickMenu.MenuItem("Delete", "delete"));
+			objMenuChoices.Add(new RightClickMenu.MenuItem("Move", "move"));
+			objMenuChoices.Add(new RightClickMenu.MenuItem("Manage Scripts", "scripts"));
 
 			Content.RootDirectory = "Content";
 		}
@@ -243,6 +252,7 @@ namespace MrGuyLevelEditor
 					selectedTexture = ObjectTextures[controls.SelectedObject.ToString()];
 			}
 
+			CheckRightClickMenu();
 			UpdateMouseStuff();
 
 			base.Update(gameTime);
@@ -453,10 +463,12 @@ namespace MrGuyLevelEditor
 
 			if (Mouse.GetState().RightButton == ButtonState.Pressed)
 			{
-				if (!Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+				if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 					RemoveThings();
-				else if (controls.Tab == 2 && !creatingObject)
+				else if (controls.Tab == 2 && !creatingObject && !mRightPressed)
 				{
+					bool foundObj = false;
+					mRightPressed = true;
 					foreach (ObjectInformation obj in objInfo)
 					{
 						Rectangle boundingBox = new Rectangle((int)camera.GlobalToCameraPos((int)(obj.Position.X - ObjectTextures[obj.Texture].Width * camera.TotalScale / 2), (int)(obj.Position.Y - ObjectTextures[obj.Texture].Height * camera.TotalScale / 2)).X,
@@ -465,36 +477,18 @@ namespace MrGuyLevelEditor
 															  (int)(ObjectTextures[obj.Texture].Width * camera.TotalScale));
 						if (boundingBox.Contains(Mouse.GetState().X, Mouse.GetState().Y))
 						{
-							creatingObject = true;
 							MouseState state = Mouse.GetState();
-							ParameterEditor editor = new ParameterEditor();
-							editor.Location = controls.Location;
-							editor.Text = "ID: " + obj.Index.ToString();
-							for (int i = 0; i < obj.ParameterNames.Length; i++)
-							{
-								System.Windows.Forms.Label l = new System.Windows.Forms.Label();
-								l.Text = obj.ParameterNames[i];
-								l.Location = new System.Drawing.Point(10, 10 + i * 30);
-								l.Tag = i;
-								editor.Controls.Add(l);
-								System.Windows.Forms.TextBox t = new System.Windows.Forms.TextBox();
-								t.Location = new System.Drawing.Point(130, 10 + i * 30);
-								t.Size = new System.Drawing.Size(275, t.Height);
-								t.Text = obj.ParameterValues[i];
-								t.Tag = i;
-								editor.Controls.Add(t);
-							}
-							System.Windows.Forms.DialogResult result = editor.ShowDialog();
-							obj.ParameterNames = editor.ParameterNames;
-							obj.ParameterValues = editor.ParameterValues;
-							creatingObject = false;
-
+							rcMenu = new RightClickMenu(obj, state.X, state.Y, objMenuChoices);
+							foundObj = true;
 							break;
 						}
 					}
+					if (!foundObj)
+						rcMenu = null;
 				}
 			}
-
+			else
+				mRightPressed = false;
 			#endregion
 
 			#region Rotating
@@ -945,6 +939,62 @@ namespace MrGuyLevelEditor
 			}
 		}
 
+		/// <summary>
+		/// Checks the right click menu for selected choices
+		/// </summary>
+		private void CheckRightClickMenu()
+		{
+			if (rcMenu != null && rcMenu.Visible)
+			{
+				mleftPressed = true;
+				string result = rcMenu.Update(Mouse.GetState());
+				if (result != "")
+				{
+					ObjectInformation obj = rcMenu.SelectedObj;
+					if (result == "edit")
+					{
+						creatingObject = true;
+						ParameterEditor editor = new ParameterEditor();
+						editor.Location = controls.Location;
+						editor.Text = "ID: " + obj.Index.ToString();
+						for (int i = 0; i < obj.ParameterNames.Length; i++)
+						{
+							System.Windows.Forms.Label l = new System.Windows.Forms.Label();
+							l.Text = obj.ParameterNames[i];
+							l.Location = new System.Drawing.Point(10, 10 + i * 30);
+							l.Tag = i;
+							editor.Controls.Add(l);
+							System.Windows.Forms.TextBox t = new System.Windows.Forms.TextBox();
+							t.Location = new System.Drawing.Point(130, 10 + i * 30);
+							t.Size = new System.Drawing.Size(275, t.Height);
+							t.Text = obj.ParameterValues[i];
+							t.Tag = i;
+							editor.Controls.Add(t);
+						}
+						System.Windows.Forms.DialogResult dialogResult = editor.ShowDialog();
+						obj.ParameterNames = editor.ParameterNames;
+						obj.ParameterValues = editor.ParameterValues;
+						creatingObject = false;
+					}
+					else if (result == "delete")
+					{
+						indices.Remove(obj.Index);
+						objInfo.Remove(obj);
+						UpdateIndex();
+					}
+					else if (result == "move")
+					{
+						// Probably save all objInfo values in temp variables and go back to stage 1 of create
+						// In create, after final step, check if temp variables are null, if they are, show param editor, if not, get values from temp variables
+					}
+					else if (result == "scripts")
+					{
+						// Probably similar to parameter editor showing up
+					}
+				}
+			}
+		}
+
 		#endregion
 
 		/// <summary>
@@ -968,6 +1018,9 @@ namespace MrGuyLevelEditor
 			DrawInformation(levelTopLeft, state);
 
 			DrawMouse(state);
+
+			if (rcMenu != null)
+				rcMenu.Draw(spriteBatch, state);
 
 			// Make sure you include scale values for camera and shit
 

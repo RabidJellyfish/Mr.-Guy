@@ -119,6 +119,7 @@
     <Compile Include="Controls.Designer.cs">
       <DependentUpon>Controls.cs</DependentUpon>
     </Compile>
+    <Compile Include="RightClickMenu.cs" />
     <Compile Include="TriggerEditor.cs">
       <SubType>Form</SubType>
     </Compile>

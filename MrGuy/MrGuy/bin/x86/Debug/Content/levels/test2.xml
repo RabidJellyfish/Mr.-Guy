@@ -1654,8 +1654,8 @@
       <ParameterValues>
         <string>32</string>
         <string>220</string>
-        <string>test</string>
-        <string>1920, 580</string>
+        <string>test4</string>
+        <string>1892, 730</string>
       </ParameterValues>
       <ParameterNames>
         <string>Width</string>
@@ -1666,4 +1666,5 @@
     </ObjectInformation>
   </objects>
   <cameras />
+  <triggers />
 </LevelData>

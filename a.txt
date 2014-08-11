@@ -2,7 +2,7 @@
 	- Step based creation, use common attributes to make creation easy
 		Step 1:
 			FacingLeft = x for flipping 				(enemies, guys)
-			Width/Height = w/a || shift+(w/a/s/d) for resize	(boxes, triggers)
+			Width/Height/Scale = w/a || shift+(w/a/s/d) for resize	(boxes, triggers)
 			Rotation = a/d || ctrl+(a/d) for angle			(boxes)
 		Step 2:
 			Radius = mouse position					(spotlights, balls)

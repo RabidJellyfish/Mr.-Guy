@@ -492,8 +492,8 @@
       <ParameterValues>
         <string>32</string>
         <string>200</string>
-        <string>test2</string>
-        <string>0, 800</string>
+        <string>test4</string>
+        <string>68, 845</string>
       </ParameterValues>
       <ParameterNames>
         <string>Width</string>
@@ -502,6 +502,157 @@
         <string>New Position</string>
       </ParameterNames>
     </ObjectInformation>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>0</Index>
+      <Texture>MrGuy.Objects.Box</Texture>
+      <Position>
+        <X>1324</X>
+        <Y>760</Y>
+      </Position>
+      <ParameterValues>
+        <string>551.7005</string>
+        <string>57.58077</string>
+      </ParameterValues>
+      <ParameterNames>
+        <string>Width</string>
+        <string>Height</string>
+      </ParameterNames>
+    </ObjectInformation>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>0</Index>
+      <Texture>MrGuy.Objects.Box</Texture>
+      <Position>
+        <X>1190</X>
+        <Y>531</Y>
+      </Position>
+      <ParameterValues>
+        <string>198.692</string>
+        <string>43.36493</string>
+        <string>1.05</string>
+      </ParameterValues>
+      <ParameterNames>
+        <string>Width</string>
+        <string>Height</string>
+        <string>Rotation</string>
+      </ParameterNames>
+    </ObjectInformation>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>0</Index>
+      <Texture>MrGuy.Objects.Box</Texture>
+      <Position>
+        <X>959</X>
+        <Y>276</Y>
+      </Position>
+      <ParameterValues>
+        <string>76.04056</string>
+        <string>76.04056</string>
+        <string>0.3</string>
+      </ParameterValues>
+      <ParameterNames>
+        <string>Width</string>
+        <string>Height</string>
+        <string>Rotation</string>
+      </ParameterNames>
+    </ObjectInformation>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>0</Index>
+      <Texture>MrGuy.Objects.Box</Texture>
+      <Position>
+        <X>699</X>
+        <Y>214</Y>
+      </Position>
+      <ParameterValues>
+        <string>76.04056</string>
+        <string>76.04056</string>
+        <string>5.433182</string>
+      </ParameterValues>
+      <ParameterNames>
+        <string>Width</string>
+        <string>Height</string>
+        <string>Rotation</string>
+      </ParameterNames>
+    </ObjectInformation>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>0</Index>
+      <Texture>MrGuy.Objects.Box</Texture>
+      <Position>
+        <X>889</X>
+        <Y>116</Y>
+      </Position>
+      <ParameterValues>
+        <string>76.04056</string>
+        <string>76.04056</string>
+        <string>5.533183</string>
+      </ParameterValues>
+      <ParameterNames>
+        <string>Width</string>
+        <string>Height</string>
+        <string>Rotation</string>
+      </ParameterNames>
+    </ObjectInformation>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>0</Index>
+      <Texture>MrGuy.Objects.Box</Texture>
+      <Position>
+        <X>1179</X>
+        <Y>177</Y>
+      </Position>
+      <ParameterValues>
+        <string>76.04056</string>
+        <string>76.04056</string>
+        <string>0.5000001</string>
+      </ParameterValues>
+      <ParameterNames>
+        <string>Width</string>
+        <string>Height</string>
+        <string>Rotation</string>
+      </ParameterNames>
+    </ObjectInformation>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>0</Index>
+      <Texture>MrGuy.Objects.Box</Texture>
+      <Position>
+        <X>877</X>
+        <Y>459</Y>
+      </Position>
+      <ParameterValues>
+        <string>39.68504</string>
+        <string>39.68504</string>
+        <string>6.233185</string>
+      </ParameterValues>
+      <ParameterNames>
+        <string>Width</string>
+        <string>Height</string>
+        <string>Rotation</string>
+      </ParameterNames>
+    </ObjectInformation>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>0</Index>
+      <Texture>MrGuy.Objects.Box</Texture>
+      <Position>
+        <X>669</X>
+        <Y>824</Y>
+      </Position>
+      <ParameterValues>
+        <string>141.4578</string>
+        <string>141.4578</string>
+        <string>1.3</string>
+      </ParameterValues>
+      <ParameterNames>
+        <string>Width</string>
+        <string>Height</string>
+        <string>Rotation</string>
+      </ParameterNames>
+    </ObjectInformation>
   </objects>
   <cameras />
+  <triggers />
 </LevelData>

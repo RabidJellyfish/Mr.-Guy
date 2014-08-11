@@ -15,7 +15,7 @@ namespace MrGuy.Objects
 	class Box : GameObject
 	{
 		public Body box;
-		private int width, height;
+		private float width, height, rotation;
 
 		private Texture2D texture;
 
@@ -26,11 +26,17 @@ namespace MrGuy.Objects
 		}
 
 		public Box(World w, int index, Vector2 pos, string width, string height)
+			: this(w, index, pos, width, height, "0")
+		{
+		}
+
+		public Box(World w, int index, Vector2 pos, string width, string height, string rotation)
 			: base()
 		{
 			this.Index = index;
-			this.width = int.Parse(width);
-			this.height = int.Parse(height);
+			this.width = float.Parse(width);
+			this.height = float.Parse(height);
+			this.rotation = float.Parse(rotation);
 			CreateBody(w, pos);
 
 			this.texture = MainGame.texBox;
@@ -39,6 +45,7 @@ namespace MrGuy.Objects
 		private void CreateBody(World w, Vector2 pos)
 		{
 			box = BodyFactory.CreateRectangle(w, width * MainGame.PIXEL_TO_METER, height * MainGame.PIXEL_TO_METER, 1.0f);
+			box.Rotation = this.rotation;
 			box.BodyType = BodyType.Dynamic;
 			this.Position = pos;
 		}

@@ -39,16 +39,17 @@ namespace MrGuyLevelEditor
 
 		SpriteBatch spriteBatch;
 		private Rectangle levelSize; // When writing to XML file, subtract levelSize.X and levelSize.Y from all of the positions
-		private bool changingBounds;
-		private bool creatingObject;
-
+		
 		private bool escapePressed = true;
 
 		Camera camera;
-		private int step;
+		int step;
 		Vector2[] currentBox;
+		bool changingBounds;
+		ObjectInformation currentObject;
 
 		Controls controls;
+		private bool windowOpen;
 		System.Windows.Forms.Form thisForm;
 		bool unfocused;
 		RightClickMenu rcMenu;
@@ -105,7 +106,7 @@ namespace MrGuyLevelEditor
 			rotOnceLeft = false;
 			rotOnceRight = false;
 			unfocused = false;
-			creatingObject = false;
+			windowOpen = false;
 			step = 1;
 
 			currentBox = new Vector2[2];
@@ -219,6 +220,11 @@ namespace MrGuyLevelEditor
 					else if (controls.CreatingTrigger)
 					{
 						controls.CreatingTrigger = false;
+						step = 1;
+					}
+					else if (currentObject != null)
+					{
+						currentObject = null;
 						step = 1;
 					}
 					else if (changingBounds)
@@ -465,7 +471,7 @@ namespace MrGuyLevelEditor
 			{
 				if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 					RemoveThings();
-				else if (controls.Tab == 2 && !creatingObject && !mRightPressed)
+				else if (controls.Tab == 2 && !windowOpen && !mRightPressed && currentObject == null)
 				{
 					bool foundObj = false;
 					mRightPressed = true;
@@ -686,12 +692,12 @@ namespace MrGuyLevelEditor
 		private void CreateTile()
 		{
 			TileInformation.AddTile(tileInfo,
-									  controls.SelectedTile,
-									  camera.CameraToGlobalPos(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)),
-									  selTexScale / camera.TotalScale,
-									  selTexRotation,
-									  layer,
-									  selTexEffect);
+									controls.SelectedTile,
+									camera.CameraToGlobalPos(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)),
+									selTexScale / camera.TotalScale,
+									selTexRotation,
+									layer,
+									selTexEffect);
 		}
 
 		/// <summary>
@@ -699,19 +705,57 @@ namespace MrGuyLevelEditor
 		/// </summary>
 		private void CreateObject()
 		{
-			if (controls.SelectedObject.Parameters.Length > 0 && !creatingObject)
+			if (step == 1)
 			{
-				creatingObject = true;
+				mleftPressed = true;
+			
+				currentObject = new ObjectInformation();
+				currentObject.Type = controls.SelectedObject.Type;
+				currentObject.Index = index;
+				currentObject.Position = camera.CameraToGlobalPos(new Vector2(Mouse.GetState().X, Mouse.GetState().Y));
+				currentObject.Texture = controls.SelectedObject.ToString();
+				currentObject.ParameterNames = controls.SelectedObject.Parameters;
+				currentObject.ParameterValues = new string[controls.SelectedObject.Parameters.Length];
+				if (currentObject.ParameterNames.Contains("Width"))
+					currentObject.SetParameter("Width", selTexScale.X * ObjectTextures[currentObject.Texture].Width / camera.TotalScale);
+				if (currentObject.ParameterNames.Contains("Height"))
+					currentObject.SetParameter("Height", selTexScale.Y * ObjectTextures[currentObject.Texture].Height / camera.TotalScale);
+				if (currentObject.ParameterNames.Contains("Scale"))
+					currentObject.SetParameter("Scale", selTexScale);
+				if (currentObject.ParameterNames.Contains("Rotation"))
+					currentObject.SetParameter("Rotation", selTexRotation);
+				if (currentObject.ParameterNames.Contains("FacingLeft"))
+					currentObject.SetParameter("FacingLeft", selTexEffect == SpriteEffects.FlipHorizontally);
+
+				if (currentObject.ParameterNames.Contains("Radius") || currentObject.ParameterNames.Contains("Position2")) // Add others later maybe
+				{
+					step = 2;
+					return;
+				}
+				else
+					step = 3;
+			}
+			else if (step == 2)
+			{
+				// Set other parameters
+
+				mleftPressed = true;
+			}
+
+			if (step == 3 && controls.SelectedObject.HasExtraParameters() && !windowOpen)
+			{
+				windowOpen = true;
 				MouseState state = Mouse.GetState();
 				ParameterEditor editor = new ParameterEditor();
 				editor.Location = controls.Location;
 				UpdateIndex();
 				indices.Add(index);
 				editor.Text = "ID: " + index;
-				for (int i = 0; i < controls.SelectedObject.Parameters.Length; i++)
+				string[] extraParams = controls.SelectedObject.GetExtraParameters();
+				for (int i = 0; i < extraParams.Length; i++)
 				{
 					System.Windows.Forms.Label l = new System.Windows.Forms.Label();
-					l.Text = controls.SelectedObject.Parameters[i];
+					l.Text = extraParams[i];
 					l.Location = new System.Drawing.Point(10, 10 + i * 30);
 					l.Tag = i;
 					editor.Controls.Add(l);
@@ -722,16 +766,14 @@ namespace MrGuyLevelEditor
 					editor.Controls.Add(t);
 				}
 				System.Windows.Forms.DialogResult result = editor.ShowDialog();
-				ObjectInformation info = new ObjectInformation();
-				info.Type = controls.SelectedObject.Type;
-				info.Index = index;
-				info.Position = camera.CameraToGlobalPos(new Vector2(state.X, state.Y));
-				info.Texture = controls.SelectedObject.ToString();
-				info.ParameterNames = editor.ParameterNames;
-				info.ParameterValues = editor.ParameterValues;
-				objInfo.Add(info);
-				creatingObject = false;
+				for (int i = 0; i < editor.ParameterNames.Length; i++)
+					currentObject.SetParameter(editor.ParameterNames[i], editor.ParameterValues[i]);
+				windowOpen = false;
 			}
+
+			objInfo.Add(currentObject);
+			currentObject = null;
+			step = 1;
 		}
 
 		/// <summary>
@@ -953,7 +995,7 @@ namespace MrGuyLevelEditor
 					ObjectInformation obj = rcMenu.SelectedObj;
 					if (result == "edit")
 					{
-						creatingObject = true;
+						windowOpen = true;
 						ParameterEditor editor = new ParameterEditor();
 						editor.Location = controls.Location;
 						editor.Text = "ID: " + obj.Index.ToString();
@@ -974,7 +1016,7 @@ namespace MrGuyLevelEditor
 						System.Windows.Forms.DialogResult dialogResult = editor.ShowDialog();
 						obj.ParameterNames = editor.ParameterNames;
 						obj.ParameterValues = editor.ParameterValues;
-						creatingObject = false;
+						windowOpen = false;
 					}
 					else if (result == "delete")
 					{
@@ -1155,10 +1197,44 @@ namespace MrGuyLevelEditor
 			}
 			else if (controls.Tab == 2)
 			{
-				if (selectedTexture != null)
+				if (controls.SelectedObject != null)
 				{
-					spriteBatch.Draw(selectedTexture, new Vector2(state.X, state.Y), null, new Color(255, 255, 255, 125), 0f,
-										new Vector2(selectedTexture.Width / 2, selectedTexture.Height / 2), camera.TotalScale, SpriteEffects.None, 0.555556f);
+					Texture2D obj_tex = currentObject != null ? ObjectTextures[currentObject.Texture] : selectedTexture;
+					Vector2 obj_pos = (currentObject != null ? currentObject.Position : new Vector2(state.X, state.Y));
+					float obj_rot = (currentObject != null ? 
+										(controls.SelectedObject.Parameters.Contains("Rotation") ? 
+											float.Parse(currentObject.ValueFromName("Rotation")) : 
+											0f) : 
+										(controls.SelectedObject.Parameters.Contains("Rotation") ? 
+											selTexRotation :
+											0f));
+					Vector2 obj_scale = (currentObject != null ?
+											new Vector2(controls.SelectedObject.Parameters.Contains("Width") ?
+															float.Parse(currentObject.ValueFromName("Width")) / selectedTexture.Width * camera.TotalScale : 1f,
+														controls.SelectedObject.Parameters.Contains("Height") ?
+															float.Parse(currentObject.ValueFromName("Height")) / selectedTexture.Height * camera.TotalScale : 1f) * camera.TotalScale :
+											new Vector2(controls.SelectedObject.Parameters.Contains("Width") ?
+															selTexScale.X : 1f,
+														controls.SelectedObject.Parameters.Contains("Height") ?
+															selTexScale.Y : 1f));
+					if (currentObject != null && obj_scale == Vector2.One && controls.SelectedObject.Parameters.Contains("Scale"))
+						obj_scale = Vector2.One * float.Parse(currentObject.ValueFromName("Scale"));
+					SpriteEffects flipped = (currentObject != null ?
+												(controls.SelectedObject.Parameters.Contains("FacingLeft") ?
+													(bool.Parse(currentObject.ValueFromName("FacingLeft")) ?
+														SpriteEffects.FlipHorizontally :
+														SpriteEffects.None) :
+													SpriteEffects.None) :
+												controls.SelectedObject.Parameters.Contains("FacingLeft") ?
+													selTexEffect :
+													SpriteEffects.None);
+					spriteBatch.Draw(obj_tex, obj_pos, null, new Color(255, 255, 255, 125), obj_rot,
+										new Vector2(selectedTexture.Width / 2, selectedTexture.Height / 2), obj_scale, flipped, 0.555556f);
+
+					if (step == 2)
+					{
+						// Draw step 2 stuff (circles and arcs and whatever
+					}
 				}
 			}
 		}

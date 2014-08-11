@@ -68,7 +68,7 @@ namespace MrGuyLevelEditor
 
 		public void Zoom(float amount)
 		{
-			TotalScale += amount;
+			TotalScale *= amount;
 		}
 	}
 }

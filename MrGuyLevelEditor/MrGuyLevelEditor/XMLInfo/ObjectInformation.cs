@@ -37,6 +37,30 @@ namespace MrGuyLevelEditor.XMLInfo
 			}
 		}
 
+		public string[] GetExtraParameterNames()
+		{
+			List<string> p = new List<string>();
+			for (int i = 0; i < ParameterNames.Length; i++)
+			{
+				if (ParameterNames[i] != "FacingLeft" && ParameterNames[i] != "Width" && ParameterNames[i] != "Height" && ParameterNames[i] != "Rotation" && ParameterNames[i] != "Scale" &&
+						ParameterNames[i] != "Rotation" && ParameterNames[i] != "Radius" && ParameterNames[i] != "Position2")
+					p.Add(ParameterNames[i]);
+			}
+			return p.ToArray();
+		}
+
+		public bool HasExtraParameterNames()
+		{
+			for (int i = 0; i < ParameterNames.Length; i++)
+			{
+				if (ParameterNames[i] != "FacingLeft" && ParameterNames[i] != "Width" && ParameterNames[i] != "Height" && ParameterNames[i] != "Rotation" && ParameterNames[i] != "Scale" &&
+						ParameterNames[i] != "Rotation" && ParameterNames[i] != "Radius" && ParameterNames[i] != "Position2")
+					return true;
+			}
+			return false;
+		}
+
+
 		public void Draw(SpriteBatch sb, Camera camera)
 		{
 			Draw(sb, camera, Color.White);

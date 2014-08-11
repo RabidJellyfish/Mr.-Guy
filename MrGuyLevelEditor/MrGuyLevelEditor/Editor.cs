@@ -47,6 +47,7 @@ namespace MrGuyLevelEditor
 		Vector2[] currentBox;
 		bool changingBounds;
 		ObjectInformation currentObject;
+		ObjectInformation movedObject;
 
 		Controls controls;
 		private bool windowOpen;
@@ -151,7 +152,7 @@ namespace MrGuyLevelEditor
 			BlankTexture.SetData(new[] { Color.White });
 			BuildTileTextureDictionary();
 			BuildObjectsList();
-			camera.Zoom(-0.4f);
+			camera.TotalScale = 0.6f;
 			camera.Pan(-190, -112);
 		}
 
@@ -225,6 +226,7 @@ namespace MrGuyLevelEditor
 					else if (currentObject != null)
 					{
 						currentObject = null;
+						movedObject = null;
 						step = 1;
 					}
 					else if (changingBounds)
@@ -414,6 +416,67 @@ namespace MrGuyLevelEditor
 			controls.CreatingTrigger = false;
 		}
 
+		/// <summary>
+		/// Checks the right click menu for selected choices
+		/// </summary>
+		private void CheckRightClickMenu()
+		{
+			if (rcMenu != null && rcMenu.Visible)
+			{
+				mleftPressed = true;
+				string result = rcMenu.Update(Mouse.GetState());
+				if (result != "")
+				{
+					ObjectInformation obj = rcMenu.SelectedObj;
+					if (result == "edit" && obj.HasExtraParameterNames())
+					{
+						windowOpen = true;
+						ParameterEditor editor = new ParameterEditor();
+						editor.Location = controls.Location;
+						editor.Text = "ID: " + obj.Index.ToString();
+						string[] extraParams = obj.GetExtraParameterNames();
+						for (int i = 0; i < extraParams.Length; i++)
+						{
+							System.Windows.Forms.Label l = new System.Windows.Forms.Label();
+							l.Text = extraParams[i];
+							l.Location = new System.Drawing.Point(10, 10 + i * 30);
+							l.Tag = i;
+							editor.Controls.Add(l);
+							System.Windows.Forms.TextBox t = new System.Windows.Forms.TextBox();
+							t.Location = new System.Drawing.Point(130, 10 + i * 30);
+							t.Size = new System.Drawing.Size(275, t.Height);
+							t.Text = obj.ValueFromName(extraParams[i]);
+							t.Tag = i;
+							editor.Controls.Add(t);
+						}
+						System.Windows.Forms.DialogResult dialogResult = editor.ShowDialog();
+						for (int i = 0; i < editor.ParameterNames.Length; i++)
+							obj.SetParameter(editor.ParameterNames[i], editor.ParameterValues[i]);
+						windowOpen = false;
+					}
+					else if (result == "delete")
+					{
+						indices.Remove(obj.Index);
+						objInfo.Remove(obj);
+						UpdateIndex();
+					}
+					else if (result == "move")
+					{
+						movedObject = obj;
+						step = 1;
+					}
+					else if (result == "scripts")
+					{
+						windowOpen = true;
+
+						// Probably similar to parameter editor showing up
+
+						windowOpen = false;
+					}
+				}
+			}
+		}
+
 		#endregion
 
 		#region Editor operations
@@ -423,6 +486,9 @@ namespace MrGuyLevelEditor
 		/// </summary>
 		private void UpdateMouseStuff()
 		{
+			if (windowOpen)
+				return;
+
 			#region Mouse left
 
 			if (Mouse.GetState().LeftButton == ButtonState.Pressed && MouseInBounds())
@@ -601,7 +667,7 @@ namespace MrGuyLevelEditor
 			// Zoom
 			DScroll = Mouse.GetState().ScrollWheelValue - prevScrollTotal;
 			if (DScroll != 0 && Keyboard.GetState().IsKeyDown(Keys.LeftControl))
-				camera.Zoom(0.05f * Math.Sign(DScroll));
+				camera.Zoom(0.05f * Math.Sign(DScroll) + 1);
 			prevScrollTotal = Mouse.GetState().ScrollWheelValue;
 
 			// Pan
@@ -708,14 +774,19 @@ namespace MrGuyLevelEditor
 			if (step == 1)
 			{
 				mleftPressed = true;
-			
-				currentObject = new ObjectInformation();
-				currentObject.Type = controls.SelectedObject.Type;
-				currentObject.Index = index;
+
+				if (movedObject != null)
+					currentObject = movedObject;
+				else
+				{
+					currentObject = new ObjectInformation();
+					currentObject.Type = controls.SelectedObject.Type;
+					currentObject.Index = index;
+					currentObject.Texture = controls.SelectedObject.ToString();
+					currentObject.ParameterNames = controls.SelectedObject.Parameters;
+					currentObject.ParameterValues = new string[controls.SelectedObject.Parameters.Length];
+				}
 				currentObject.Position = camera.CameraToGlobalPos(new Vector2(Mouse.GetState().X, Mouse.GetState().Y));
-				currentObject.Texture = controls.SelectedObject.ToString();
-				currentObject.ParameterNames = controls.SelectedObject.Parameters;
-				currentObject.ParameterValues = new string[controls.SelectedObject.Parameters.Length];
 				if (currentObject.ParameterNames.Contains("Width"))
 					currentObject.SetParameter("Width", selTexScale.X * ObjectTextures[currentObject.Texture].Width / camera.TotalScale);
 				if (currentObject.ParameterNames.Contains("Height"))
@@ -727,13 +798,22 @@ namespace MrGuyLevelEditor
 				if (currentObject.ParameterNames.Contains("FacingLeft"))
 					currentObject.SetParameter("FacingLeft", selTexEffect == SpriteEffects.FlipHorizontally);
 
-				if (currentObject.ParameterNames.Contains("Radius") || currentObject.ParameterNames.Contains("Position2")) // Add others later maybe
+				if (movedObject == null)
 				{
-					step = 2;
-					return;
+					if (currentObject.ParameterNames.Contains("Radius") || currentObject.ParameterNames.Contains("Position2")) // Add others later maybe
+					{
+						step = 2;
+						return;
+					}
+					else
+						step = 3;
 				}
 				else
-					step = 3;
+				{
+					movedObject = null;
+					currentObject = null;
+					return;
+				}
 			}
 			else if (step == 2)
 			{
@@ -981,62 +1061,6 @@ namespace MrGuyLevelEditor
 			}
 		}
 
-		/// <summary>
-		/// Checks the right click menu for selected choices
-		/// </summary>
-		private void CheckRightClickMenu()
-		{
-			if (rcMenu != null && rcMenu.Visible)
-			{
-				mleftPressed = true;
-				string result = rcMenu.Update(Mouse.GetState());
-				if (result != "")
-				{
-					ObjectInformation obj = rcMenu.SelectedObj;
-					if (result == "edit")
-					{
-						windowOpen = true;
-						ParameterEditor editor = new ParameterEditor();
-						editor.Location = controls.Location;
-						editor.Text = "ID: " + obj.Index.ToString();
-						for (int i = 0; i < obj.ParameterNames.Length; i++)
-						{
-							System.Windows.Forms.Label l = new System.Windows.Forms.Label();
-							l.Text = obj.ParameterNames[i];
-							l.Location = new System.Drawing.Point(10, 10 + i * 30);
-							l.Tag = i;
-							editor.Controls.Add(l);
-							System.Windows.Forms.TextBox t = new System.Windows.Forms.TextBox();
-							t.Location = new System.Drawing.Point(130, 10 + i * 30);
-							t.Size = new System.Drawing.Size(275, t.Height);
-							t.Text = obj.ParameterValues[i];
-							t.Tag = i;
-							editor.Controls.Add(t);
-						}
-						System.Windows.Forms.DialogResult dialogResult = editor.ShowDialog();
-						obj.ParameterNames = editor.ParameterNames;
-						obj.ParameterValues = editor.ParameterValues;
-						windowOpen = false;
-					}
-					else if (result == "delete")
-					{
-						indices.Remove(obj.Index);
-						objInfo.Remove(obj);
-						UpdateIndex();
-					}
-					else if (result == "move")
-					{
-						// Probably save all objInfo values in temp variables and go back to stage 1 of create
-						// In create, after final step, check if temp variables are null, if they are, show param editor, if not, get values from temp variables
-					}
-					else if (result == "scripts")
-					{
-						// Probably similar to parameter editor showing up
-					}
-				}
-			}
-		}
-
 		#endregion
 
 		/// <summary>
@@ -1085,7 +1109,10 @@ namespace MrGuyLevelEditor
 			foreach (TileInformation tile in tileInfo)
 				tile.Draw(spriteBatch, camera);
 			foreach (ObjectInformation obj in objInfo)
-				obj.Draw(spriteBatch, camera);
+			{
+				if (obj != movedObject)
+					obj.Draw(spriteBatch, camera);
+			}
 		}
 
 		/// <summary>
@@ -1197,7 +1224,7 @@ namespace MrGuyLevelEditor
 			}
 			else if (controls.Tab == 2)
 			{
-				if (controls.SelectedObject != null)
+				if (controls.SelectedObject != null || movedObject != null)
 				{
 					Texture2D obj_tex = currentObject != null ? ObjectTextures[currentObject.Texture] : selectedTexture;
 					Vector2 obj_pos = (currentObject != null ? currentObject.Position : new Vector2(state.X, state.Y));
@@ -1228,7 +1255,7 @@ namespace MrGuyLevelEditor
 												controls.SelectedObject.Parameters.Contains("FacingLeft") ?
 													selTexEffect :
 													SpriteEffects.None);
-					spriteBatch.Draw(obj_tex, obj_pos, null, new Color(255, 255, 255, 125), obj_rot,
+					spriteBatch.Draw(obj_tex, obj_pos, null, new Color(255, 255, 255, movedObject != null ? 255 : 125), obj_rot,
 										new Vector2(selectedTexture.Width / 2, selectedTexture.Height / 2), obj_scale, flipped, 0.555556f);
 
 					if (step == 2)

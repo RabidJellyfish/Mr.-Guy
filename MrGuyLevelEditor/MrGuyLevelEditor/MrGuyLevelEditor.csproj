@@ -119,7 +119,19 @@
     <Compile Include="Controls.Designer.cs">
       <DependentUpon>Controls.cs</DependentUpon>
     </Compile>
+    <Compile Include="NewScript.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewScript.Designer.cs">
+      <DependentUpon>NewScript.cs</DependentUpon>
+    </Compile>
     <Compile Include="RightClickMenu.cs" />
+    <Compile Include="ScriptManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScriptManager.Designer.cs">
+      <DependentUpon>ScriptManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="TriggerEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +151,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Editor.cs" />
+    <Compile Include="XMLInfo\ScriptInformation.cs" />
     <Compile Include="XMLInfo\StaticBodyInformation.cs" />
     <Compile Include="XMLInfo\TileInformation.cs" />
     <Compile Include="XMLInfo\TriggerInfo.cs" />
@@ -185,8 +198,14 @@
     <EmbeddedResource Include="Controls.resx">
       <DependentUpon>Controls.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="NewScript.resx">
+      <DependentUpon>NewScript.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ParameterEditor.resx">
       <DependentUpon>ParameterEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScriptManager.resx">
+      <DependentUpon>ScriptManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TriggerEditor.resx">
       <DependentUpon>TriggerEditor.cs</DependentUpon>

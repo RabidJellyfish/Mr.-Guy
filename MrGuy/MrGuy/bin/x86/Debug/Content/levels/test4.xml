@@ -352,6 +352,7 @@
         <string>Level Name</string>
         <string>New Position</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.LevelLink, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -373,6 +374,7 @@
         <string>Level Name</string>
         <string>New Position</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -390,26 +392,9 @@
         <string>Width</string>
         <string>Height</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
   </objects>
   <cameras />
-  <triggers>
-    <TriggerInformation>
-      <Bounds>
-        <X>425</X>
-        <Y>1101</Y>
-        <Width>1260</Width>
-        <Height>154</Height>
-        <Location>
-          <X>425</X>
-          <Y>1101</Y>
-        </Location>
-      </Bounds>
-      <Name>secret</Name>
-      <ObjID>
-        <int>-1</int>
-      </ObjID>
-      <WhenTrigger>1</WhenTrigger>
-    </TriggerInformation>
-  </triggers>
+  <triggers />
 </LevelData>

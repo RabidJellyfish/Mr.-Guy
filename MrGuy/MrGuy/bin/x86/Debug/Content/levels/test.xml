@@ -480,6 +480,7 @@
         <string>Width</string>
         <string>Height</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.LevelLink, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -501,6 +502,7 @@
         <string>Level Name</string>
         <string>New Position</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -518,6 +520,7 @@
         <string>Width</string>
         <string>Height</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -537,6 +540,7 @@
         <string>Height</string>
         <string>Rotation</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -556,6 +560,7 @@
         <string>Height</string>
         <string>Rotation</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -575,6 +580,7 @@
         <string>Height</string>
         <string>Rotation</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -594,6 +600,7 @@
         <string>Height</string>
         <string>Rotation</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -613,6 +620,7 @@
         <string>Height</string>
         <string>Rotation</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -632,6 +640,7 @@
         <string>Height</string>
         <string>Rotation</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -651,8 +660,38 @@
         <string>Height</string>
         <string>Rotation</string>
       </ParameterNames>
+      <Scripts>
+        <ScriptInformation>
+          <Name>test</Name>
+          <InitDelay>0</InitDelay>
+          <LoopCount>-1</LoopCount>
+          <LoopDelay>0</LoopDelay>
+          <TriggerName>flyMyPretties</TriggerName>
+          <Params>
+            <string>-12</string>
+          </Params>
+        </ScriptInformation>
+      </Scripts>
     </ObjectInformation>
   </objects>
   <cameras />
-  <triggers />
+  <triggers>
+    <TriggerInformation>
+      <Bounds>
+        <X>247</X>
+        <Y>737</Y>
+        <Width>309</Width>
+        <Height>252</Height>
+        <Location>
+          <X>247</X>
+          <Y>737</Y>
+        </Location>
+      </Bounds>
+      <Name>flyMyPretties</Name>
+      <ObjID>
+        <int>-1</int>
+      </ObjID>
+      <WhenTrigger>0</WhenTrigger>
+    </TriggerInformation>
+  </triggers>
 </LevelData>

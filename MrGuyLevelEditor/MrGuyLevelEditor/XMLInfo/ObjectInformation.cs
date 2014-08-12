@@ -16,6 +16,7 @@ namespace MrGuyLevelEditor.XMLInfo
 		public Vector2 Position;
 		public string[] ParameterValues;
 		public string[] ParameterNames;
+		public List<ScriptInformation> Scripts;
 
 		public string ValueFromName(string name)
 		{

@@ -338,6 +338,7 @@ namespace MrGuyLevelEditor
 				moved.Position = obj.Position - new Vector2(levelSize.X, levelSize.Y);
 				moved.Texture = obj.Texture;
 				moved.Type = obj.Type;
+				moved.Scripts = obj.Scripts;
 				level.objects.Add(moved);
 			}
 			level.cameras = new List<CameraBoxInformation>();
@@ -468,9 +469,19 @@ namespace MrGuyLevelEditor
 					else if (result == "scripts")
 					{
 						windowOpen = true;
-
-						// Probably similar to parameter editor showing up
-
+						ScriptManager manager = new ScriptManager();
+						manager.Location = controls.Location;
+						manager.Text = "Script Manager for Obj #" + obj.Index.ToString();
+						if (obj.Scripts != null)
+							for (int i = 0; i < obj.Scripts.Count; i++)
+								((System.Windows.Forms.ListBox)manager.Controls["lstScripts"]).Items.Add(obj.Scripts[i]);
+						System.Windows.Forms.DialogResult dialogResult = manager.ShowDialog();
+						if (dialogResult == System.Windows.Forms.DialogResult.OK)
+						{
+							obj.Scripts = new List<ScriptInformation>();
+							for (int i = 0; i < ((System.Windows.Forms.ListBox)manager.Controls["lstScripts"]).Items.Count; i++)
+								obj.Scripts.Add((ScriptInformation)((System.Windows.Forms.ListBox)manager.Controls["lstScripts"]).Items[i]);
+						}
 						windowOpen = false;
 					}
 				}

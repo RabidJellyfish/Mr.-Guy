@@ -100,6 +100,9 @@ namespace MrGuy.Screens
 				for (int i = 3; i < parameters.Length; i++)
 					parameters[i] = obj.ParameterValues[i - 3];
 				GameObject converted = Activator.CreateInstance(Type.GetType(obj.Type), parameters) as GameObject;
+				converted.Scripts = new List<Script>();
+				foreach (ScriptInformation s in obj.Scripts)
+					converted.Scripts.Add(new Script(s.Name, s.InitDelay, s.LoopCount, s.LoopDelay, s.TriggerName, s.Params));
 				this.objects.Add(converted);
 			}
 			foreach (CameraBoxInformation cam in level.cameras)

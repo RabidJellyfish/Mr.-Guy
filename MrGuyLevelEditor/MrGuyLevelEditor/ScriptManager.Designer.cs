@@ -106,7 +106,6 @@
 			this.Controls.Add(this.btnDelete);
 			this.Controls.Add(this.btnAdd);
 			this.Controls.Add(this.lstScripts);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "ScriptManager";
 			this.Text = "Script Manager for Obj #";
 			this.ResumeLayout(false);

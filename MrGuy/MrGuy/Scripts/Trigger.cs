@@ -42,6 +42,7 @@ namespace MrGuy.Scripts
 
 		public void Update(List<GameObject> objects)
 		{
+			Clear();
 			foreach (int i in ObjectID)
 			{
 				GameObject obj = GameObject.GetObjectFromIndex(i, objects);

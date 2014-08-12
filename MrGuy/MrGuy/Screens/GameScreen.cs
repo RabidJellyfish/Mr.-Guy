@@ -6,6 +6,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using FarseerPhysics.Dynamics;
+
 using MrGuy.Objects;
 
 namespace MrGuy.Screens
@@ -23,6 +25,18 @@ namespace MrGuy.Screens
 		/// </summary>
 		/// <returns>The list of game objects in this screen</returns>
 		List<GameObject> GetGameObjects();
+
+		/// <summary>
+		/// Adds a GameObject to the game world
+		/// </summary>
+		/// <param name="obj">The object to create</param>
+		void CreateObject(GameObject obj);
+
+		/// <summary>
+		/// Gets the physics engine's world
+		/// </summary>
+		/// <returns>The World object used by the physics engine</returns>
+		World GetWorld();
 
 		/// <summary>
 		/// Runs once every frame, updates the game screen

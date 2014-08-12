@@ -93,7 +93,7 @@ namespace MrGuy.Screens
 			foreach (ObjectInformation obj in level.objects)
 			{
 //				Console.WriteLine(typeof(Box).AssemblyQualifiedName.ToArray());
-				object[] parameters = new object[obj.ParameterValues.Count() + 3];
+				object[] parameters = new object[obj.ParameterValues == null ? 3 : (obj.ParameterValues.Count() + 3)];
 				parameters[0] = world;
 				parameters[1] = obj.Index;
 				parameters[2] = obj.Position;
@@ -139,6 +139,16 @@ namespace MrGuy.Screens
 			return this.objects;
 		}
 
+		public void CreateObject(GameObject obj)
+		{
+			objects.Add(obj);
+		}
+
+		public World GetWorld()
+		{
+			return this.world;
+		}
+
 		public GameScreen Update(Game game, GameTime gameTime)
 		{
 			// Update light
@@ -150,7 +160,6 @@ namespace MrGuy.Screens
 			// Update objects
 			foreach (GameObject obj in objects)
 				obj.Update(objects, gameTime);
-			Trigger.Clear();
 			foreach (Trigger t in triggers)
 				t.Update(objects);
 			camera.Update(objects);
@@ -205,6 +214,8 @@ namespace MrGuy.Screens
 				t.Draw(sb, textures);
 //			foreach (StaticBody b in collisionMap)
 //				b.DebugDraw(sb);
+			foreach (Trigger t in triggers)
+				MainGame.DrawRectangleOutline(sb, t.Bounds, t.Name == "makeBox" ? Color.Blue : Color.Lime);
 
 			sb.End();
 

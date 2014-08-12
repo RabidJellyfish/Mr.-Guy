@@ -188,8 +188,8 @@ namespace MrGuyLevelEditor
 			// Add to here everytime new object is added to editor
 			ObjectTextures = new Dictionary<string, Texture2D>();
 			ObjectTextures.Add("MrGuy.Objects.Box", Content.Load<Texture2D>("objects/box"));
+			ObjectTextures.Add("MrGuy.Objects.EmptyObject", Content.Load<Texture2D>("objects/unknown"));
 			ObjectTextures.Add("MrGuy.Objects.LevelLink", Content.Load<Texture2D>("objects/unknown"));
-
 		}
 
 		#endregion
@@ -521,7 +521,7 @@ namespace MrGuyLevelEditor
 							}
 							else if (controls.Tab == 1 && selectedTexture != null)
 								CreateTile();
-							else if (controls.Tab == 2 && selectedTexture != null)
+							else if (controls.Tab == 2 && (selectedTexture != null || movedObject != null))
 								CreateObject();
 						}
 						else
@@ -795,23 +795,23 @@ namespace MrGuyLevelEditor
 					currentObject.Index = index;
 					currentObject.Texture = controls.SelectedObject.ToString();
 					currentObject.ParameterNames = controls.SelectedObject.Parameters;
-					currentObject.ParameterValues = new string[controls.SelectedObject.Parameters.Length];
+					currentObject.ParameterValues = controls.SelectedObject.Parameters == null ? null : new string[controls.SelectedObject.Parameters.Length];
 				}
 				currentObject.Position = camera.CameraToGlobalPos(new Vector2(Mouse.GetState().X, Mouse.GetState().Y));
-				if (currentObject.ParameterNames.Contains("Width"))
+				if (currentObject.ParameterNames != null && currentObject.ParameterNames.Contains("Width"))
 					currentObject.SetParameter("Width", selTexScale.X * ObjectTextures[currentObject.Texture].Width / camera.TotalScale);
-				if (currentObject.ParameterNames.Contains("Height"))
+				if (currentObject.ParameterNames != null && currentObject.ParameterNames.Contains("Height"))
 					currentObject.SetParameter("Height", selTexScale.Y * ObjectTextures[currentObject.Texture].Height / camera.TotalScale);
-				if (currentObject.ParameterNames.Contains("Scale"))
+				if (currentObject.ParameterNames != null && currentObject.ParameterNames.Contains("Scale"))
 					currentObject.SetParameter("Scale", selTexScale);
-				if (currentObject.ParameterNames.Contains("Rotation"))
+				if (currentObject.ParameterNames != null && currentObject.ParameterNames.Contains("Rotation"))
 					currentObject.SetParameter("Rotation", selTexRotation);
-				if (currentObject.ParameterNames.Contains("FacingLeft"))
+				if (currentObject.ParameterNames != null && currentObject.ParameterNames.Contains("FacingLeft"))
 					currentObject.SetParameter("FacingLeft", selTexEffect == SpriteEffects.FlipHorizontally);
 
 				if (movedObject == null)
 				{
-					if (currentObject.ParameterNames.Contains("Radius") || currentObject.ParameterNames.Contains("Position2")) // Add others later maybe
+					if (currentObject.ParameterNames != null && (currentObject.ParameterNames.Contains("Radius") || currentObject.ParameterNames.Contains("Position2"))) // Add others later maybe
 					{
 						step = 2;
 						return;
@@ -1237,37 +1237,38 @@ namespace MrGuyLevelEditor
 			{
 				if (controls.SelectedObject != null || movedObject != null)
 				{
-					Texture2D obj_tex = currentObject != null ? ObjectTextures[currentObject.Texture] : selectedTexture;
+					string[] p = movedObject != null ? movedObject.ParameterNames : controls.SelectedObject.Parameters;
+					Texture2D obj_tex = currentObject != null ? ObjectTextures[currentObject.Texture] : (selectedTexture == null ? ObjectTextures[movedObject.Texture] : selectedTexture);
 					Vector2 obj_pos = (currentObject != null ? currentObject.Position : new Vector2(state.X, state.Y));
-					float obj_rot = (currentObject != null ? 
-										(controls.SelectedObject.Parameters.Contains("Rotation") ? 
+					float obj_rot = (currentObject != null ?
+										(p != null && p.Contains("Rotation") ? 
 											float.Parse(currentObject.ValueFromName("Rotation")) : 
-											0f) : 
-										(controls.SelectedObject.Parameters.Contains("Rotation") ? 
+											0f) :
+										(p != null && p.Contains("Rotation") ? 
 											selTexRotation :
 											0f));
 					Vector2 obj_scale = (currentObject != null ?
-											new Vector2(controls.SelectedObject.Parameters.Contains("Width") ?
+											new Vector2(p != null && p.Contains("Width") ?
 															float.Parse(currentObject.ValueFromName("Width")) / selectedTexture.Width * camera.TotalScale : 1f,
-														controls.SelectedObject.Parameters.Contains("Height") ?
+														p != null && p.Contains("Height") ?
 															float.Parse(currentObject.ValueFromName("Height")) / selectedTexture.Height * camera.TotalScale : 1f) * camera.TotalScale :
-											new Vector2(controls.SelectedObject.Parameters.Contains("Width") ?
+											new Vector2(p != null && p.Contains("Width") ?
 															selTexScale.X : 1f,
-														controls.SelectedObject.Parameters.Contains("Height") ?
+														p != null && p.Contains("Height") ?
 															selTexScale.Y : 1f));
-					if (currentObject != null && obj_scale == Vector2.One && controls.SelectedObject.Parameters.Contains("Scale"))
+					if (currentObject != null && obj_scale == Vector2.One && p.Contains("Scale"))
 						obj_scale = Vector2.One * float.Parse(currentObject.ValueFromName("Scale"));
 					SpriteEffects flipped = (currentObject != null ?
-												(controls.SelectedObject.Parameters.Contains("FacingLeft") ?
+												(p != null && p.Contains("FacingLeft") ?
 													(bool.Parse(currentObject.ValueFromName("FacingLeft")) ?
 														SpriteEffects.FlipHorizontally :
 														SpriteEffects.None) :
 													SpriteEffects.None) :
-												controls.SelectedObject.Parameters.Contains("FacingLeft") ?
+												p != null && p.Contains("FacingLeft") ?
 													selTexEffect :
 													SpriteEffects.None);
 					spriteBatch.Draw(obj_tex, obj_pos, null, new Color(255, 255, 255, movedObject != null ? 255 : 125), obj_rot,
-										new Vector2(selectedTexture.Width / 2, selectedTexture.Height / 2), obj_scale, flipped, 0.555556f);
+										new Vector2(obj_tex.Width / 2, obj_tex.Height / 2), obj_scale, flipped, 0.555556f);
 
 					if (step == 2)
 					{

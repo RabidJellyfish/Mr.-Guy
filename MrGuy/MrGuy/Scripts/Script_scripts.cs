@@ -18,5 +18,10 @@ namespace MrGuy.Scripts
 				if (obj is Box)
 					((Box)obj).box.ApplyForce(Vector2.UnitY * float.Parse(force));
 		}
+
+		public static void makeBox()
+		{
+			// rip
+		}
 	}
 }

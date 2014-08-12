@@ -50,7 +50,6 @@
 			this.ClientSize = new System.Drawing.Size(414, 518);
 			this.ControlBox = false;
 			this.Controls.Add(this.button1);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "ParameterEditor";
 			this.Text = "ID: ";
 			this.ResumeLayout(false);

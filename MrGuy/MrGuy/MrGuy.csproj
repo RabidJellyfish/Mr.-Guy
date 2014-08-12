@@ -112,6 +112,7 @@
     <Compile Include="AnimatedTexture.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Objects\CameraBox.cs" />
+    <Compile Include="Objects\EmptyObject.cs" />
     <Compile Include="Objects\LevelLink.cs" />
     <Compile Include="Scripts\Script_scripts.cs" />
     <Compile Include="Scripts\Trigger.cs" />

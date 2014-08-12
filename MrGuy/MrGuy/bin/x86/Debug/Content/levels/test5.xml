@@ -483,25 +483,44 @@
       </Points>
     </StaticBodyInformation>
   </staticBodies>
-  <objects />
+  <objects>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.EmptyObject, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>0</Index>
+      <Texture>MrGuy.Objects.EmptyObject</Texture>
+      <Position>
+        <X>3007</X>
+        <Y>1245</Y>
+      </Position>
+      <Scripts>
+        <ScriptInformation>
+          <Name>makeBox</Name>
+          <InitDelay>1000</InitDelay>
+          <LoopCount>10</LoopCount>
+          <LoopDelay>3000</LoopDelay>
+          <TriggerName>makeBox</TriggerName>
+        </ScriptInformation>
+      </Scripts>
+    </ObjectInformation>
+  </objects>
   <cameras />
   <triggers>
     <TriggerInformation>
       <Bounds>
-        <X>2880</X>
-        <Y>949</Y>
-        <Width>411</Width>
-        <Height>349</Height>
+        <X>2754</X>
+        <Y>1363</Y>
+        <Width>523</Width>
+        <Height>328</Height>
         <Location>
-          <X>2880</X>
-          <Y>949</Y>
+          <X>2754</X>
+          <Y>1363</Y>
         </Location>
       </Bounds>
       <Name>makeBox</Name>
       <ObjID>
         <int>-1</int>
       </ObjID>
-      <WhenTrigger>1</WhenTrigger>
+      <WhenTrigger>0</WhenTrigger>
     </TriggerInformation>
   </triggers>
 </LevelData>

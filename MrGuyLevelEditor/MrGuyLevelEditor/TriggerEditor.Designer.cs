@@ -139,7 +139,6 @@
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.txtObjects);
 			this.Controls.Add(this.txtName);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "TriggerEditor";
 			this.Text = "Trigger Editor";
 			this.groupBox1.ResumeLayout(false);

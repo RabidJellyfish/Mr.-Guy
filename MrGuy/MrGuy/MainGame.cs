@@ -65,7 +65,7 @@ namespace MrGuy
 			SpeechBubble.texSpeech_Arrow = Content.Load<Texture2D>("textbox_arrow");
 			SpeechBubble.fntSpeech = Content.Load<SpriteFont>("speechFont");
 
-			currentScreen = new GameWorld(new Vector2(300, 600), this, "test");
+			currentScreen = new GameWorld(new Vector2(300, 600), this, "test5");
 		}
 
 		protected override void UnloadContent()
@@ -104,6 +104,14 @@ namespace MrGuy
 			float angle = (float)Math.Atan2(point2.Y - point1.Y, point2.X - point1.X);
 			float length = Vector2.Distance(point1, point2);
 			sb.Draw(b, point1, null, color, angle, Vector2.Zero, new Vector2(length, width), SpriteEffects.None, 0);
+		}
+
+		public static void DrawRectangleOutline(SpriteBatch sb, Rectangle r, Color c)
+		{
+			DrawLine(sb, blank, 1, c, new Vector2(r.X, r.Y), new Vector2(r.X + r.Width, r.Y));
+			DrawLine(sb, blank, 1, c, new Vector2(r.X, r.Y), new Vector2(r.X, r.Y + r.Height));
+			DrawLine(sb, blank, 1, c, new Vector2(r.X + r.Width, r.Y), new Vector2(r.X + r.Width, r.Y + r.Height));
+			DrawLine(sb, blank, 1, c, new Vector2(r.X, r.Y + r.Height), new Vector2(r.X + r.Width, r.Y + r.Height));
 		}
 	}
 }

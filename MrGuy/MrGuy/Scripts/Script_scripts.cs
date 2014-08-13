@@ -21,7 +21,10 @@ namespace MrGuy.Scripts
 
 		public static void makeBox()
 		{
-			// rip
+			MainGame.currentScreen.CreateObject(new Box(MainGame.currentScreen.GetWorld(),
+														100 + MainGame.currentScreen.GetGameObjects().Count,
+														MainGame.currentScreen.GetGameObjects()[0].Position,
+														"32", "32"));
 		}
 	}
 }

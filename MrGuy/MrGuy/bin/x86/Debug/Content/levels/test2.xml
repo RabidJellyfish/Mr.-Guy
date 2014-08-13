@@ -1540,6 +1540,7 @@
         <string>Width</string>
         <string>Height</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -1557,6 +1558,7 @@
         <string>Width</string>
         <string>Height</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -1574,6 +1576,7 @@
         <string>Width</string>
         <string>Height</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -1591,6 +1594,7 @@
         <string>Width</string>
         <string>Height</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -1608,6 +1612,7 @@
         <string>Width</string>
         <string>Height</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -1625,6 +1630,7 @@
         <string>Width</string>
         <string>Height</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -1642,6 +1648,7 @@
         <string>Width</string>
         <string>Height</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.LevelLink, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
@@ -1663,8 +1670,27 @@
         <string>Level Name</string>
         <string>New Position</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
   </objects>
-  <cameras />
+  <cameras>
+    <CameraBoxInformation>
+      <Target>
+        <X>2089</X>
+        <Y>959</Y>
+      </Target>
+      <Bounds>
+        <X>1428</X>
+        <Y>0</Y>
+        <Width>1245</Width>
+        <Height>1363</Height>
+        <Location>
+          <X>1428</X>
+          <Y>0</Y>
+        </Location>
+      </Bounds>
+      <Priority>1</Priority>
+    </CameraBoxInformation>
+  </cameras>
   <triggers />
 </LevelData>

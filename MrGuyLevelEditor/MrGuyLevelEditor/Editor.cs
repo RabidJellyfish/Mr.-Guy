@@ -14,12 +14,13 @@ using Microsoft.Xna.Framework.Media;
 using MrGuyLevelEditor.XMLInfo;
 
 // left click - place things
-// right click - (page 1) remove point from polygon  (page 2/3) remove things
+// right click - (page 3) right click menu
+// ctrl+right click - (page 1) remove point from polygon  (page 2/3) remove things
 // shift+right click - (page 1) remove entire polygon rather than single point
 // shift+left click - change level size
 // a/d - rotate
-// shift+a/d - snap rotate
-// ctrl+a/s/d/w - stretch
+// ctrl+a/d - snap rotate
+// shift+a/s/d/w - stretch
 // ctrl+shift - reset scale
 // w/s - scale
 // x - flip horizontally
@@ -62,7 +63,7 @@ namespace MrGuyLevelEditor
 		private SpriteEffects selTexEffect;
 		private float layer;
 
-		private bool xPressed;
+		private bool xPressed, tabPressed;
 		private bool rotOnceLeft, rotOnceRight;
 		private bool mleftPressed, mRightPressed;
 		private int prevScrollTotal;
@@ -169,6 +170,7 @@ namespace MrGuyLevelEditor
 				string s = files[i].Replace(".xnb", "").Split('\\')[files[i].Split('\\').Length - 1];
 				TileTextures.Add(s, Content.Load<Texture2D>("tiles\\" + s));
 			}
+			controls.AddTiles(TileTextures.Keys.ToArray());
 		}
 
 		/// <summary>
@@ -237,6 +239,24 @@ namespace MrGuyLevelEditor
 			}
 			else
 				escapePressed = false;
+
+			if (Keyboard.GetState().IsKeyDown(Keys.Tab) && !windowOpen)
+			{
+				if (!tabPressed)
+				{
+					tabPressed = true;
+					if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+						((System.Windows.Forms.TabControl)controls.Controls["tabControl"]).SelectedIndex =
+									(((System.Windows.Forms.TabControl)controls.Controls["tabControl"]).SelectedIndex == 0 ? 2 :
+									((System.Windows.Forms.TabControl)controls.Controls["tabControl"]).SelectedIndex - 1);
+					else
+						((System.Windows.Forms.TabControl)controls.Controls["tabControl"]).SelectedIndex = 
+									(((System.Windows.Forms.TabControl)controls.Controls["tabControl"]).SelectedIndex == 2 ? 0 : 
+									((System.Windows.Forms.TabControl)controls.Controls["tabControl"]).SelectedIndex + 1);
+				}
+			}
+			else
+				tabPressed = false;
 
 			if (controls.Tab == 0)
 			{
@@ -577,11 +597,11 @@ namespace MrGuyLevelEditor
 			#region Rotating
 
 			// Rotate selection counterclockwise
-			if (Keyboard.GetState().IsKeyUp(Keys.LeftControl))
+			if (Keyboard.GetState().IsKeyUp(Keys.LeftShift))
 			{
 				if (Keyboard.GetState().IsKeyDown(Keys.A))
 				{
-					if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
+					if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 					{
 						if (!rotOnceLeft)
 						{
@@ -596,7 +616,7 @@ namespace MrGuyLevelEditor
 				else if (Keyboard.GetState().IsKeyDown(Keys.D))
 				{
 					rotOnceLeft = false;
-					if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
+					if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
 					{
 						if (!rotOnceRight)
 						{
@@ -623,10 +643,14 @@ namespace MrGuyLevelEditor
 			#region Scaling
 
 			// Scale selection
-			if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+			if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
 			{
-				if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
+				if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+				{
 					selTexScale.X = selTexScale.Y = 1f;
+					selTexRotation = 0f;
+					selTexEffect = SpriteEffects.None;
+				}
 
 				if (Keyboard.GetState().IsKeyDown(Keys.D))
 					selTexScale.X += 0.1f;
@@ -1238,7 +1262,7 @@ namespace MrGuyLevelEditor
 				if (controls.SelectedObject != null || movedObject != null)
 				{
 					string[] p = movedObject != null ? movedObject.ParameterNames : controls.SelectedObject.Parameters;
-					Texture2D obj_tex = currentObject != null ? ObjectTextures[currentObject.Texture] : (selectedTexture == null ? ObjectTextures[movedObject.Texture] : selectedTexture);
+					Texture2D obj_tex = currentObject != null ? ObjectTextures[currentObject.Texture] : (movedObject != null ? ObjectTextures[movedObject.Texture] : selectedTexture);
 					Vector2 obj_pos = (currentObject != null ? currentObject.Position : new Vector2(state.X, state.Y));
 					float obj_rot = (currentObject != null ?
 										(p != null && p.Contains("Rotation") ? 

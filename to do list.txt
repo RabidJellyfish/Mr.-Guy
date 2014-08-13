@@ -14,13 +14,14 @@ TODO:
 		- Skyland (name=wat, above forest)
 			- Airplane mission?
 			- Search for thing hiding in clouds
+			- Cloud maze (no collision on some clouds)
 		- Volcano
 			- Roll down side
 			- Lava monster boss fight
 		- Temple
 			- Puzzles everywhere
 			- Gauntlet of doom
-			- Aladdin rip-off (escape with treasure)
+			- Aladdin rip-off (escape with treasure)?
 		- Prison
 			- Help asshole escape
 		- Dream world
@@ -30,28 +31,28 @@ TODO:
 			- Trippy boss fight
 		- Dock/Island
 			- Collect hamsters
-			- Underwater gauntlet
 		- Underground
 			- Mole monsters
-			- Water filling, escape before drowning
+			- Water filling, escape before drowning?
+			- Underwater gauntlet
 		- Mt. Pretty Alright
 	- Speedrun routes in each world
 		- Use arrows to direct player where they need to go to reach the finish
+
+- Learn how to use Spriter
+	- Convert Mr. Guy sprite to spriter so adding animations is easier
+
+- NPCGuys
+	- NPC, you can talk to them
+	- Attach scripts to them
+
+- Spotlights/step 2 parameter creation in editor
 
 - Water
 
 - Backgrounds
 	- position = camera.position * 0.5?
 
-- Scripts
-	- Store scripts in dictionary<name, Script>, each has object[] params
-	- Add script parameter in ObjectListItems (split each field by space, formatted "script1,param1,param2#script2,param1,param2#etc."
-		- Objects you can add scripts to will have a list of scripts you can iterate through in Update method and stuff
-	- Call script with dictionary[name].Activate() or something
-	- Properties
-		- runOnce and hasRun bools, check dictionary for whether or not to repeat script
-	- Store externally and use reflection?
-
-- NPCGuys
-	- NPC, you can talk to them
-	- Attach scripts to them
+- Add zoom to camera?
+	- Editor
+	- Game

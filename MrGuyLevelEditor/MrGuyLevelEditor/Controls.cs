@@ -58,14 +58,14 @@ namespace MrGuyLevelEditor
 		public string SelectedTile { get { return lstTiles.SelectedItem != null ? lstTiles.SelectedItem.ToString() : null; } }
 		public ObjectListItem SelectedObject { get { return lstObjects.SelectedItem != null ? (ObjectListItem)lstObjects.SelectedItem : null; } }
 
+		private List<ObjectListItem> objectsList;
+		private List<string> tilesList;
+
 		public Controls()
 		{
+			objectsList = new List<ObjectListItem>();
+			tilesList = new List<string>();
 			InitializeComponent();
-		}
-
-		private void Controls_Load(object sender, EventArgs e)
-		{
-
 		}
 
 		private void btnNew_Click(object sender, EventArgs e)
@@ -171,8 +171,17 @@ namespace MrGuyLevelEditor
 
 		public void AddItems(List<ObjectListItem> items)
 		{
+			objectsList = items;
 			foreach (ObjectListItem i in items)
 				this.lstObjects.Items.Add(i);
+		}
+
+		public void AddTiles(string[] items)
+		{
+			tilesList.Clear();
+			tilesList.AddRange(items);
+			foreach (string s in items)
+				this.lstTiles.Items.Add(s);
 		}
 
 		private void txtPriority_TextChanged(object sender, EventArgs e)
@@ -188,6 +197,26 @@ namespace MrGuyLevelEditor
 			int result;
 			if (!int.TryParse(str.Text, out result) || result > 255 || result < 0)
 				str.Text = "255";
+		}
+
+		private void txtObjFilter_TextChanged(object sender, EventArgs e)
+		{
+			var newItems = from ObjectListItem obj in objectsList
+						   where obj.Type.Remove(0, 14).ToLower().Contains(txtObjFilter.Text.ToLower())
+						   select obj;
+			lstObjects.Items.Clear();
+			foreach (ObjectListItem obj in newItems)
+				lstObjects.Items.Add(obj);
+		}
+
+		private void txtTileFilter_TextChanged(object sender, EventArgs e)
+		{
+			var newItems = from string s in tilesList
+						   where s.ToLower().Contains(txtTileFilter.Text.ToLower())
+						   select s;
+			lstTiles.Items.Clear();
+			foreach (string s in newItems)
+				lstTiles.Items.Add(s);
 		}
 	}
 }

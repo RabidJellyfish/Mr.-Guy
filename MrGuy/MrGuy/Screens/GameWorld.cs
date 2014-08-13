@@ -43,6 +43,7 @@ namespace MrGuy.Screens
 		Dictionary<string, Texture2D> textures;
 
 		private Color targetLight;
+		private List<GameObject> toAdd;
 
 		public GameWorld(Vector2 playerPos, Game game, string name)
 		{
@@ -55,6 +56,8 @@ namespace MrGuy.Screens
 			collisionMap = new List<StaticBody>();
 			objects = new List<GameObject>();
 			triggers = new List<Trigger>();
+
+			toAdd = new List<GameObject>();
 
 			Load(game, name);
 
@@ -141,7 +144,7 @@ namespace MrGuy.Screens
 
 		public void CreateObject(GameObject obj)
 		{
-			objects.Add(obj);
+			toAdd.Add(obj);
 		}
 
 		public World GetWorld()
@@ -160,6 +163,10 @@ namespace MrGuy.Screens
 			// Update objects
 			foreach (GameObject obj in objects)
 				obj.Update(objects, gameTime);
+			foreach (GameObject obj in toAdd)
+				objects.Add(obj);
+			toAdd.Clear();
+
 			foreach (Trigger t in triggers)
 				t.Update(objects);
 			camera.Update(objects);
@@ -214,8 +221,8 @@ namespace MrGuy.Screens
 				t.Draw(sb, textures);
 //			foreach (StaticBody b in collisionMap)
 //				b.DebugDraw(sb);
-			foreach (Trigger t in triggers)
-				MainGame.DrawRectangleOutline(sb, t.Bounds, t.Name == "makeBox" ? Color.Blue : Color.Lime);
+//			foreach (Trigger t in triggers)
+//				MainGame.DrawRectangleOutline(sb, t.Bounds, t.Name == "makeBox" ? Color.Blue : Color.Lime);
 
 			sb.End();
 

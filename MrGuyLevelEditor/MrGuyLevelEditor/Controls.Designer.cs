@@ -30,6 +30,8 @@
 		{
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.pageStuff = new System.Windows.Forms.TabPage();
+			this.btnDrawTrigger = new System.Windows.Forms.Button();
+			this.btnTriggerDone = new System.Windows.Forms.Button();
 			this.txtB = new System.Windows.Forms.TextBox();
 			this.txtG = new System.Windows.Forms.TextBox();
 			this.txtR = new System.Windows.Forms.TextBox();
@@ -49,11 +51,11 @@
 			this.pageTiles = new System.Windows.Forms.TabPage();
 			this.lstTiles = new System.Windows.Forms.ListBox();
 			this.pageObjects = new System.Windows.Forms.TabPage();
+			this.txtObjFilter = new System.Windows.Forms.TextBox();
 			this.lstObjects = new System.Windows.Forms.ListBox();
 			this.openFD = new System.Windows.Forms.OpenFileDialog();
 			this.saveFD = new System.Windows.Forms.SaveFileDialog();
-			this.btnDrawTrigger = new System.Windows.Forms.Button();
-			this.btnTriggerDone = new System.Windows.Forms.Button();
+			this.txtTileFilter = new System.Windows.Forms.TextBox();
 			this.tabControl.SuspendLayout();
 			this.pageStuff.SuspendLayout();
 			this.pageTiles.SuspendLayout();
@@ -98,6 +100,26 @@
 			this.pageStuff.TabIndex = 0;
 			this.pageStuff.Text = "Stuff";
 			this.pageStuff.UseVisualStyleBackColor = true;
+			// 
+			// btnDrawTrigger
+			// 
+			this.btnDrawTrigger.Location = new System.Drawing.Point(10, 119);
+			this.btnDrawTrigger.Name = "btnDrawTrigger";
+			this.btnDrawTrigger.Size = new System.Drawing.Size(110, 23);
+			this.btnDrawTrigger.TabIndex = 11;
+			this.btnDrawTrigger.Text = "Draw Trigger";
+			this.btnDrawTrigger.UseVisualStyleBackColor = true;
+			this.btnDrawTrigger.Click += new System.EventHandler(this.btnDrawTrigger_Click);
+			// 
+			// btnTriggerDone
+			// 
+			this.btnTriggerDone.Location = new System.Drawing.Point(126, 119);
+			this.btnTriggerDone.Name = "btnTriggerDone";
+			this.btnTriggerDone.Size = new System.Drawing.Size(51, 23);
+			this.btnTriggerDone.TabIndex = 12;
+			this.btnTriggerDone.Text = "Cancel";
+			this.btnTriggerDone.UseVisualStyleBackColor = true;
+			this.btnTriggerDone.Click += new System.EventHandler(this.btnTriggerDone_Click);
 			// 
 			// txtB
 			// 
@@ -252,6 +274,7 @@
 			// 
 			// pageTiles
 			// 
+			this.pageTiles.Controls.Add(this.txtTileFilter);
 			this.pageTiles.Controls.Add(this.lstTiles);
 			this.pageTiles.Location = new System.Drawing.Point(4, 22);
 			this.pageTiles.Name = "pageTiles";
@@ -264,21 +287,14 @@
 			// lstTiles
 			// 
 			this.lstTiles.FormattingEnabled = true;
-			this.lstTiles.Items.AddRange(new object[] {
-            "dirt",
-            "flower1",
-            "flower2",
-            "flower3",
-            "grass",
-            "leaves",
-            "tree trunk"});
 			this.lstTiles.Location = new System.Drawing.Point(10, 6);
 			this.lstTiles.Name = "lstTiles";
-			this.lstTiles.Size = new System.Drawing.Size(167, 342);
+			this.lstTiles.Size = new System.Drawing.Size(167, 316);
 			this.lstTiles.TabIndex = 0;
 			// 
 			// pageObjects
 			// 
+			this.pageObjects.Controls.Add(this.txtObjFilter);
 			this.pageObjects.Controls.Add(this.lstObjects);
 			this.pageObjects.Location = new System.Drawing.Point(4, 22);
 			this.pageObjects.Name = "pageObjects";
@@ -287,37 +303,33 @@
 			this.pageObjects.Text = "Objects";
 			this.pageObjects.UseVisualStyleBackColor = true;
 			// 
+			// txtObjFilter
+			// 
+			this.txtObjFilter.Location = new System.Drawing.Point(11, 328);
+			this.txtObjFilter.Name = "txtObjFilter";
+			this.txtObjFilter.Size = new System.Drawing.Size(166, 20);
+			this.txtObjFilter.TabIndex = 2;
+			this.txtObjFilter.TextChanged += new System.EventHandler(this.txtObjFilter_TextChanged);
+			// 
 			// lstObjects
 			// 
 			this.lstObjects.FormattingEnabled = true;
 			this.lstObjects.Location = new System.Drawing.Point(10, 6);
 			this.lstObjects.Name = "lstObjects";
-			this.lstObjects.Size = new System.Drawing.Size(167, 342);
+			this.lstObjects.Size = new System.Drawing.Size(167, 316);
 			this.lstObjects.TabIndex = 1;
 			// 
 			// openFD
 			// 
 			this.openFD.FileName = "openFileDialog1";
 			// 
-			// btnDrawTrigger
+			// txtTileFilter
 			// 
-			this.btnDrawTrigger.Location = new System.Drawing.Point(10, 119);
-			this.btnDrawTrigger.Name = "btnDrawTrigger";
-			this.btnDrawTrigger.Size = new System.Drawing.Size(110, 23);
-			this.btnDrawTrigger.TabIndex = 11;
-			this.btnDrawTrigger.Text = "Draw Trigger";
-			this.btnDrawTrigger.UseVisualStyleBackColor = true;
-			this.btnDrawTrigger.Click += new System.EventHandler(this.btnDrawTrigger_Click);
-			// 
-			// btnTriggerDone
-			// 
-			this.btnTriggerDone.Location = new System.Drawing.Point(126, 119);
-			this.btnTriggerDone.Name = "btnTriggerDone";
-			this.btnTriggerDone.Size = new System.Drawing.Size(51, 23);
-			this.btnTriggerDone.TabIndex = 12;
-			this.btnTriggerDone.Text = "Cancel";
-			this.btnTriggerDone.UseVisualStyleBackColor = true;
-			this.btnTriggerDone.Click += new System.EventHandler(this.btnTriggerDone_Click);
+			this.txtTileFilter.Location = new System.Drawing.Point(11, 328);
+			this.txtTileFilter.Name = "txtTileFilter";
+			this.txtTileFilter.Size = new System.Drawing.Size(166, 20);
+			this.txtTileFilter.TabIndex = 1;
+			this.txtTileFilter.TextChanged += new System.EventHandler(this.txtTileFilter_TextChanged);
 			// 
 			// Controls
 			// 
@@ -330,12 +342,13 @@
 			this.Text = "Controls";
 			this.Activated += new System.EventHandler(this.Controls_Activated);
 			this.Deactivate += new System.EventHandler(this.Controls_Deactivate);
-			this.Load += new System.EventHandler(this.Controls_Load);
 			this.tabControl.ResumeLayout(false);
 			this.pageStuff.ResumeLayout(false);
 			this.pageStuff.PerformLayout();
 			this.pageTiles.ResumeLayout(false);
+			this.pageTiles.PerformLayout();
 			this.pageObjects.ResumeLayout(false);
+			this.pageObjects.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -368,5 +381,7 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Button btnDrawTrigger;
 		private System.Windows.Forms.Button btnTriggerDone;
+		private System.Windows.Forms.TextBox txtObjFilter;
+		private System.Windows.Forms.TextBox txtTileFilter;
 	}
 }

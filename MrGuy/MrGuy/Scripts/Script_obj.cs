@@ -18,6 +18,7 @@ namespace MrGuy.Scripts
 		public string[] Param;
 
 		private int maxLoopDelay;
+		private bool firstRun;
 
 		public Script(string name) : this(name, 0, -1, 0, "", null) { }
 
@@ -31,28 +32,32 @@ namespace MrGuy.Scripts
 			this.LoopDelay = loopDelay;
 			this.TriggerName = triggerName;
 			this.Param = param;
+			this.firstRun = true;
 		}
 
 		public void Update(GameTime gameTime)
 		{
-			if (InitDelay <= 0)
+			if (TriggerName != "" && Trigger.IsTriggered(TriggerName) || TriggerName == "")
 			{
-				if (LoopCount != 0)
+				if (InitDelay <= 0)
 				{
-					maxLoopDelay = Math.Max(maxLoopDelay, LoopDelay);
-					if (LoopDelay <= 0)
+					if (LoopCount != 0)
 					{
-						if (TriggerName != "" && Trigger.IsTriggered(TriggerName))
+						maxLoopDelay = Math.Max(maxLoopDelay, LoopDelay);
+						if (LoopDelay <= 0 || firstRun)
+						{
+							firstRun = false;
 							Call(this.Name, this.Param);
-						LoopDelay = maxLoopDelay;
-						LoopCount--;
+							LoopDelay = maxLoopDelay;
+							LoopCount--;
+						}
+						else
+							LoopDelay -= gameTime.ElapsedGameTime.Milliseconds;
 					}
-					else
-						LoopDelay -= gameTime.ElapsedGameTime.Milliseconds;
 				}
+				else
+					InitDelay -= gameTime.ElapsedGameTime.Milliseconds;
 			}
-			else
-				InitDelay -= gameTime.ElapsedGameTime.Milliseconds;
 		}
 
 		public static void Call(string scriptName, string[] param)

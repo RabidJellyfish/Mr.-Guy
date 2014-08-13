@@ -9,31 +9,3 @@
 			Position2 = mouse position				(strings, wires)
 		Step 3:
 			Other attributes = window popup
-		^^^ Mostly change DrawMouse() method ^^^
-
-	- Right click menu
-		Could just be popup window because ez
-
-- Scripts
-	- Objects have list of script structs
-		- name of script
-		- list of string params
-	- Collection of public static methods
-	- Put in dictionary on game load
-	- Make scripts global so certain scripts can't be triggered multiple times, even if level is reloaded
-		- http://stackoverflow.com/questions/3767942/storing-a-list-of-methods-in-c-sharp
-
-- Triggers
-	- Separate from Game Objects
-	- Steps
-		1. Top left
-		2. Bottom right
-		3. Other (see paint)
-	- Multiple triggers can have same name, when script loops through triggers, multiple will be checked
-	- Level cycles through objects
-		- objects cycle through scripts
-			- scripts activated by triggers cycle through list of triggers
-				if istriggered, activate script
-
-
-- Add zoom to camera?

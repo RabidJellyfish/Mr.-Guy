@@ -625,19 +625,20 @@
         <string>Width</string>
         <string>Height</string>
       </ParameterNames>
+      <Scripts />
     </ObjectInformation>
   </objects>
   <cameras />
   <triggers>
     <TriggerInformation>
       <Bounds>
-        <X>247</X>
-        <Y>737</Y>
-        <Width>309</Width>
-        <Height>252</Height>
+        <X>1715</X>
+        <Y>1</Y>
+        <Width>120</Width>
+        <Height>326</Height>
         <Location>
-          <X>247</X>
-          <Y>737</Y>
+          <X>1715</X>
+          <Y>1</Y>
         </Location>
       </Bounds>
       <Name>flyMyPretties</Name>

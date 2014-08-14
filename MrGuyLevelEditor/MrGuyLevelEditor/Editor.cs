@@ -240,12 +240,12 @@ namespace MrGuyLevelEditor
 			else
 				escapePressed = false;
 
-			if (Keyboard.GetState().IsKeyDown(Keys.Tab) && !windowOpen)
+			if (Keyboard.GetState().IsKeyDown(Keys.Tab) && Keyboard.GetState().IsKeyDown(Keys.LeftControl) && !windowOpen)
 			{
 				if (!tabPressed)
 				{
 					tabPressed = true;
-					if (Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+					if (Keyboard.GetState().IsKeyDown(Keys.LeftShift))
 						((System.Windows.Forms.TabControl)controls.Controls["tabControl"]).SelectedIndex =
 									(((System.Windows.Forms.TabControl)controls.Controls["tabControl"]).SelectedIndex == 0 ? 2 :
 									((System.Windows.Forms.TabControl)controls.Controls["tabControl"]).SelectedIndex - 1);
@@ -589,6 +589,52 @@ namespace MrGuyLevelEditor
 					if (!foundObj)
 						rcMenu = null;
 				}
+				else if (controls.Tab == 0 && !windowOpen && !mRightPressed)
+				{
+					mRightPressed = true;
+					TriggerInformation selected = null;
+					TriggerEditor editor = null;
+
+					foreach (TriggerInformation trigger in triggerInfo)
+					{
+						Vector2 camToGlob = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
+						Vector2 topleft = new Vector2(trigger.Bounds.Left, trigger.Bounds.Top);
+						Vector2 topright = new Vector2(trigger.Bounds.Right, trigger.Bounds.Top);
+						Vector2 bottomleft = new Vector2(trigger.Bounds.Left, trigger.Bounds.Bottom);
+						Vector2 bottomright = new Vector2(trigger.Bounds.Right, trigger.Bounds.Bottom);
+						if ((camToGlob - topleft).Length() <= 5 || (camToGlob - topright).Length() <= 5 || (camToGlob - bottomleft).Length() <= 5 || (camToGlob - bottomright).Length() <= 5)
+						{
+							selected = trigger;
+							controls.CreatingTrigger = true;
+							windowOpen = true;
+							editor = new TriggerEditor();
+							editor.Location = controls.Location;
+							((System.Windows.Forms.TextBox)editor.Controls["txtName"]).Text = trigger.Name;
+							((System.Windows.Forms.TextBox)editor.Controls["txtObjects"]).Text = trigger.ObjID[0].ToString();
+							for (int i = 1; i < trigger.ObjID.Length; i++)
+								((System.Windows.Forms.TextBox)editor.Controls["txtObjects"]).Text += "," + trigger.ObjID[i].ToString();
+							if (trigger.WhenTrigger == 0)
+								((System.Windows.Forms.RadioButton)((System.Windows.Forms.GroupBox)editor.Controls["groupBox1"]).Controls["radContinuous"]).Checked = true;
+							else if (trigger.WhenTrigger == 1)
+								((System.Windows.Forms.RadioButton)((System.Windows.Forms.GroupBox)editor.Controls["groupBox1"]).Controls["radEnter"]).Checked = true;
+							else
+								((System.Windows.Forms.RadioButton)((System.Windows.Forms.GroupBox)editor.Controls["groupBox1"]).Controls["radLeave"]).Checked = true;
+							System.Windows.Forms.DialogResult result = editor.ShowDialog();
+							TriggerInformation info = new TriggerInformation((int)currentBox[0].X, (int)currentBox[0].Y, (int)currentBox[1].X, (int)currentBox[1].Y, editor.Name, editor.ObjectIDs, editor.WhenTrigger);
+							triggerInfo.Add(info);
+							windowOpen = false;
+							controls.CreatingTrigger = false;
+							break;
+						}
+					}
+
+					if (selected != null)
+					{
+						selected.Name = editor.Name;
+						selected.ObjID = editor.ObjectIDs;
+						selected.WhenTrigger = editor.WhenTrigger;
+					}
+				}
 			}
 			else
 				mRightPressed = false;
@@ -777,11 +823,13 @@ namespace MrGuyLevelEditor
 			{
 				step = 3;
 				currentBox[1] = camera.CameraToGlobalPos(Mouse.GetState().X, Mouse.GetState().Y);
+				windowOpen = true;
 				TriggerEditor editor = new TriggerEditor();
 				editor.Location = controls.Location;
 				System.Windows.Forms.DialogResult result = editor.ShowDialog();
 				TriggerInformation info = new TriggerInformation((int)currentBox[0].X, (int)currentBox[0].Y, (int)currentBox[1].X, (int)currentBox[1].Y, editor.Name, editor.ObjectIDs, editor.WhenTrigger);
 				triggerInfo.Add(info);
+				windowOpen = false;
 				controls.CreatingTrigger = false;
 				step = 1;
 			}

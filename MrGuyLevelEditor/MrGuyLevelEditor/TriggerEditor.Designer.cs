@@ -57,6 +57,7 @@
 			// radEnter
 			// 
 			this.radEnter.AutoSize = true;
+			this.radEnter.Checked = true;
 			this.radEnter.Location = new System.Drawing.Point(6, 19);
 			this.radEnter.Name = "radEnter";
 			this.radEnter.Size = new System.Drawing.Size(66, 17);
@@ -72,7 +73,6 @@
 			this.radContinuous.Name = "radContinuous";
 			this.radContinuous.Size = new System.Drawing.Size(78, 17);
 			this.radContinuous.TabIndex = 3;
-			this.radContinuous.TabStop = true;
 			this.radContinuous.Text = "Continuous";
 			this.radContinuous.UseVisualStyleBackColor = true;
 			// 
@@ -83,7 +83,6 @@
 			this.radLeave.Name = "radLeave";
 			this.radLeave.Size = new System.Drawing.Size(68, 17);
 			this.radLeave.TabIndex = 4;
-			this.radLeave.TabStop = true;
 			this.radLeave.Text = "On leave";
 			this.radLeave.UseVisualStyleBackColor = true;
 			// 

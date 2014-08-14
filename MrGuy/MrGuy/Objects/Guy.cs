@@ -272,11 +272,9 @@ namespace MrGuy.Objects
 			{
 				if (Crouching)
 					torso.ApplyForce(Vector2.UnitY * 4f);
-				else
-				{
-					if (torso.LinearVelocity.Y > 2.5f)
-						torso.LinearVelocity = new Vector2(torso.LinearVelocity.X, 2.5f);
-				}
+
+				if (torso.LinearVelocity.Y > (Crouching ? 6.0f : 2.5f))
+					torso.LinearVelocity = new Vector2(torso.LinearVelocity.X, (Crouching ? 6.0f : 2.5f));
 			}
 
 			if (Jumping)

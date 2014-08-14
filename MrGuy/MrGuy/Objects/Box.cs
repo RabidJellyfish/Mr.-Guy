@@ -33,6 +33,7 @@ namespace MrGuy.Objects
 		public Box(World w, int index, Vector2 pos, string width, string height, string rotation)
 			: base()
 		{
+			this.world = w;
 			this.Index = index;
 			this.width = float.Parse(width);
 			this.height = float.Parse(height);
@@ -44,14 +45,16 @@ namespace MrGuy.Objects
 
 		private void CreateBody(World w, Vector2 pos)
 		{
-			box = BodyFactory.CreateRectangle(w, width * MainGame.PIXEL_TO_METER, height * MainGame.PIXEL_TO_METER, 1.0f);
+			box = BodyFactory.CreateRectangle(w, width * MainGame.PIXEL_TO_METER, height * MainGame.PIXEL_TO_METER, 0.8f);
 			box.Rotation = this.rotation;
 			box.BodyType = BodyType.Dynamic;
+			box.CollisionCategories = Category.Cat2;
 			this.Position = pos;
 		}
 
 		public override void Update(List<GameObject> otherObjects, GameTime gameTime)
 		{
+			
 			base.Update(otherObjects, gameTime);
 		}
 

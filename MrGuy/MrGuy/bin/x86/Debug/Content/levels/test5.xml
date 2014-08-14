@@ -58,18 +58,6 @@
     </TileInformation>
     <TileInformation>
       <texture>dirt</texture>
-      <X>-68</X>
-      <Y>562</Y>
-      <Rotation>0</Rotation>
-      <Scale>
-        <X>4.752536</X>
-        <Y>22.4191914</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
       <X>881</X>
       <Y>819</Y>
       <Rotation>5.53318262</Rotation>
@@ -190,33 +178,9 @@
     </TileInformation>
     <TileInformation>
       <texture>dirt</texture>
-      <X>29</X>
-      <Y>457</Y>
-      <Rotation>0.50000006</Rotation>
-      <Scale>
-        <X>4.69999743</X>
-        <Y>0.9999999</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
       <X>416</X>
       <Y>600</Y>
       <Rotation>5.683183</Rotation>
-      <Scale>
-        <X>4.69999743</X>
-        <Y>0.9999999</Y>
-      </Scale>
-      <Layer>0.5555556</Layer>
-      <Effect>None</Effect>
-    </TileInformation>
-    <TileInformation>
-      <texture>dirt</texture>
-      <X>68</X>
-      <Y>809</Y>
-      <Rotation>0.6000001</Rotation>
       <Scale>
         <X>4.69999743</X>
         <Y>0.9999999</Y>
@@ -272,120 +236,68 @@
       <Layer>0.5555556</Layer>
       <Effect>None</Effect>
     </TileInformation>
+    <TileInformation>
+      <texture>dirt</texture>
+      <X>118</X>
+      <Y>841</Y>
+      <Rotation>0.585398138</Rotation>
+      <Scale>
+        <X>2.72735643</X>
+        <Y>0.937932968</Y>
+      </Scale>
+      <Layer>0.5555556</Layer>
+      <Effect>None</Effect>
+    </TileInformation>
+    <TileInformation>
+      <texture>dirt</texture>
+      <X>103</X>
+      <Y>499</Y>
+      <Rotation>0.5353981</Rotation>
+      <Scale>
+        <X>2.13330746</X>
+        <Y>0.9296976</Y>
+      </Scale>
+      <Layer>0.5555556</Layer>
+      <Effect>None</Effect>
+    </TileInformation>
+    <TileInformation>
+      <texture>dirt</texture>
+      <X>-24</X>
+      <Y>560</Y>
+      <Rotation>6.23318529</Rotation>
+      <Scale>
+        <X>3.35774827</X>
+        <Y>3.35774827</Y>
+      </Scale>
+      <Layer>0.5555556</Layer>
+      <Effect>None</Effect>
+    </TileInformation>
+    <TileInformation>
+      <texture>dirt</texture>
+      <X>-10</X>
+      <Y>467</Y>
+      <Rotation>0.7000001</Rotation>
+      <Scale>
+        <X>2.28646469</X>
+        <Y>2.28646469</Y>
+      </Scale>
+      <Layer>0.5555556</Layer>
+      <Effect>None</Effect>
+    </TileInformation>
+    <TileInformation>
+      <texture>dirt</texture>
+      <X>-10</X>
+      <Y>35</Y>
+      <Rotation>0</Rotation>
+      <Scale>
+        <X>3.32206869</X>
+        <Y>2.802304</Y>
+      </Scale>
+      <Layer>0.5555556</Layer>
+      <Effect>None</Effect>
+    </TileInformation>
   </tiles>
   <staticBodies>
-    <StaticBodyInformation>
-      <Points>
-        <Vector2>
-          <X>86</X>
-          <Y>1537</Y>
-        </Vector2>
-        <Vector2>
-          <X>161</X>
-          <Y>1535</Y>
-        </Vector2>
-        <Vector2>
-          <X>166</X>
-          <Y>1589</Y>
-        </Vector2>
-        <Vector2>
-          <X>85</X>
-          <Y>1594</Y>
-        </Vector2>
-        <Vector2>
-          <X>92</X>
-          <Y>1733</Y>
-        </Vector2>
-        <Vector2>
-          <X>486</X>
-          <Y>1723</Y>
-        </Vector2>
-        <Vector2>
-          <X>665</X>
-          <Y>1701</Y>
-        </Vector2>
-        <Vector2>
-          <X>1980</X>
-          <Y>1689</Y>
-        </Vector2>
-        <Vector2>
-          <X>3278</X>
-          <Y>1677</Y>
-        </Vector2>
-        <Vector2>
-          <X>3168</X>
-          <Y>278</Y>
-        </Vector2>
-        <Vector2>
-          <X>3528</X>
-          <Y>247</Y>
-        </Vector2>
-        <Vector2>
-          <X>3527</X>
-          <Y>1967</Y>
-        </Vector2>
-        <Vector2>
-          <X>-62</X>
-          <Y>1975</Y>
-        </Vector2>
-        <Vector2>
-          <X>-54</X>
-          <Y>-68</Y>
-        </Vector2>
-        <Vector2>
-          <X>75</X>
-          <Y>-29</Y>
-        </Vector2>
-        <Vector2>
-          <X>82</X>
-          <Y>454</Y>
-        </Vector2>
-        <Vector2>
-          <X>164</X>
-          <Y>503</Y>
-        </Vector2>
-        <Vector2>
-          <X>143</X>
-          <Y>552</Y>
-        </Vector2>
-        <Vector2>
-          <X>75</X>
-          <Y>516</Y>
-        </Vector2>
-        <Vector2>
-          <X>90</X>
-          <Y>792</Y>
-        </Vector2>
-        <Vector2>
-          <X>199</X>
-          <Y>868</Y>
-        </Vector2>
-        <Vector2>
-          <X>178</X>
-          <Y>908</Y>
-        </Vector2>
-        <Vector2>
-          <X>88</X>
-          <Y>857</Y>
-        </Vector2>
-        <Vector2>
-          <X>90</X>
-          <Y>1124</Y>
-        </Vector2>
-        <Vector2>
-          <X>262</X>
-          <Y>1291</Y>
-        </Vector2>
-        <Vector2>
-          <X>228</X>
-          <Y>1331</Y>
-        </Vector2>
-        <Vector2>
-          <X>90</X>
-          <Y>1205</Y>
-        </Vector2>
-      </Points>
-    </StaticBodyInformation>
     <StaticBodyInformation>
       <Points>
         <Vector2>
@@ -482,6 +394,134 @@
         </Vector2>
       </Points>
     </StaticBodyInformation>
+    <StaticBodyInformation>
+      <Points>
+        <Vector2>
+          <X>82</X>
+          <Y>454</Y>
+        </Vector2>
+        <Vector2>
+          <X>164</X>
+          <Y>503</Y>
+        </Vector2>
+        <Vector2>
+          <X>143</X>
+          <Y>552</Y>
+        </Vector2>
+        <Vector2>
+          <X>75</X>
+          <Y>516</Y>
+        </Vector2>
+        <Vector2>
+          <X>90</X>
+          <Y>792</Y>
+        </Vector2>
+        <Vector2>
+          <X>199</X>
+          <Y>868</Y>
+        </Vector2>
+        <Vector2>
+          <X>178</X>
+          <Y>908</Y>
+        </Vector2>
+        <Vector2>
+          <X>88</X>
+          <Y>857</Y>
+        </Vector2>
+        <Vector2>
+          <X>90</X>
+          <Y>1124</Y>
+        </Vector2>
+        <Vector2>
+          <X>262</X>
+          <Y>1291</Y>
+        </Vector2>
+        <Vector2>
+          <X>228</X>
+          <Y>1331</Y>
+        </Vector2>
+        <Vector2>
+          <X>90</X>
+          <Y>1205</Y>
+        </Vector2>
+        <Vector2>
+          <X>86</X>
+          <Y>1537</Y>
+        </Vector2>
+        <Vector2>
+          <X>161</X>
+          <Y>1535</Y>
+        </Vector2>
+        <Vector2>
+          <X>166</X>
+          <Y>1589</Y>
+        </Vector2>
+        <Vector2>
+          <X>85</X>
+          <Y>1594</Y>
+        </Vector2>
+        <Vector2>
+          <X>92</X>
+          <Y>1733</Y>
+        </Vector2>
+        <Vector2>
+          <X>486</X>
+          <Y>1723</Y>
+        </Vector2>
+        <Vector2>
+          <X>665</X>
+          <Y>1701</Y>
+        </Vector2>
+        <Vector2>
+          <X>1980</X>
+          <Y>1689</Y>
+        </Vector2>
+        <Vector2>
+          <X>3278</X>
+          <Y>1677</Y>
+        </Vector2>
+        <Vector2>
+          <X>3168</X>
+          <Y>278</Y>
+        </Vector2>
+        <Vector2>
+          <X>3528</X>
+          <Y>247</Y>
+        </Vector2>
+        <Vector2>
+          <X>3527</X>
+          <Y>1967</Y>
+        </Vector2>
+        <Vector2>
+          <X>-62</X>
+          <Y>1975</Y>
+        </Vector2>
+        <Vector2>
+          <X>-216</X>
+          <Y>-31</Y>
+        </Vector2>
+        <Vector2>
+          <X>85</X>
+          <Y>-44</Y>
+        </Vector2>
+        <Vector2>
+          <X>85</X>
+          <Y>117</Y>
+        </Vector2>
+        <Vector2>
+          <X>-110</X>
+          <Y>118</Y>
+        </Vector2>
+        <Vector2>
+          <X>-105</X>
+          <Y>383</Y>
+        </Vector2>
+        <Vector2>
+          <X>-5</X>
+          <Y>387</Y>
+        </Vector2>
+      </Points>
+    </StaticBodyInformation>
   </staticBodies>
   <objects>
     <ObjectInformation>
@@ -501,6 +541,27 @@
           <TriggerName>makeBox</TriggerName>
         </ScriptInformation>
       </Scripts>
+    </ObjectInformation>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.LevelLink, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>0</Index>
+      <Texture>MrGuy.Objects.LevelLink</Texture>
+      <Position>
+        <X>-56</X>
+        <Y>257</Y>
+      </Position>
+      <ParameterValues>
+        <string>92.24278</string>
+        <string>271.4232</string>
+        <string>test3</string>
+        <string>1872,742</string>
+      </ParameterValues>
+      <ParameterNames>
+        <string>Width</string>
+        <string>Height</string>
+        <string>Level Name</string>
+        <string>New Position</string>
+      </ParameterNames>
     </ObjectInformation>
   </objects>
   <cameras />

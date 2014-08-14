@@ -21,6 +21,8 @@ namespace MrGuy.Objects
 
 		public List<Script> Scripts { get; set; }
 
+		protected World world;
+
 		public GameObject()
 		{
 			Scripts = new List<Script>();

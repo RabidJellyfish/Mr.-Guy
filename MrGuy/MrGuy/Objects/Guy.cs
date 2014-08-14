@@ -18,12 +18,12 @@ namespace MrGuy.Objects
 	class Guy : GameObject
 	{
 		// Physics bodies
-		private World world;
 		private Body torso, legs;
 		private RevoluteJoint axis;
 
 		// Control values
 		private const float JUMP_VELOCITY = -7f;
+		private const float WATER_JUMP_VELOCITY = -7f;
 		private Vector2 JUMP_FORCE = -Vector2.UnitY * 2f;
 		private const float SWIM_VELOCITY = -2f;
 		private const float MAX_AIRSPEED = 2f;
@@ -35,7 +35,7 @@ namespace MrGuy.Objects
 		private Vector2 right_airForce = AIR_FORCE * Vector2.UnitX;
 		private Vector2 right_waterForce = AIR_FORCE * 1.5f * Vector2.UnitX;
 
-		private bool onGround;
+		private bool onGround, canWaterJump;
 		private bool inWater, swimming;
 		private bool facingLeft;
 		private bool startJump, holdJump;
@@ -82,6 +82,7 @@ namespace MrGuy.Objects
 			CreateBody(world, x, y);
 
 			onGround = false;
+			canWaterJump = false;
 			inWater = false;
 			facingLeft = false;
 			startJump = holdJump = false;
@@ -100,12 +101,14 @@ namespace MrGuy.Objects
 		{
 			world = w;
 
-			torso = BodyFactory.CreateRectangle(w, 60 * MainGame.PIXEL_TO_METER, 80 * MainGame.PIXEL_TO_METER, 1);
+			torso = BodyFactory.CreateRectangle(w, 60 * MainGame.PIXEL_TO_METER, 80 * MainGame.PIXEL_TO_METER, 1f);
 			torso.BodyType = BodyType.Dynamic;
+			torso.CollisionCategories = Category.Cat1;
 			torso.UserData = this;
-			legs = BodyFactory.CreateCircle(w, 32 * MainGame.PIXEL_TO_METER, 1);
+			legs = BodyFactory.CreateCircle(w, 32 * MainGame.PIXEL_TO_METER, 1f);
 			legs.BodyType = BodyType.Dynamic;
 			legs.Friction = 5.0f;
+			legs.CollisionCategories = Category.Cat1;
 			legs.UserData = this;
 
 			this.Position = new Vector2(x, y);
@@ -124,6 +127,21 @@ namespace MrGuy.Objects
 
 		public override void Update(List<GameObject> otherObjects, GameTime gameTime)
 		{
+			inWater = false;
+			canWaterJump = false;
+			Vector2 pos = legs.Position - Vector2.UnitY * 16 * MainGame.PIXEL_TO_METER;
+			Vector2 pos2 = legs.Position + Vector2.UnitY * 16 * MainGame.PIXEL_TO_METER;
+			foreach (GameObject obj in otherObjects)
+			{
+				if (obj is Water)
+				{
+					if ((obj as Water).Container.Contains(ref pos))
+						inWater = true;
+					else if ((obj as Water).Container.Contains(ref pos2))
+						canWaterJump = true;
+				}
+			}
+
 			UpdateMovement();
 			CheckOnGround();
 			UpdateJumping();
@@ -252,12 +270,13 @@ namespace MrGuy.Objects
 		{
 			if (inWater)
 			{
-				if (torso.LinearVelocity.Y < (Crouching ? 5f : 2.5f))
-					torso.ApplyForce(Vector2.UnitY * (Crouching ? -3f : -6f) * (torso.Mass + legs.Mass));
-				else if (torso.LinearVelocity.Y > (Crouching ? 5f : 2.5f))
-					torso.ApplyForce(Vector2.UnitY * -14f * (torso.Mass + legs.Mass));
+				if (Crouching)
+					torso.ApplyForce(Vector2.UnitY * 4f);
 				else
-					torso.ApplyForce(Vector2.UnitY * -world.Gravity * (torso.Mass + legs.Mass));
+				{
+					if (torso.LinearVelocity.Y > 2.5f)
+						torso.LinearVelocity = new Vector2(torso.LinearVelocity.X, 2.5f);
+				}
 			}
 
 			if (Jumping)
@@ -277,10 +296,14 @@ namespace MrGuy.Objects
 //						}
 
 						if (!(inWater && Crouching))
-							torso.LinearVelocity = new Vector2(torso.LinearVelocity.X, JUMP_VELOCITY * (inWater ? 0.5f : 1f));
+							torso.LinearVelocity = new Vector2(torso.LinearVelocity.X, JUMP_VELOCITY * (inWater ? 0.6f : 1f));
 						if (inWater)
 							swimming = true;
 						holdJump = true;
+					}
+					else if (canWaterJump)
+					{
+						torso.LinearVelocity = new Vector2(torso.LinearVelocity.X, WATER_JUMP_VELOCITY);
 					}
 					startJump = true;
 				}

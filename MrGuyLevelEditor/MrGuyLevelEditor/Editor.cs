@@ -16,7 +16,6 @@ using MrGuyLevelEditor.XMLInfo;
 // left click - place things
 // right click - (page 3) right click menu
 // ctrl+right click - (page 1) remove point from polygon  (page 2/3) remove things
-// shift+right click - (page 1) remove entire polygon rather than single point
 // shift+left click - change level size
 // a/d - rotate
 // ctrl+a/d - snap rotate
@@ -191,7 +190,8 @@ namespace MrGuyLevelEditor
 			ObjectTextures = new Dictionary<string, Texture2D>();
 			ObjectTextures.Add("MrGuy.Objects.Box", Content.Load<Texture2D>("objects/box"));
 			ObjectTextures.Add("MrGuy.Objects.EmptyObject", Content.Load<Texture2D>("objects/unknown"));
-			ObjectTextures.Add("MrGuy.Objects.LevelLink", Content.Load<Texture2D>("objects/unknown"));
+			ObjectTextures.Add("MrGuy.Objects.LevelLink", ObjectTextures["MrGuy.Objects.EmptyObject"]);
+			ObjectTextures.Add("MrGuy.Objects.Water", Content.Load<Texture2D>("objects/water"));
 		}
 
 		#endregion

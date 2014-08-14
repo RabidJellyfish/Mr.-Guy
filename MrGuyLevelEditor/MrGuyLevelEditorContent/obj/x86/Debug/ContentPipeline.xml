@@ -91,6 +91,15 @@
       <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEditor\MrGuyLevelEditor\bin\x86\Debug\Content\objects\unknown.xnb</Output>
       <Time>2013-07-09T19:24:54.3783858-04:00</Time>
     </Item>
+    <Item>
+      <Source>objects\water.png</Source>
+      <Name>objects\water</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Tad\Desktop\Documents\Visual Studio 2010\Projects\MrGuy\MrGuyLevelEditor\MrGuyLevelEditor\bin\x86\Debug\Content\objects\water.xnb</Output>
+      <Time>2014-08-13T18:16:07.791971-04:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>

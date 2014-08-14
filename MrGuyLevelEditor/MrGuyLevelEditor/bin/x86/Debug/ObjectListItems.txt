@@ -1,3 +1,4 @@
 MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null#Width#Height#Rotation
 MrGuy.Objects.LevelLink, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null#Width#Height#Level Name#New Position
 MrGuy.Objects.EmptyObject, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+MrGuy.Objects.Water, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null#Width#Height

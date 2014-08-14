@@ -25,9 +25,9 @@ namespace MrGuy.Objects
 			this.Position = pos;
 			this.Index = index;
 			
-			int w = int.Parse(width);
-			int h = int.Parse(height);
-			bounds = new Rectangle((int)(pos.X - (float)w / 2), (int)(pos.Y - (float)h / 2), w, h);
+			float w = float.Parse(width);
+			float h = float.Parse(height);
+			bounds = new Rectangle((int)(pos.X - w / 2), (int)(pos.Y - h / 2), (int)w, (int)h);
 
 			this.destination = destination;
 			string[] split = newPos.Replace(" ", "").Split(',');

@@ -323,25 +323,52 @@
       </Points>
     </StaticBodyInformation>
   </staticBodies>
-  <objects />
+  <objects>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.LevelLink, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>0</Index>
+      <Texture>MrGuy.Objects.LevelLink</Texture>
+      <Position>
+        <X>-57</X>
+        <Y>521</Y>
+      </Position>
+      <ParameterValues>
+        <string>58.27882</string>
+        <string>751.6131</string>
+        <string>test2</string>
+        <string>2647,777</string>
+      </ParameterValues>
+      <ParameterNames>
+        <string>Width</string>
+        <string>Height</string>
+        <string>Level Name</string>
+        <string>New Position</string>
+      </ParameterNames>
+      <Scripts />
+    </ObjectInformation>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.LevelLink, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>0</Index>
+      <Texture>MrGuy.Objects.LevelLink</Texture>
+      <Position>
+        <X>1979</X>
+        <Y>531</Y>
+      </Position>
+      <ParameterValues>
+        <string>106.2788</string>
+        <string>751.6131</string>
+        <string>test5</string>
+        <string>18,277</string>
+      </ParameterValues>
+      <ParameterNames>
+        <string>Width</string>
+        <string>Height</string>
+        <string>Level Name</string>
+        <string>New Position</string>
+      </ParameterNames>
+      <Scripts />
+    </ObjectInformation>
+  </objects>
   <cameras />
-  <triggers>
-    <TriggerInformation>
-      <Bounds>
-        <X>197</X>
-        <Y>237</Y>
-        <Width>123</Width>
-        <Height>141</Height>
-        <Location>
-          <X>197</X>
-          <Y>237</Y>
-        </Location>
-      </Bounds>
-      <Name>secret</Name>
-      <ObjID>
-        <int>-1</int>
-      </ObjID>
-      <WhenTrigger>1</WhenTrigger>
-    </TriggerInformation>
-  </triggers>
+  <triggers />
 </LevelData>

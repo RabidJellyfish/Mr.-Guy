@@ -489,24 +489,6 @@
   </staticBodies>
   <objects>
     <ObjectInformation>
-      <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
-      <Index>0</Index>
-      <Texture>MrGuy.Objects.Box</Texture>
-      <Position>
-        <X>1607</X>
-        <Y>895</Y>
-      </Position>
-      <ParameterValues>
-        <string>140</string>
-        <string>140</string>
-      </ParameterValues>
-      <ParameterNames>
-        <string>Width</string>
-        <string>Height</string>
-      </ParameterNames>
-      <Scripts />
-    </ObjectInformation>
-    <ObjectInformation>
       <Type>MrGuy.Objects.LevelLink, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
       <Index>0</Index>
       <Texture>MrGuy.Objects.LevelLink</Texture>
@@ -529,46 +511,8 @@
       <Scripts />
     </ObjectInformation>
     <ObjectInformation>
-      <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
-      <Index>0</Index>
-      <Texture>MrGuy.Objects.Box</Texture>
-      <Position>
-        <X>1324</X>
-        <Y>760</Y>
-      </Position>
-      <ParameterValues>
-        <string>551.7005</string>
-        <string>57.58077</string>
-      </ParameterValues>
-      <ParameterNames>
-        <string>Width</string>
-        <string>Height</string>
-      </ParameterNames>
-      <Scripts />
-    </ObjectInformation>
-    <ObjectInformation>
-      <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
-      <Index>0</Index>
-      <Texture>MrGuy.Objects.Box</Texture>
-      <Position>
-        <X>1018</X>
-        <Y>885</Y>
-      </Position>
-      <ParameterValues>
-        <string>138.8422</string>
-        <string>138.8422</string>
-        <string>4.842877E-07</string>
-      </ParameterValues>
-      <ParameterNames>
-        <string>Width</string>
-        <string>Height</string>
-        <string>Rotation</string>
-      </ParameterNames>
-      <Scripts />
-    </ObjectInformation>
-    <ObjectInformation>
       <Type>MrGuy.Objects.EmptyObject, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
-      <Index>0</Index>
+      <Index>1</Index>
       <Texture>MrGuy.Objects.EmptyObject</Texture>
       <Position>
         <X>116</X>
@@ -589,7 +533,7 @@
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.LevelLink, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
-      <Index>0</Index>
+      <Index>2</Index>
       <Texture>MrGuy.Objects.LevelLink</Texture>
       <Position>
         <X>892</X>
@@ -611,21 +555,102 @@
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Water, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
-      <Index>0</Index>
+      <Index>3</Index>
       <Texture>MrGuy.Objects.Water</Texture>
       <Position>
-        <X>975</X>
-        <Y>913</Y>
+        <X>948</X>
+        <Y>972</Y>
       </Position>
       <ParameterValues>
-        <string>1489.211</string>
-        <string>416.2922</string>
+        <string>1671.548</string>
+        <string>517.6528</string>
       </ParameterValues>
       <ParameterNames>
         <string>Width</string>
         <string>Height</string>
       </ParameterNames>
       <Scripts />
+    </ObjectInformation>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>4</Index>
+      <Texture>MrGuy.Objects.Box</Texture>
+      <Position>
+        <X>1226</X>
+        <Y>743</Y>
+      </Position>
+      <ParameterValues>
+        <string>154.5747</string>
+        <string>154.5747</string>
+        <string>0</string>
+      </ParameterValues>
+      <ParameterNames>
+        <string>Width</string>
+        <string>Height</string>
+        <string>Rotation</string>
+      </ParameterNames>
+      <Scripts />
+    </ObjectInformation>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>5</Index>
+      <Texture>MrGuy.Objects.Box</Texture>
+      <Position>
+        <X>1549</X>
+        <Y>741</Y>
+      </Position>
+      <ParameterValues>
+        <string>154.5747</string>
+        <string>154.5747</string>
+        <string>0</string>
+      </ParameterValues>
+      <ParameterNames>
+        <string>Width</string>
+        <string>Height</string>
+        <string>Rotation</string>
+      </ParameterNames>
+      <Scripts />
+    </ObjectInformation>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>6</Index>
+      <Texture>MrGuy.Objects.Box</Texture>
+      <Position>
+        <X>1389</X>
+        <Y>624</Y>
+      </Position>
+      <ParameterValues>
+        <string>533.2415</string>
+        <string>58.57473</string>
+        <string>0</string>
+      </ParameterValues>
+      <ParameterNames>
+        <string>Width</string>
+        <string>Height</string>
+        <string>Rotation</string>
+      </ParameterNames>
+      <Scripts />
+    </ObjectInformation>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.LevelLink, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>7</Index>
+      <Texture>MrGuy.Objects.LevelLink</Texture>
+      <Position>
+        <X>1922</X>
+        <Y>-165</Y>
+      </Position>
+      <ParameterValues>
+        <string>139.7878</string>
+        <string>309.5301</string>
+        <string>test7</string>
+        <string>1474,988</string>
+      </ParameterValues>
+      <ParameterNames>
+        <string>Width</string>
+        <string>Height</string>
+        <string>Level Name</string>
+        <string>New Position</string>
+      </ParameterNames>
     </ObjectInformation>
   </objects>
   <cameras />

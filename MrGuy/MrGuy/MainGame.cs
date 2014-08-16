@@ -30,6 +30,7 @@ namespace MrGuy
 		public static float RESOLUTION_SCALE = 1f;
 		public const float MAX_RES_X = 1920;
 		public const float MAX_RES_Y = 1080;
+		public const bool IS_FULLSCREEN = true;
 
 		public static Texture2D blank;
 		public static Texture2D texPlayer, texBox;
@@ -42,7 +43,7 @@ namespace MrGuy
 			graphics = new GraphicsDeviceManager(this);
 			graphics.PreferredBackBufferWidth = (int)(MAX_RES_X * RESOLUTION_SCALE);
 			graphics.PreferredBackBufferHeight = (int)(MAX_RES_Y * RESOLUTION_SCALE);
-			graphics.IsFullScreen = false;
+			graphics.IsFullScreen = IS_FULLSCREEN;
 			graphics.ApplyChanges();
 			escapePressed = true;
 			Content.RootDirectory = "Content";

@@ -4,9 +4,9 @@
     <X>3853</X>
     <Y>2212</Y>
   </size>
-  <R>255</R>
-  <G>255</G>
-  <B>255</B>
+  <R>100</R>
+  <G>100</G>
+  <B>100</B>
   <tiles>
     <TileInformation>
       <texture>dirt</texture>
@@ -1681,28 +1681,8 @@
   </staticBodies>
   <objects>
     <ObjectInformation>
-      <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
-      <Index>0</Index>
-      <Texture>MrGuy.Objects.Box</Texture>
-      <Position>
-        <X>3467</X>
-        <Y>1333</Y>
-      </Position>
-      <ParameterValues>
-        <string>42.14418</string>
-        <string>42.14418</string>
-        <string>0</string>
-      </ParameterValues>
-      <ParameterNames>
-        <string>Width</string>
-        <string>Height</string>
-        <string>Rotation</string>
-      </ParameterNames>
-      <Scripts />
-    </ObjectInformation>
-    <ObjectInformation>
       <Type>MrGuy.Objects.LevelLink, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
-      <Index>0</Index>
+      <Index>1</Index>
       <Texture>MrGuy.Objects.LevelLink</Texture>
       <Position>
         <X>239</X>
@@ -1724,7 +1704,7 @@
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Water, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
-      <Index>0</Index>
+      <Index>2</Index>
       <Texture>MrGuy.Objects.Water</Texture>
       <Position>
         <X>1961</X>
@@ -1739,6 +1719,25 @@
         <string>Height</string>
       </ParameterNames>
       <Scripts />
+    </ObjectInformation>
+    <ObjectInformation>
+      <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
+      <Index>0</Index>
+      <Texture>MrGuy.Objects.Box</Texture>
+      <Position>
+        <X>3469</X>
+        <Y>1324</Y>
+      </Position>
+      <ParameterValues>
+        <string>53.26781</string>
+        <string>53.26781</string>
+        <string>0</string>
+      </ParameterValues>
+      <ParameterNames>
+        <string>Width</string>
+        <string>Height</string>
+        <string>Rotation</string>
+      </ParameterNames>
     </ObjectInformation>
   </objects>
   <cameras>

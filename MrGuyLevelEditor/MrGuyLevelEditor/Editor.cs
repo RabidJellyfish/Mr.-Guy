@@ -353,6 +353,7 @@ namespace MrGuyLevelEditor
 			foreach (ObjectInformation obj in objInfo)
 			{
 				ObjectInformation moved = new ObjectInformation();
+				moved.Index = obj.Index;
 				moved.ParameterNames = obj.ParameterNames;
 				moved.ParameterValues = obj.ParameterValues;
 				moved.Position = obj.Position - new Vector2(levelSize.X, levelSize.Y);
@@ -410,9 +411,12 @@ namespace MrGuyLevelEditor
 			triggerInfo = level.triggers;
 
 			indices.Clear();
+			index = 0;
 			foreach (ObjectInformation obj in objInfo)
+			{
 				indices.Add(obj.Index);
-			UpdateIndex();
+				index++;
+			}
 
 			controls.LoadPressed = false;
 		}
@@ -864,7 +868,6 @@ namespace MrGuyLevelEditor
 				{
 					currentObject = new ObjectInformation();
 					currentObject.Type = controls.SelectedObject.Type;
-					currentObject.Index = index;
 					currentObject.Texture = controls.SelectedObject.ToString();
 					currentObject.ParameterNames = controls.SelectedObject.Parameters;
 					currentObject.ParameterValues = controls.SelectedObject.Parameters == null ? null : new string[controls.SelectedObject.Parameters.Length];
@@ -905,33 +908,38 @@ namespace MrGuyLevelEditor
 				mleftPressed = true;
 			}
 
-			if (step == 3 && controls.SelectedObject.HasExtraParameters() && !windowOpen)
+			if (step == 3)
 			{
-				windowOpen = true;
-				MouseState state = Mouse.GetState();
-				ParameterEditor editor = new ParameterEditor();
-				editor.Location = controls.Location;
 				UpdateIndex();
 				indices.Add(index);
-				editor.Text = "ID: " + index;
-				string[] extraParams = controls.SelectedObject.GetExtraParameters();
-				for (int i = 0; i < extraParams.Length; i++)
+				currentObject.Index = index;
+
+				if (controls.SelectedObject.HasExtraParameters() && !windowOpen)
 				{
-					System.Windows.Forms.Label l = new System.Windows.Forms.Label();
-					l.Text = extraParams[i];
-					l.Location = new System.Drawing.Point(10, 10 + i * 30);
-					l.Tag = i;
-					editor.Controls.Add(l);
-					System.Windows.Forms.TextBox t = new System.Windows.Forms.TextBox();
-					t.Location = new System.Drawing.Point(130, 10 + i * 30);
-					t.Size = new System.Drawing.Size(275, t.Height);
-					t.Tag = i;
-					editor.Controls.Add(t);
+					windowOpen = true;
+					MouseState state = Mouse.GetState();
+					ParameterEditor editor = new ParameterEditor();
+					editor.Location = controls.Location;
+					editor.Text = "ID: " + index;
+					string[] extraParams = controls.SelectedObject.GetExtraParameters();
+					for (int i = 0; i < extraParams.Length; i++)
+					{
+						System.Windows.Forms.Label l = new System.Windows.Forms.Label();
+						l.Text = extraParams[i];
+						l.Location = new System.Drawing.Point(10, 10 + i * 30);
+						l.Tag = i;
+						editor.Controls.Add(l);
+						System.Windows.Forms.TextBox t = new System.Windows.Forms.TextBox();
+						t.Location = new System.Drawing.Point(130, 10 + i * 30);
+						t.Size = new System.Drawing.Size(275, t.Height);
+						t.Tag = i;
+						editor.Controls.Add(t);
+					}
+					System.Windows.Forms.DialogResult result = editor.ShowDialog();
+					for (int i = 0; i < editor.ParameterNames.Length; i++)
+						currentObject.SetParameter(editor.ParameterNames[i], editor.ParameterValues[i]);
+					windowOpen = false;
 				}
-				System.Windows.Forms.DialogResult result = editor.ShowDialog();
-				for (int i = 0; i < editor.ParameterNames.Length; i++)
-					currentObject.SetParameter(editor.ParameterNames[i], editor.ParameterValues[i]);
-				windowOpen = false;
 			}
 
 			objInfo.Add(currentObject);
@@ -1172,10 +1180,6 @@ namespace MrGuyLevelEditor
 				rcMenu.Draw(spriteBatch, state);
 
 			// Make sure you include scale values for camera and shit
-
-			// Draw debug stuff
-//			spriteBatch.DrawString(Global.Font, "(" + Mouse.GetState().X.ToString() + ", " + Mouse.GetState().Y.ToString() + ")", Vector2.Zero, Color.Black);
-//			spriteBatch.DrawString(Font, camera.X.ToString(), Vector2.Zero, Color.Black);
 
 			spriteBatch.End();
 

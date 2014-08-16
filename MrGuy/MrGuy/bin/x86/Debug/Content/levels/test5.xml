@@ -544,7 +544,7 @@
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.LevelLink, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
-      <Index>0</Index>
+      <Index>1</Index>
       <Texture>MrGuy.Objects.LevelLink</Texture>
       <Position>
         <X>-56</X>

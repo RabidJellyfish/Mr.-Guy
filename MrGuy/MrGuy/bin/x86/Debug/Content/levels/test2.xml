@@ -1564,7 +1564,7 @@
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
-      <Index>0</Index>
+      <Index>1</Index>
       <Texture>MrGuy.Objects.Box</Texture>
       <Position>
         <X>781</X>
@@ -1582,7 +1582,7 @@
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
-      <Index>0</Index>
+      <Index>2</Index>
       <Texture>MrGuy.Objects.Box</Texture>
       <Position>
         <X>817</X>
@@ -1600,7 +1600,7 @@
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
-      <Index>0</Index>
+      <Index>3</Index>
       <Texture>MrGuy.Objects.Box</Texture>
       <Position>
         <X>862</X>
@@ -1618,7 +1618,7 @@
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
-      <Index>0</Index>
+      <Index>4</Index>
       <Texture>MrGuy.Objects.Box</Texture>
       <Position>
         <X>872</X>
@@ -1636,7 +1636,7 @@
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
-      <Index>0</Index>
+      <Index>5</Index>
       <Texture>MrGuy.Objects.Box</Texture>
       <Position>
         <X>2045</X>
@@ -1654,7 +1654,7 @@
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.Box, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
-      <Index>0</Index>
+      <Index>6</Index>
       <Texture>MrGuy.Objects.Box</Texture>
       <Position>
         <X>2221</X>
@@ -1672,7 +1672,7 @@
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.LevelLink, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
-      <Index>0</Index>
+      <Index>7</Index>
       <Texture>MrGuy.Objects.LevelLink</Texture>
       <Position>
         <X>-88</X>
@@ -1694,7 +1694,7 @@
     </ObjectInformation>
     <ObjectInformation>
       <Type>MrGuy.Objects.LevelLink, MrGuy, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</Type>
-      <Index>0</Index>
+      <Index>8</Index>
       <Texture>MrGuy.Objects.LevelLink</Texture>
       <Position>
         <X>2756</X>
